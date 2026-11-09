@@ -1,0 +1,1157 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Carrera del Saber - Olimpíada Escolar</title>
+    
+    <!-- Google Fonts: Nunito -->
+    <link href="https://fonts.googleapis.com" rel="preconnect"/>
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Nunito', 'sans-serif'],
+          },
+          colors: {
+            math: {
+              light: '#EBF4FF',
+              border: '#BFDBFE',
+              accent: '#3B82F6',
+              text: '#1D4ED8'
+            },
+            lengua: {
+              light: '#FEE2E2',
+              border: '#FECACA',
+              accent: '#EF4444',
+              text: '#B91C1C'
+            },
+            sociales: {
+              light: '#FFEDD5',
+              border: '#FED7AA',
+              accent: '#F97316',
+              text: '#C2410C'
+            },
+            naturales: {
+              light: '#DCFCE7',
+              border: '#BBF7D0',
+              accent: '#22C55E',
+              text: '#15803D'
+            },
+            ingenio: {
+              light: '#F3E8FF',
+              border: '#E9D5FF',
+              accent: '#A855F7',
+              text: '#7E22CE'
+            },
+            boardBg: '#F8FAFD'
+          },
+          boxShadow: {
+            'game-card': '0 10px 25px -5px rgba(50, 80, 150, 0.08), 0 8px 10px -6px rgba(50, 80, 150, 0.04)',
+            'token': '0 8px 16px -2px rgba(0, 0, 0, 0.25)',
+            '3d-btn': '0 6px 0px #1E40AF, 0 10px 15px rgba(30, 64, 175, 0.35)',
+            '3d-btn-active': '0 2px 0px #1E40AF, 0 4px 6px rgba(30, 64, 175, 0.35)',
+            'glow-star': '0 0 14px rgba(245, 158, 11, 0.65)'
+          }
+        }
+      }
+    }
+    </script>
+
+    <!-- Custom Micro-Styles (Stitch) -->
+    <style data-purpose="custom-decorations">
+      .dice-dot {
+        width: 14px;
+        height: 14px;
+        border-radius: 9999px;
+        background: linear-gradient(135deg, #1E3A8A, #172554);
+        box-shadow: inset 1px 1px 2px rgba(255,255,255,0.4), 0 2px 3px rgba(0,0,0,0.3);
+        display: inline-block;
+        transition: opacity 0.1s ease;
+      }
+      .board-grid {
+        display: grid;
+        grid-template-columns: repeat(8, minmax(0, 1fr));
+        grid-template-rows: repeat(8, minmax(0, 1fr));
+        gap: 0.25rem;
+      }
+      @media (min-width: 768px) {
+        .board-grid {
+          gap: 0.6rem;
+        }
+      }
+      @keyframes pulse-subtle {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+      }
+      .turn-glow {
+        animation: pulse-subtle 2s infinite ease-in-out;
+      }
+
+      /* 3D Dice Rolling Animation Effects */
+      .dice-container-perspective {
+        perspective: 800px;
+      }
+      
+      @keyframes rolling3D {
+        0% {
+          transform: translateY(0) rotateX(0deg) rotateY(0deg) rotateZ(0deg) scale(1);
+        }
+        20% {
+          transform: translateY(-40px) rotateX(240deg) rotateY(180deg) rotateZ(45deg) scale(1.18);
+        }
+        40% {
+          transform: translateY(-55px) rotateX(540deg) rotateY(420deg) rotateZ(180deg) scale(1.22);
+        }
+        65% {
+          transform: translateY(-25px) rotateX(860deg) rotateY(740deg) rotateZ(320deg) scale(1.1);
+        }
+        85% {
+          transform: translateY(10px) rotateX(1060deg) rotateY(1060deg) rotateZ(710deg) scale(0.92);
+        }
+        94% {
+          transform: translateY(-6px) rotateX(1085deg) rotateY(1080deg) rotateZ(725deg) scale(1.04);
+        }
+        100% {
+          transform: translateY(0) rotateX(1080deg) rotateY(1080deg) rotateZ(720deg) scale(1);
+        }
+      }
+
+      .dice-rolling {
+        animation: rolling3D 1.15s cubic-bezier(0.25, 1, 0.35, 1) forwards;
+      }
+
+      @keyframes shadowRoll {
+        0%, 100% { transform: translateX(-50%) scale(1); opacity: 0.25; }
+        40% { transform: translateX(-50%) scale(0.6); opacity: 0.1; }
+        85% { transform: translateX(-50%) scale(1.25); opacity: 0.4; }
+      }
+
+      .shadow-rolling {
+        animation: shadowRoll 1.15s cubic-bezier(0.25, 1, 0.35, 1) forwards;
+      }
+
+      /* Particle burst styling */
+      .burst-particle {
+        position: absolute;
+        pointer-events: none;
+        animation: popOut 0.85s cubic-bezier(0.12, 0.8, 0.32, 1) forwards;
+        z-index: 30;
+      }
+
+      @keyframes popOut {
+        0% {
+          opacity: 1;
+          transform: translate(0, 0) scale(0.3) rotate(0deg);
+        }
+        70% {
+          opacity: 0.9;
+        }
+        100% {
+          opacity: 0;
+          transform: translate(var(--dx), var(--dy)) scale(1.3) rotate(var(--rot));
+        }
+      }
+
+      @keyframes shockwavePulse {
+        0% { transform: scale(0.7); opacity: 0.9; }
+        100% { transform: scale(1.9); opacity: 0; }
+      }
+
+      .shockwave-effect {
+        animation: shockwavePulse 0.65s cubic-bezier(0, 0, 0.2, 1) forwards;
+      }
+
+      #confetti-canvas {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 9999;
+      }
+      ::-webkit-scrollbar { display: none; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-amber-50/60 via-sky-50 to-indigo-100/50 min-h-screen font-sans text-slate-800 flex flex-col p-3 md:p-5 select-none antialiased">
+
+    <!-- BEGIN: TopHeader (Google Stitch) -->
+    <header class="max-w-[1540px] w-full mx-auto mb-4 bg-white/90 backdrop-blur-md rounded-2xl px-6 py-3 shadow-sm border border-slate-200/70 flex items-center justify-between" data-purpose="top-navigation">
+        <div class="flex items-center space-x-3">
+            <a href="#" id="header-brand-link" class="flex items-center space-x-3 cursor-pointer group">
+                <div class="w-11 h-11 bg-gradient-to-tr from-amber-400 to-yellow-300 rounded-2xl flex items-center justify-center shadow-md text-2xl group-hover:scale-105 transition-transform">
+                    🎓
+                </div>
+                <div>
+                    <h1 class="text-xl md:text-2xl font-black text-slate-800 tracking-tight flex items-center gap-2">
+                        Carrera del Saber
+                        <span id="header-grade-pill" class="text-xs bg-indigo-100 text-indigo-700 font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">6.° Grado</span>
+                    </h1>
+                    <p class="text-xs text-slate-500 font-semibold">Desafío interactivo de preguntas y respuestas</p>
+                </div>
+            </a>
+        </div>
+
+        <!-- Match Stats -->
+        <div class="flex items-center gap-3 sm:gap-5">
+            <div class="hidden md:flex items-center bg-slate-100 px-4 py-1.5 rounded-xl border border-slate-200/80 gap-3">
+                <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Ronda</span>
+                <span id="round-indicator" class="text-sm font-extrabold text-indigo-600 bg-white px-2.5 py-0.5 rounded-md shadow-xs">1 / 10</span>
+            </div>
+            <div class="hidden sm:flex items-center gap-2 bg-emerald-50 text-emerald-700 font-bold text-xs px-3 py-1.5 rounded-xl border border-emerald-200">
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping"></span>
+                <span>Partida en Vivo</span>
+            </div>
+            
+            <!-- Action buttons -->
+            <div class="flex items-center gap-2">
+                <button id="soundToggleBtn" aria-label="Sonido activado" class="w-9 h-9 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center transition-colors text-base cursor-pointer" title="Alternar Sonido">
+                    🔊
+                </button>
+                <button id="rulesToggleBtn" aria-label="Reglas del juego" class="w-9 h-9 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 font-extrabold flex items-center justify-center transition-colors text-base cursor-pointer" title="Reglas y ayuda">
+                    ❓
+                </button>
+                <button id="btn-restart-setup" aria-label="Cambiar configuración" class="w-9 h-9 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold flex items-center justify-center transition-colors text-base cursor-pointer" title="Cambiar grado o participantes">
+                    🔄
+                </button>
+            </div>
+        </div>
+    </header>
+    <!-- END: TopHeader -->
+
+    <!-- ========================================================================= -->
+    <!-- PANTALLA 1: SETUP / LOBBY (CONFIGURACIÓN INICIAL TÁCTIL) -->
+    <!-- ========================================================================= -->
+    <section id="setup-screen" class="max-w-4xl w-full mx-auto flex-1 flex flex-col justify-center items-center py-4">
+        <div class="w-full bg-white rounded-3xl p-6 md:p-10 shadow-game-card border border-slate-200/90 flex flex-col gap-8">
+            
+            <!-- Hero Setup Title -->
+            <div class="text-center flex flex-col items-center">
+                <span class="inline-flex items-center gap-1.5 px-4 py-1 rounded-full bg-amber-100 text-amber-800 text-xs font-black uppercase tracking-wider mb-2">
+                    🎓 Olimpíada Escolar Interactiva
+                </span>
+                <h2 class="text-3xl md:text-4xl font-black text-slate-800 tracking-tight">
+                    CONFIGURÁ TU PARTIDA
+                </h2>
+                <p class="text-xs md:text-sm font-semibold text-slate-500 mt-1 max-w-md">
+                    Elegí el nivel curricular y los participantes para comenzar la competencia
+                </p>
+            </div>
+
+            <!-- 1. Elegí el Grado Escolar -->
+            <div class="flex flex-col gap-3">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                        <span class="w-7 h-7 rounded-xl bg-blue-600 text-white font-black text-xs flex items-center justify-center shadow-sm">1</span>
+                        <h3 class="font-extrabold text-slate-800 text-base md:text-lg">Elegí el Grado Escolar</h3>
+                    </div>
+                    <span class="text-[11px] font-bold text-slate-400 bg-slate-100 px-2.5 py-0.5 rounded-full uppercase">Primaria Oficial</span>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3" id="grade-selector-group">
+                    <button type="button" class="grade-btn p-4 rounded-2xl border-2 border-slate-200 bg-slate-50/60 hover:bg-slate-100 text-left transition-all cursor-pointer" data-grade="5">
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="text-2xl font-black text-slate-700">5.°</span>
+                            <span class="grade-icon text-xs bg-slate-300 text-white rounded-full w-5 h-5 flex items-center justify-center opacity-0">+</span>
+                        </div>
+                        <span class="font-black text-slate-800 block text-sm">5.° Grado</span>
+                        <span class="text-[11px] font-semibold text-slate-500">10 a 11 años</span>
+                    </button>
+                    <button type="button" class="grade-btn active p-4 rounded-2xl border-2 border-blue-500 bg-blue-50/50 text-left transition-all shadow-sm cursor-pointer" data-grade="6">
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="text-2xl font-black text-blue-600">6.°</span>
+                            <span class="grade-icon text-xs bg-blue-600 text-white rounded-full w-5 h-5 flex items-center justify-center">✓</span>
+                        </div>
+                        <span class="font-black text-slate-800 block text-sm">6.° Grado</span>
+                        <span class="text-[11px] font-semibold text-slate-500">11 a 12 años</span>
+                    </button>
+                    <button type="button" class="grade-btn p-4 rounded-2xl border-2 border-slate-200 bg-slate-50/60 hover:bg-slate-100 text-left transition-all cursor-pointer" data-grade="7">
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="text-2xl font-black text-slate-700">7.°</span>
+                            <span class="grade-icon text-xs bg-slate-300 text-white rounded-full w-5 h-5 flex items-center justify-center opacity-0">+</span>
+                        </div>
+                        <span class="font-black text-slate-800 block text-sm">7.° Grado</span>
+                        <span class="text-[11px] font-semibold text-slate-500">12 a 13 años</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- 2. Modo de Juego -->
+            <div class="flex flex-col gap-3">
+                <div class="flex items-center gap-2">
+                    <span class="w-7 h-7 rounded-xl bg-blue-600 text-white font-black text-xs flex items-center justify-center shadow-sm">2</span>
+                    <h3 class="font-extrabold text-slate-800 text-base md:text-lg">Elegí el Modo de Juego</h3>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3" id="mode-selector-group">
+                    <button type="button" class="mode-btn p-4 rounded-2xl border-2 border-slate-200 bg-slate-50/60 hover:bg-slate-100 flex items-center gap-3.5 text-left cursor-pointer transition-all" data-mode="teams">
+                        <div class="w-12 h-12 rounded-xl bg-white shadow-xs flex items-center justify-center text-2xl shrink-0">
+                            🏫
+                        </div>
+                        <div class="flex flex-col flex-1">
+                            <div class="flex justify-between items-center">
+                                <span class="font-black text-slate-800 text-sm">Duelo de Escuelas</span>
+                                <span class="text-[10px] font-extrabold uppercase bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full">Torneo</span>
+                            </div>
+                            <span class="text-xs text-slate-500 font-semibold mt-0.5">Competencia entre colegios</span>
+                        </div>
+                    </button>
+                    <button type="button" class="mode-btn active p-4 rounded-2xl border-2 border-blue-500 bg-blue-50/50 flex items-center gap-3.5 text-left cursor-pointer transition-all shadow-sm" data-mode="individual">
+                        <div class="w-12 h-12 rounded-xl bg-white shadow-xs flex items-center justify-center text-2xl shrink-0">
+                            🎒
+                        </div>
+                        <div class="flex flex-col flex-1">
+                            <div class="flex justify-between items-center">
+                                <span class="font-black text-blue-700 text-sm">Alumnos</span>
+                                <span class="text-[10px] font-extrabold uppercase bg-slate-200 text-slate-600 px-2 py-0.5 rounded-full">Aula</span>
+                            </div>
+                            <span class="text-xs text-slate-500 font-semibold mt-0.5">Compañeros o amigos</span>
+                        </div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- 3. Cantidad de Participantes & Nombres -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+                <div class="lg:col-span-5 flex flex-col gap-3">
+                    <div class="flex items-center gap-2">
+                        <span class="w-7 h-7 rounded-xl bg-blue-600 text-white font-black text-xs flex items-center justify-center shadow-sm">3</span>
+                        <h3 class="font-extrabold text-slate-800 text-base">Cantidad</h3>
+                    </div>
+                    <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200/80 flex flex-col gap-3">
+                        <div class="grid grid-cols-3 gap-2" id="count-selector-group">
+                            <button type="button" class="count-btn active py-3 rounded-xl border-2 border-blue-600 bg-blue-600 font-black text-base text-white text-center shadow-sm cursor-pointer transition-all" data-count="2">2</button>
+                            <button type="button" class="count-btn py-3 rounded-xl border border-slate-200 bg-white font-black text-base text-slate-700 text-center hover:bg-slate-100 cursor-pointer transition-all" data-count="3">3</button>
+                            <button type="button" class="count-btn py-3 rounded-xl border border-slate-200 bg-white font-black text-base text-slate-700 text-center hover:bg-slate-100 cursor-pointer transition-all" data-count="4">4</button>
+                        </div>
+                        <p class="text-[11px] font-bold text-slate-500 text-center bg-white py-1.5 rounded-lg border border-slate-100">
+                            👥 <span id="count-info-label">2 Participantes en circuito</span>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-7 flex flex-col gap-3">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-2">
+                            <span class="w-7 h-7 rounded-xl bg-blue-600 text-white font-black text-xs flex items-center justify-center shadow-sm">4</span>
+                            <h3 class="font-extrabold text-slate-800 text-base">Nombres</h3>
+                        </div>
+                        <span class="text-[11px] font-extrabold uppercase bg-amber-100 text-amber-800 px-2 py-0.5 rounded-full" id="registered-badge-tag">2 Registrados</span>
+                    </div>
+                    <div class="flex flex-col gap-2" id="players-config-list">
+                        <!-- Dynamic Player Rows -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5. Objetivo para Ganar -->
+            <div class="flex flex-col gap-3">
+                <div class="flex items-center gap-2">
+                    <span class="w-7 h-7 rounded-xl bg-blue-600 text-white font-black text-xs flex items-center justify-center shadow-sm">5</span>
+                    <h3 class="font-extrabold text-slate-800 text-base md:text-lg">Objetivo para Ganar</h3>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3" id="goal-selector-group">
+                    <button type="button" class="goal-btn active p-4 rounded-2xl border-2 border-blue-500 bg-blue-50/50 flex flex-col gap-1.5 text-left cursor-pointer transition-all shadow-sm" data-goal="badges">
+                        <div class="flex items-center justify-between">
+                            <span class="font-black text-blue-700 text-sm flex items-center gap-1.5">
+                                ⭐ Coleccionar 4 Medallas de Materias
+                            </span>
+                            <span class="goal-check text-xs bg-blue-600 text-white rounded-full w-5 h-5 flex items-center justify-center">✓</span>
+                        </div>
+                        <p class="text-xs text-slate-500 font-semibold">Demostrar conocimiento en las distintas áreas curriculares</p>
+                    </button>
+                    <button type="button" class="goal-btn p-4 rounded-2xl border-2 border-slate-200 bg-slate-50/60 hover:bg-slate-100 flex flex-col gap-1.5 text-left cursor-pointer transition-all" data-goal="fast">
+                        <div class="flex items-center justify-between">
+                            <span class="font-black text-slate-800 text-sm flex items-center gap-1.5">
+                                ⚡ Partida Rápida (2 Medallas)
+                            </span>
+                            <span class="goal-check text-xs bg-slate-300 text-white rounded-full w-5 h-5 flex items-center justify-center opacity-0">+</span>
+                        </div>
+                        <p class="text-xs text-slate-500 font-semibold">Ideal para recreos o clases cortas (10 a 15 minutos)</p>
+                    </button>
+                </div>
+            </div>
+
+            <!-- CTA Button -->
+            <div class="flex justify-center pt-2">
+                <button id="btn-start-game" class="w-full sm:w-auto px-12 py-4 rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-black text-lg md:text-xl shadow-3d-btn active:shadow-3d-btn-active active:translate-y-1 transition-all duration-100 flex items-center justify-center gap-3 tracking-wide cursor-pointer uppercase" type="button">
+                    <span class="text-2xl">🚀</span>
+                    <span>¡COMENZAR LA CARRERA!</span>
+                </button>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- PANTALLA 2: ARENA DE JUEGO (REDISEÑO EXACTO STITCH code.html) -->
+    <!-- ========================================================================= -->
+    <main id="game-screen" class="hidden max-w-[1540px] w-full mx-auto flex-1 grid grid-cols-1 lg:grid-cols-12 gap-5 items-start" data-purpose="game-main-content">
+        
+        <!-- BEGIN: LeftSidebar -->
+        <aside class="lg:col-span-3 flex flex-col gap-4" data-purpose="leaderboard-sidebar">
+            <!-- Player Scores & Badges Card -->
+            <section class="bg-white rounded-3xl p-5 shadow-game-card border border-slate-200/80" data-purpose="player-rankings">
+                <div class="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
+                    <div class="flex items-center gap-2">
+                        <span class="text-xl">🏆</span>
+                        <h2 class="text-base font-extrabold text-slate-800 tracking-tight">Posiciones y Medallas</h2>
+                    </div>
+                    <span class="text-[11px] font-bold text-slate-400 bg-slate-100 px-2 py-0.5 rounded-md" id="sidebar-players-count">2 Jugadores</span>
+                </div>
+                <div class="space-y-4" id="scoreboard-list">
+                    <!-- Dynamic Player Cards rendered by game.js -->
+                </div>
+            </section>
+
+            <!-- Subject Color Reference Legend -->
+            <section class="bg-white rounded-3xl p-5 shadow-game-card border border-slate-200/80" data-purpose="subject-legend">
+                <h3 class="text-xs font-black uppercase tracking-wider text-slate-400 mb-3 flex items-center gap-1.5" id="legend-grade-title">
+                    <span>📚</span> Materias de <span id="legend-grade-label">6.° Grado</span>
+                </h3>
+                <div class="flex flex-wrap gap-2 text-xs font-bold">
+                    <div class="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-blue-50 text-blue-700 border border-blue-200 shadow-2xs font-extrabold">
+                        <span class="w-6 h-6 rounded-lg bg-blue-100 flex items-center justify-center text-sm shadow-xs">📐</span> Matemática
+                    </div>
+                    <div class="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-red-50 text-red-700 border border-red-200 shadow-2xs font-extrabold">
+                        <span class="w-6 h-6 rounded-lg bg-red-100 flex items-center justify-center text-sm shadow-xs">📖</span> Lengua
+                    </div>
+                    <div class="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-emerald-50 text-emerald-700 border border-emerald-200 shadow-2xs font-extrabold">
+                        <span class="w-6 h-6 rounded-lg bg-emerald-100 flex items-center justify-center text-sm shadow-xs">🌿</span> C. Naturales
+                    </div>
+                    <div class="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-amber-50 text-amber-700 border border-amber-200 shadow-2xs font-extrabold">
+                        <span class="w-6 h-6 rounded-lg bg-amber-100 flex items-center justify-center text-sm shadow-xs">🌍</span> C. Sociales
+                    </div>
+                    <div class="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-purple-50 text-purple-700 border border-purple-200 shadow-2xs font-extrabold">
+                        <span class="w-6 h-6 rounded-lg bg-purple-100 flex items-center justify-center text-sm shadow-xs">💡</span> Ingenio y Cultura
+                    </div>
+                </div>
+                <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500 font-semibold">
+                    <span class="flex items-center gap-1"><span class="text-amber-500">⭐</span> Casillero de Corona / Medalla</span>
+                    <span class="font-bold text-slate-700">28 casillas</span>
+                </div>
+            </section>
+        </aside>
+        <!-- END: LeftSidebar -->
+
+        <!-- BEGIN: MainGameBoardArea -->
+        <section class="lg:col-span-9 bg-white rounded-3xl p-4 sm:p-6 shadow-game-card border border-slate-200/90 relative overflow-hidden" data-purpose="board-canvas-wrapper">
+            <!-- Outer Board Track (28 Tiles along the perimeter: 8x8 grid) -->
+            <div class="board-grid w-full aspect-square max-h-[820px] mx-auto select-none">
+<!-- ================= ROW 1 (TOP) ================= -->
+<!-- Tile 1: Matematica -->
+<div class="col-start-1 row-start-1 bg-math-light border-2 border-math-border hover:border-math-accent shadow-xs rounded-xl sm:rounded-2xl p-1 sm:p-1.5 md:p-2 flex flex-col justify-between transition-all hover:-translate-y-0.5 relative" id="tile-1">
+<div class="flex justify-between items-center text-[11px] font-black text-slate-400">
+<span class="">1</span>
+</div>
+<div class="flex flex-col items-center justify-center my-auto gap-1">
+<div class="tile-icon-badge w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 rounded-lg md:rounded-xl bg-blue-600 text-white flex items-center justify-center shadow-xs select-none" title="Matemática">
+<svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M21.3 2.7a1 1 0 0 0-1.4 0L2.7 19.9a1 1 0 0 0 .7 1.7H20a1 1 0 0 0 1-1V3.4a1 1 0 0 0-.7-.7z"/>
+  <path d="M7 18h7a1 1 0 0 0 1-1v-7a1 1 0 0 0-1.7-.7L5.6 17a1 1 0 0 0 1.4 1z" fill="white" fill-opacity="0.3"/>
+  <path d="M18 10h-2"/>
+  <path d="M18 14h-3"/>
+  <path d="M14 18v-3"/>
+</svg>
+</div>
+<span class="hidden md:block text-[10px] sm:text-[11px] font-extrabold text-math-text mt-0.5 text-center leading-none tracking-tight">Matemática</span>
+</div>
+<div class="tile-pawns-container absolute -bottom-1.5 -right-1.5 flex gap-0.5 z-10" id="pawns-tile-1"></div>
+</div><!-- Tile 2: Lengua -->
+<div class="col-start-2 row-start-1 bg-lengua-light border-2 border-lengua-border hover:border-lengua-accent shadow-xs rounded-xl sm:rounded-2xl p-1 sm:p-1.5 md:p-2 flex flex-col justify-between transition-all hover:-translate-y-0.5 relative" id="tile-2">
+<div class="flex justify-between items-center text-[11px] font-black text-slate-400">
+<span class="">2</span>
+</div>
+<div class="flex flex-col items-center justify-center my-auto gap-1">
+<div class="tile-icon-badge w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 rounded-lg md:rounded-xl bg-rose-500 text-white flex items-center justify-center shadow-xs select-none" title="Lengua">
+<svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" fill="white" fill-opacity="0.25"/>
+  <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" fill="white" fill-opacity="0.25"/>
+  <path d="M6 8h2"/>
+  <path d="M16 8h2"/>
+  <path d="M6 12h2"/>
+  <path d="M16 12h2"/>
+</svg>
+</div>
+<span class="hidden md:block text-[10px] sm:text-[11px] font-extrabold text-lengua-text mt-0.5 text-center leading-none tracking-tight">Lengua</span>
+</div>
+<div class="tile-pawns-container absolute -bottom-1.5 -right-1.5 flex gap-0.5 z-10" id="pawns-tile-2"></div>
+</div><!-- Tile 3: Matematica [STAR TILE] -->
+<div class="col-start-3 row-start-1 bg-math-light border-2 border-amber-400 ring-2 ring-amber-300/40 shadow-glow-star rounded-xl sm:rounded-2xl p-1 sm:p-1.5 md:p-2 flex flex-col justify-between transition-all hover:-translate-y-0.5 relative" id="tile-3">
+<div class="flex justify-between items-center text-[11px] font-black text-math-text">
+<span class="">3</span>
+<span class="text-xs select-none leading-none">👑</span>
+</div>
+<div class="flex flex-col items-center justify-center my-auto gap-1">
+<div class="tile-icon-badge w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 rounded-lg md:rounded-xl bg-blue-600 text-white flex items-center justify-center shadow-xs select-none" title="Matemática">
+<svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M21.3 2.7a1 1 0 0 0-1.4 0L2.7 19.9a1 1 0 0 0 .7 1.7H20a1 1 0 0 0 1-1V3.4a1 1 0 0 0-.7-.7z"/>
+  <path d="M7 18h7a1 1 0 0 0 1-1v-7a1 1 0 0 0-1.7-.7L5.6 17a1 1 0 0 0 1.4 1z" fill="white" fill-opacity="0.3"/>
+  <path d="M18 10h-2"/>
+  <path d="M18 14h-3"/>
+  <path d="M14 18v-3"/>
+</svg>
+</div>
+<span class="hidden md:block text-[10px] sm:text-[11px] font-extrabold text-math-text mt-0.5 text-center leading-none tracking-tight">Matemática</span>
+</div>
+<div class="tile-pawns-container absolute -bottom-1.5 -right-1.5 flex gap-0.5 z-10" id="pawns-tile-3"></div>
+</div><!-- Tile 4: Ciencias Sociales -->
+<div class="col-start-4 row-start-1 bg-sociales-light border-2 border-sociales-border hover:border-sociales-accent shadow-xs rounded-xl sm:rounded-2xl p-1 sm:p-1.5 md:p-2 flex flex-col justify-between transition-all hover:-translate-y-0.5 relative" id="tile-4">
+<div class="flex justify-between items-center text-[11px] font-black text-slate-400">
+<span class="">4</span>
+</div>
+<div class="flex flex-col items-center justify-center my-auto gap-1">
+<div class="tile-icon-badge w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 rounded-lg md:rounded-xl bg-amber-500 text-white flex items-center justify-center shadow-xs select-none" title="Ciencias Sociales">
+<svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="12" cy="12" r="9.5" fill="white" fill-opacity="0.25"/>
+  <path d="M2.5 12h19"/>
+  <path d="M12 2.5a14 14 0 0 0 0 19"/>
+  <path d="M12 2.5a14 14 0 0 1 0 19"/>
+  <path d="M4.5 7.5h15"/>
+  <path d="M4.5 16.5h15"/>
+</svg>
+</div>
+<span class="hidden md:block text-[10px] sm:text-[11px] font-extrabold text-sociales-text mt-0.5 text-center leading-none tracking-tight">C. Sociales</span>
+</div>
+<div class="tile-pawns-container absolute -bottom-1.5 -right-1.5 flex gap-0.5 z-10" id="pawns-tile-4"></div>
+</div><!-- Tile 5: Ingenio y Cultura -->
+<div class="col-start-5 row-start-1 bg-ingenio-light border-2 border-ingenio-border hover:border-ingenio-accent shadow-xs rounded-xl sm:rounded-2xl p-1 sm:p-1.5 md:p-2 flex flex-col justify-between transition-all hover:-translate-y-0.5 relative" id="tile-5">
+<div class="flex justify-between items-center text-[11px] font-black text-slate-400">
+<span class="">5</span>
+</div>
+<div class="flex flex-col items-center justify-center my-auto gap-1">
+<div class="tile-icon-badge w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 rounded-lg md:rounded-xl bg-purple-600 text-white flex items-center justify-center shadow-xs select-none" title="Ingenio y Cultura">
+<svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5 text-amber-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M9 18h6"/>
+  <path d="M10 21h4"/>
+  <path d="M12 2v2"/>
+  <path d="M12 8a5 5 0 0 0-3 8.5c.5.5 1 1.5 1 2.5h4c0-1 .5-2 1-2.5A5 5 0 0 0 12 8z" fill="#FEF08A" fill-opacity="0.35"/>
+  <path d="M4.5 4.5l1.5 1.5"/>
+  <path d="M19.5 4.5l-1.5 1.5"/>
+</svg>
+</div>
+<span class="hidden md:block text-[10px] sm:text-[11px] font-extrabold text-ingenio-text mt-0.5 text-center leading-none tracking-tight">Ingenio</span>
+</div>
+<div class="tile-pawns-container absolute -bottom-1.5 -right-1.5 flex gap-0.5 z-10" id="pawns-tile-5"></div>
+</div><!-- Tile 6: Matematica -->
+<div class="col-start-6 row-start-1 bg-math-light border-2 border-math-border hover:border-math-accent shadow-xs rounded-xl sm:rounded-2xl p-1 sm:p-1.5 md:p-2 flex flex-col justify-between transition-all hover:-translate-y-0.5 relative" id="tile-6">
+<div class="flex justify-between items-center text-[11px] font-black text-slate-400">
+<span class="">6</span>
+</div>
+<div class="flex flex-col items-center justify-center my-auto gap-1">
+<div class="tile-icon-badge w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 rounded-lg md:rounded-xl bg-blue-600 text-white flex items-center justify-center shadow-xs select-none" title="Matemática">
+<svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M21.3 2.7a1 1 0 0 0-1.4 0L2.7 19.9a1 1 0 0 0 .7 1.7H20a1 1 0 0 0 1-1V3.4a1 1 0 0 0-.7-.7z"/>
+  <path d="M7 18h7a1 1 0 0 0 1-1v-7a1 1 0 0 0-1.7-.7L5.6 17a1 1 0 0 0 1.4 1z" fill="white" fill-opacity="0.3"/>
+  <path d="M18 10h-2"/>
+  <path d="M18 14h-3"/>
+  <path d="M14 18v-3"/>
+</svg>
+</div>
+<span class="hidden md:block text-[10px] sm:text-[11px] font-extrabold text-math-text mt-0.5 text-center leading-none tracking-tight">Matemática</span>
+</div>
+<div class="tile-pawns-container absolute -bottom-1.5 -right-1.5 flex gap-0.5 z-10" id="pawns-tile-6"></div>
+</div><!-- Tile 7: Lengua -->
+<div class="col-start-7 row-start-1 bg-lengua-light border-2 border-lengua-border hover:border-lengua-accent shadow-xs rounded-xl sm:rounded-2xl p-1 sm:p-1.5 md:p-2 flex flex-col justify-between transition-all hover:-translate-y-0.5 relative" id="tile-7">
+<div class="flex justify-between items-center text-[11px] font-black text-slate-400">
+<span class="">7</span>
+</div>
+<div class="flex flex-col items-center justify-center my-auto gap-1">
+<div class="tile-icon-badge w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 rounded-lg md:rounded-xl bg-rose-500 text-white flex items-center justify-center shadow-xs select-none" title="Lengua">
+<svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" fill="white" fill-opacity="0.25"/>
+  <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" fill="white" fill-opacity="0.25"/>
+  <path d="M6 8h2"/>
+  <path d="M16 8h2"/>
+  <path d="M6 12h2"/>
+  <path d="M16 12h2"/>
+</svg>
+</div>
+<span class="hidden md:block text-[10px] sm:text-[11px] font-extrabold text-lengua-text mt-0.5 text-center leading-none tracking-tight">Lengua</span>
+</div>
+<div class="tile-pawns-container absolute -bottom-1.5 -right-1.5 flex gap-0.5 z-10" id="pawns-tile-7"></div>
+</div><!-- Tile 8: Ciencias Naturales (Corner) -->
+<div class="col-start-8 row-start-1 bg-naturales-light border-2 border-naturales-border hover:border-naturales-accent shadow-xs rounded-xl sm:rounded-2xl p-1 sm:p-1.5 md:p-2 flex flex-col justify-between transition-all hover:-translate-y-0.5 relative" id="tile-8">
+<div class="flex justify-between items-center text-[11px] font-black text-slate-400">
+<span class="">8</span>
+</div>
+<div class="flex flex-col items-center justify-center my-auto gap-1">
+<div class="tile-icon-badge w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 rounded-lg md:rounded-xl bg-emerald-600 text-white flex items-center justify-center shadow-xs select-none" title="Ciencias Naturales">
+<svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M12 21V4"/>
+  <path d="M12 4c0 0 2-2 4.5-2S20 3.5 20 5.5c0 2.5-3 3.5-8 4.5" fill="white" fill-opacity="0.3"/>
+  <path d="M12 9c0 0-2.5-2-5-2S3 8.5 3 10.5c0 2.5 3 3.5 9 4" fill="white" fill-opacity="0.3"/>
+  <path d="M12 14c0 0 2.5-2 5-2s4 1.5 4 3.5c0 2.5-3 3.5-9 4" fill="white" fill-opacity="0.3"/>
+</svg>
+</div>
+<span class="hidden md:block text-[10px] sm:text-[11px] font-extrabold text-naturales-text mt-0.5 text-center leading-none tracking-tight">C. Naturales</span>
+</div>
+<div class="tile-pawns-container absolute -bottom-1.5 -right-1.5 flex gap-0.5 z-10" id="pawns-tile-8"></div>
+</div>
+<!-- ================= ROW 2 TO 7 (RIGHT EDGE) ================= -->
+<!-- Tile 9: Lengua [STAR TILE] -->
+<div class="col-start-8 row-start-2 bg-lengua-light border-2 border-amber-400 ring-2 ring-amber-300/40 shadow-glow-star rounded-xl sm:rounded-2xl p-1 sm:p-1.5 md:p-2 flex flex-col justify-between transition-all hover:-translate-y-0.5 relative" id="tile-9">
+<div class="flex justify-between items-center text-[11px] font-black text-lengua-text">
+<span class="">9</span>
+<span class="text-xs select-none leading-none">👑</span>
+</div>
+<div class="flex flex-col items-center justify-center my-auto gap-1">
+<div class="tile-icon-badge w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 rounded-lg md:rounded-xl bg-rose-500 text-white flex items-center justify-center shadow-xs select-none" title="Lengua">
+<svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" fill="white" fill-opacity="0.25"/>
+  <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" fill="white" fill-opacity="0.25"/>
+  <path d="M6 8h2"/>
+  <path d="M16 8h2"/>
+  <path d="M6 12h2"/>
+  <path d="M16 12h2"/>
+</svg>
+</div>
+<span class="hidden md:block text-[10px] sm:text-[11px] font-extrabold text-lengua-text mt-0.5 text-center leading-none tracking-tight">Lengua</span>
+</div>
+<div class="tile-pawns-container absolute -bottom-1.5 -right-1.5 flex gap-0.5 z-10" id="pawns-tile-9"></div>
+</div><!-- Tile 10: Ingenio -->
+<div class="col-start-8 row-start-3 bg-ingenio-light border-2 border-ingenio-border hover:border-ingenio-accent shadow-xs rounded-xl sm:rounded-2xl p-1 sm:p-1.5 md:p-2 flex flex-col justify-between transition-all hover:-translate-y-0.5 relative" id="tile-10">
+<div class="flex justify-between items-center text-[11px] font-black text-slate-400">
+<span class="">10</span>
+</div>
+<div class="flex flex-col items-center justify-center my-auto gap-1">
+<div class="tile-icon-badge w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 rounded-lg md:rounded-xl bg-purple-600 text-white flex items-center justify-center shadow-xs select-none" title="Ingenio y Cultura">
+<svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5 text-amber-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M9 18h6"/>
+  <path d="M10 21h4"/>
+  <path d="M12 2v2"/>
+  <path d="M12 8a5 5 0 0 0-3 8.5c.5.5 1 1.5 1 2.5h4c0-1 .5-2 1-2.5A5 5 0 0 0 12 8z" fill="#FEF08A" fill-opacity="0.35"/>
+  <path d="M4.5 4.5l1.5 1.5"/>
+  <path d="M19.5 4.5l-1.5 1.5"/>
+</svg>
+</div>
+<span class="hidden md:block text-[10px] sm:text-[11px] font-extrabold text-ingenio-text mt-0.5 text-center leading-none tracking-tight">Ingenio</span>
+</div>
+<div class="tile-pawns-container absolute -bottom-1.5 -right-1.5 flex gap-0.5 z-10" id="pawns-tile-10"></div>
+</div><!-- Tile 11: Matematica -->
+<div class="col-start-8 row-start-4 bg-math-light border-2 border-math-border hover:border-math-accent shadow-xs rounded-xl sm:rounded-2xl p-1 sm:p-1.5 md:p-2 flex flex-col justify-between transition-all hover:-translate-y-0.5 relative" id="tile-11">
+<div class="flex justify-between items-center text-[11px] font-black text-slate-400">
+<span class="">11</span>
+</div>
+<div class="flex flex-col items-center justify-center my-auto gap-1">
+<div class="tile-icon-badge w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 rounded-lg md:rounded-xl bg-blue-600 text-white flex items-center justify-center shadow-xs select-none" title="Matemática">
+<svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M21.3 2.7a1 1 0 0 0-1.4 0L2.7 19.9a1 1 0 0 0 .7 1.7H20a1 1 0 0 0 1-1V3.4a1 1 0 0 0-.7-.7z"/>
+  <path d="M7 18h7a1 1 0 0 0 1-1v-7a1 1 0 0 0-1.7-.7L5.6 17a1 1 0 0 0 1.4 1z" fill="white" fill-opacity="0.3"/>
+  <path d="M18 10h-2"/>
+  <path d="M18 14h-3"/>
+  <path d="M14 18v-3"/>
+</svg>
+</div>
+<span class="hidden md:block text-[10px] sm:text-[11px] font-extrabold text-math-text mt-0.5 text-center leading-none tracking-tight">Matemática</span>
+</div>
+<div class="tile-pawns-container absolute -bottom-1.5 -right-1.5 flex gap-0.5 z-10" id="pawns-tile-11"></div>
+</div><!-- Tile 12: Lengua -->
+<div class="col-start-8 row-start-5 bg-lengua-light border-2 border-lengua-border hover:border-lengua-accent shadow-xs rounded-xl sm:rounded-2xl p-1 sm:p-1.5 md:p-2 flex flex-col justify-between transition-all hover:-translate-y-0.5 relative" id="tile-12">
+<div class="flex justify-between items-center text-[11px] font-black text-slate-400">
+<span class="">12</span>
+</div>
+<div class="flex flex-col items-center justify-center my-auto gap-1">
+<div class="tile-icon-badge w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 rounded-lg md:rounded-xl bg-rose-500 text-white flex items-center justify-center shadow-xs select-none" title="Lengua">
+<svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" fill="white" fill-opacity="0.25"/>
+  <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" fill="white" fill-opacity="0.25"/>
+  <path d="M6 8h2"/>
+  <path d="M16 8h2"/>
+  <path d="M6 12h2"/>
+  <path d="M16 12h2"/>
+</svg>
+</div>
+<span class="hidden md:block text-[10px] sm:text-[11px] font-extrabold text-lengua-text mt-0.5 text-center leading-none tracking-tight">Lengua</span>
+</div>
+<div class="tile-pawns-container absolute -bottom-1.5 -right-1.5 flex gap-0.5 z-10" id="pawns-tile-12"></div>
+</div><!-- Tile 13: Ciencias Naturales -->
+<div class="col-start-8 row-start-6 bg-naturales-light border-2 border-naturales-border hover:border-naturales-accent shadow-xs rounded-xl sm:rounded-2xl p-1 sm:p-1.5 md:p-2 flex flex-col justify-between transition-all hover:-translate-y-0.5 relative" id="tile-13">
+<div class="flex justify-between items-center text-[11px] font-black text-slate-400">
+<span class="">13</span>
+</div>
+<div class="flex flex-col items-center justify-center my-auto gap-1">
+<div class="tile-icon-badge w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 rounded-lg md:rounded-xl bg-emerald-600 text-white flex items-center justify-center shadow-xs select-none" title="Ciencias Naturales">
+<svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M12 21V4"/>
+  <path d="M12 4c0 0 2-2 4.5-2S20 3.5 20 5.5c0 2.5-3 3.5-8 4.5" fill="white" fill-opacity="0.3"/>
+  <path d="M12 9c0 0-2.5-2-5-2S3 8.5 3 10.5c0 2.5 3 3.5 9 4" fill="white" fill-opacity="0.3"/>
+  <path d="M12 14c0 0 2.5-2 5-2s4 1.5 4 3.5c0 2.5-3 3.5-9 4" fill="white" fill-opacity="0.3"/>
+</svg>
+</div>
+<span class="hidden md:block text-[10px] sm:text-[11px] font-extrabold text-naturales-text mt-0.5 text-center leading-none tracking-tight">C. Naturales</span>
+</div>
+<div class="tile-pawns-container absolute -bottom-1.5 -right-1.5 flex gap-0.5 z-10" id="pawns-tile-13"></div>
+</div><!-- Tile 14: Ciencias Sociales -->
+<div class="col-start-8 row-start-7 bg-sociales-light border-2 border-sociales-border hover:border-sociales-accent shadow-xs rounded-xl sm:rounded-2xl p-1 sm:p-1.5 md:p-2 flex flex-col justify-between transition-all hover:-translate-y-0.5 relative" id="tile-14">
+<div class="flex justify-between items-center text-[11px] font-black text-slate-400">
+<span class="">14</span>
+</div>
+<div class="flex flex-col items-center justify-center my-auto gap-1">
+<div class="tile-icon-badge w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 rounded-lg md:rounded-xl bg-amber-500 text-white flex items-center justify-center shadow-xs select-none" title="Ciencias Sociales">
+<svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="12" cy="12" r="9.5" fill="white" fill-opacity="0.25"/>
+  <path d="M2.5 12h19"/>
+  <path d="M12 2.5a14 14 0 0 0 0 19"/>
+  <path d="M12 2.5a14 14 0 0 1 0 19"/>
+  <path d="M4.5 7.5h15"/>
+  <path d="M4.5 16.5h15"/>
+</svg>
+</div>
+<span class="hidden md:block text-[10px] sm:text-[11px] font-extrabold text-sociales-text mt-0.5 text-center leading-none tracking-tight">C. Sociales</span>
+</div>
+<div class="tile-pawns-container absolute -bottom-1.5 -right-1.5 flex gap-0.5 z-10" id="pawns-tile-14"></div>
+</div>
+<!-- ================= ROW 8 (BOTTOM - RIGHT TO LEFT) ================= -->
+<!-- Tile 15: Naturales [STAR TILE] (Corner) -->
+<div class="col-start-8 row-start-8 bg-naturales-light border-2 border-amber-400 ring-2 ring-amber-300/40 shadow-glow-star rounded-xl sm:rounded-2xl p-1 sm:p-1.5 md:p-2 flex flex-col justify-between transition-all hover:-translate-y-0.5 relative" id="tile-15">
+<div class="flex justify-between items-center text-[11px] font-black text-naturales-text">
+<span class="">15</span>
+<span class="text-xs select-none leading-none">👑</span>
+</div>
+<div class="flex flex-col items-center justify-center my-auto gap-1">
+<div class="tile-icon-badge w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 rounded-lg md:rounded-xl bg-emerald-600 text-white flex items-center justify-center shadow-xs select-none" title="Ciencias Naturales">
+<svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M12 21V4"/>
+  <path d="M12 4c0 0 2-2 4.5-2S20 3.5 20 5.5c0 2.5-3 3.5-8 4.5" fill="white" fill-opacity="0.3"/>
+  <path d="M12 9c0 0-2.5-2-5-2S3 8.5 3 10.5c0 2.5 3 3.5 9 4" fill="white" fill-opacity="0.3"/>
+  <path d="M12 14c0 0 2.5-2 5-2s4 1.5 4 3.5c0 2.5-3 3.5-9 4" fill="white" fill-opacity="0.3"/>
+</svg>
+</div>
+<span class="hidden md:block text-[10px] sm:text-[11px] font-extrabold text-naturales-text mt-0.5 text-center leading-none tracking-tight">C. Naturales</span>
+</div>
+<div class="tile-pawns-container absolute -bottom-1.5 -right-1.5 flex gap-0.5 z-10" id="pawns-tile-15"></div>
+</div><!-- Tile 16: Matematica -->
+<div class="col-start-7 row-start-8 bg-math-light border-2 border-math-border hover:border-math-accent shadow-xs rounded-xl sm:rounded-2xl p-1 sm:p-1.5 md:p-2 flex flex-col justify-between transition-all hover:-translate-y-0.5 relative" id="tile-16">
+<div class="flex justify-between items-center text-[11px] font-black text-slate-400">
+<span class="">16</span>
+</div>
+<div class="flex flex-col items-center justify-center my-auto gap-1">
+<div class="tile-icon-badge w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 rounded-lg md:rounded-xl bg-blue-600 text-white flex items-center justify-center shadow-xs select-none" title="Matemática">
+<svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M21.3 2.7a1 1 0 0 0-1.4 0L2.7 19.9a1 1 0 0 0 .7 1.7H20a1 1 0 0 0 1-1V3.4a1 1 0 0 0-.7-.7z"/>
+  <path d="M7 18h7a1 1 0 0 0 1-1v-7a1 1 0 0 0-1.7-.7L5.6 17a1 1 0 0 0 1.4 1z" fill="white" fill-opacity="0.3"/>
+  <path d="M18 10h-2"/>
+  <path d="M18 14h-3"/>
+  <path d="M14 18v-3"/>
+</svg>
+</div>
+<span class="hidden md:block text-[10px] sm:text-[11px] font-extrabold text-math-text mt-0.5 text-center leading-none tracking-tight">Matemática</span>
+</div>
+<div class="tile-pawns-container absolute -bottom-1.5 -right-1.5 flex gap-0.5 z-10" id="pawns-tile-16"></div>
+</div><!-- Tile 17: Lengua -->
+<div class="col-start-6 row-start-8 bg-lengua-light border-2 border-lengua-border hover:border-lengua-accent shadow-xs rounded-xl sm:rounded-2xl p-1 sm:p-1.5 md:p-2 flex flex-col justify-between transition-all hover:-translate-y-0.5 relative" id="tile-17">
+<div class="flex justify-between items-center text-[11px] font-black text-slate-400">
+<span class="">17</span>
+</div>
+<div class="flex flex-col items-center justify-center my-auto gap-1">
+<div class="tile-icon-badge w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 rounded-lg md:rounded-xl bg-rose-500 text-white flex items-center justify-center shadow-xs select-none" title="Lengua">
+<svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" fill="white" fill-opacity="0.25"/>
+  <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" fill="white" fill-opacity="0.25"/>
+  <path d="M6 8h2"/>
+  <path d="M16 8h2"/>
+  <path d="M6 12h2"/>
+  <path d="M16 12h2"/>
+</svg>
+</div>
+<span class="hidden md:block text-[10px] sm:text-[11px] font-extrabold text-lengua-text mt-0.5 text-center leading-none tracking-tight">Lengua</span>
+</div>
+<div class="tile-pawns-container absolute -bottom-1.5 -right-1.5 flex gap-0.5 z-10" id="pawns-tile-17"></div>
+</div><!-- Tile 18: Ciencias Naturales -->
+<div class="col-start-5 row-start-8 bg-naturales-light border-2 border-naturales-border hover:border-naturales-accent shadow-xs rounded-xl sm:rounded-2xl p-1 sm:p-1.5 md:p-2 flex flex-col justify-between transition-all hover:-translate-y-0.5 relative" id="tile-18">
+<div class="flex justify-between items-center text-[11px] font-black text-slate-400">
+<span class="">18</span>
+</div>
+<div class="flex flex-col items-center justify-center my-auto gap-1">
+<div class="tile-icon-badge w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 rounded-lg md:rounded-xl bg-emerald-600 text-white flex items-center justify-center shadow-xs select-none" title="Ciencias Naturales">
+<svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M12 21V4"/>
+  <path d="M12 4c0 0 2-2 4.5-2S20 3.5 20 5.5c0 2.5-3 3.5-8 4.5" fill="white" fill-opacity="0.3"/>
+  <path d="M12 9c0 0-2.5-2-5-2S3 8.5 3 10.5c0 2.5 3 3.5 9 4" fill="white" fill-opacity="0.3"/>
+  <path d="M12 14c0 0 2.5-2 5-2s4 1.5 4 3.5c0 2.5-3 3.5-9 4" fill="white" fill-opacity="0.3"/>
+</svg>
+</div>
+<span class="hidden md:block text-[10px] sm:text-[11px] font-extrabold text-naturales-text mt-0.5 text-center leading-none tracking-tight">C. Naturales</span>
+</div>
+<div class="tile-pawns-container absolute -bottom-1.5 -right-1.5 flex gap-0.5 z-10" id="pawns-tile-18"></div>
+</div><!-- Tile 19: Ciencias Sociales -->
+<div class="col-start-4 row-start-8 bg-sociales-light border-2 border-sociales-border hover:border-sociales-accent shadow-xs rounded-xl sm:rounded-2xl p-1 sm:p-1.5 md:p-2 flex flex-col justify-between transition-all hover:-translate-y-0.5 relative" id="tile-19">
+<div class="flex justify-between items-center text-[11px] font-black text-slate-400">
+<span class="">19</span>
+</div>
+<div class="flex flex-col items-center justify-center my-auto gap-1">
+<div class="tile-icon-badge w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 rounded-lg md:rounded-xl bg-amber-500 text-white flex items-center justify-center shadow-xs select-none" title="Ciencias Sociales">
+<svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="12" cy="12" r="9.5" fill="white" fill-opacity="0.25"/>
+  <path d="M2.5 12h19"/>
+  <path d="M12 2.5a14 14 0 0 0 0 19"/>
+  <path d="M12 2.5a14 14 0 0 1 0 19"/>
+  <path d="M4.5 7.5h15"/>
+  <path d="M4.5 16.5h15"/>
+</svg>
+</div>
+<span class="hidden md:block text-[10px] sm:text-[11px] font-extrabold text-sociales-text mt-0.5 text-center leading-none tracking-tight">C. Sociales</span>
+</div>
+<div class="tile-pawns-container absolute -bottom-1.5 -right-1.5 flex gap-0.5 z-10" id="pawns-tile-19"></div>
+</div><!-- Tile 20: Ingenio y Cultura [WITH CAMI TOKEN] -->
+<div class="col-start-3 row-start-8 bg-ingenio-light border-2 border-ingenio-border hover:border-ingenio-accent shadow-xs rounded-xl sm:rounded-2xl p-1 sm:p-1.5 md:p-2 flex flex-col justify-between transition-all hover:-translate-y-0.5 relative" id="tile-20">
+<div class="flex justify-between items-center text-[11px] font-black text-slate-400">
+<span class="">20</span>
+</div>
+<div class="flex flex-col items-center justify-center my-auto gap-1">
+<div class="tile-icon-badge w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 rounded-lg md:rounded-xl bg-purple-600 text-white flex items-center justify-center shadow-xs select-none" title="Ingenio y Cultura">
+<svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5 text-amber-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M9 18h6"/>
+  <path d="M10 21h4"/>
+  <path d="M12 2v2"/>
+  <path d="M12 8a5 5 0 0 0-3 8.5c.5.5 1 1.5 1 2.5h4c0-1 .5-2 1-2.5A5 5 0 0 0 12 8z" fill="#FEF08A" fill-opacity="0.35"/>
+  <path d="M4.5 4.5l1.5 1.5"/>
+  <path d="M19.5 4.5l-1.5 1.5"/>
+</svg>
+</div>
+<span class="hidden md:block text-[10px] sm:text-[11px] font-extrabold text-ingenio-text mt-0.5 text-center leading-none tracking-tight">Ingenio</span>
+</div>
+<div class="tile-pawns-container absolute -bottom-1.5 -right-1.5 flex gap-0.5 z-10" id="pawns-tile-20"></div>
+</div><!-- Tile 21: Ciencias Sociales [STAR TILE] -->
+<div class="col-start-2 row-start-8 bg-sociales-light border-2 border-amber-400 ring-2 ring-amber-300/40 shadow-glow-star rounded-xl sm:rounded-2xl p-1 sm:p-1.5 md:p-2 flex flex-col justify-between transition-all hover:-translate-y-0.5 relative" id="tile-21">
+<div class="flex justify-between items-center text-[11px] font-black text-sociales-text">
+<span class="">21</span>
+<span class="text-xs select-none leading-none">👑</span>
+</div>
+<div class="flex flex-col items-center justify-center my-auto gap-1">
+<div class="tile-icon-badge w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 rounded-lg md:rounded-xl bg-amber-500 text-white flex items-center justify-center shadow-xs select-none" title="Ciencias Sociales">
+<svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="12" cy="12" r="9.5" fill="white" fill-opacity="0.25"/>
+  <path d="M2.5 12h19"/>
+  <path d="M12 2.5a14 14 0 0 0 0 19"/>
+  <path d="M12 2.5a14 14 0 0 1 0 19"/>
+  <path d="M4.5 7.5h15"/>
+  <path d="M4.5 16.5h15"/>
+</svg>
+</div>
+<span class="hidden md:block text-[10px] sm:text-[11px] font-extrabold text-sociales-text mt-0.5 text-center leading-none tracking-tight">C. Sociales</span>
+</div>
+<div class="tile-pawns-container absolute -bottom-1.5 -right-1.5 flex gap-0.5 z-10" id="pawns-tile-21"></div>
+</div><!-- Tile 22: Lengua (Corner Bottom-Left) -->
+<div class="col-start-1 row-start-8 bg-lengua-light border-2 border-lengua-border hover:border-lengua-accent shadow-xs rounded-xl sm:rounded-2xl p-1 sm:p-1.5 md:p-2 flex flex-col justify-between transition-all hover:-translate-y-0.5 relative" id="tile-22">
+<div class="flex justify-between items-center text-[11px] font-black text-slate-400">
+<span class="">22</span>
+</div>
+<div class="flex flex-col items-center justify-center my-auto gap-1">
+<div class="tile-icon-badge w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 rounded-lg md:rounded-xl bg-rose-500 text-white flex items-center justify-center shadow-xs select-none" title="Lengua">
+<svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" fill="white" fill-opacity="0.25"/>
+  <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" fill="white" fill-opacity="0.25"/>
+  <path d="M6 8h2"/>
+  <path d="M16 8h2"/>
+  <path d="M6 12h2"/>
+  <path d="M16 12h2"/>
+</svg>
+</div>
+<span class="hidden md:block text-[10px] sm:text-[11px] font-extrabold text-lengua-text mt-0.5 text-center leading-none tracking-tight">Lengua</span>
+</div>
+<div class="tile-pawns-container absolute -bottom-1.5 -right-1.5 flex gap-0.5 z-10" id="pawns-tile-22"></div>
+</div>
+<!-- ================= ROW 7 TO 2 (LEFT EDGE - BOTTOM TO TOP) ================= -->
+<!-- Tile 23: Naturales -->
+<div class="col-start-1 row-start-7 bg-naturales-light border-2 border-naturales-border hover:border-naturales-accent shadow-xs rounded-xl sm:rounded-2xl p-1 sm:p-1.5 md:p-2 flex flex-col justify-between transition-all hover:-translate-y-0.5 relative" id="tile-23">
+<div class="flex justify-between items-center text-[11px] font-black text-slate-400">
+<span class="">23</span>
+</div>
+<div class="flex flex-col items-center justify-center my-auto gap-1">
+<div class="tile-icon-badge w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 rounded-lg md:rounded-xl bg-emerald-600 text-white flex items-center justify-center shadow-xs select-none" title="Ciencias Naturales">
+<svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M12 21V4"/>
+  <path d="M12 4c0 0 2-2 4.5-2S20 3.5 20 5.5c0 2.5-3 3.5-8 4.5" fill="white" fill-opacity="0.3"/>
+  <path d="M12 9c0 0-2.5-2-5-2S3 8.5 3 10.5c0 2.5 3 3.5 9 4" fill="white" fill-opacity="0.3"/>
+  <path d="M12 14c0 0 2.5-2 5-2s4 1.5 4 3.5c0 2.5-3 3.5-9 4" fill="white" fill-opacity="0.3"/>
+</svg>
+</div>
+<span class="hidden md:block text-[10px] sm:text-[11px] font-extrabold text-naturales-text mt-0.5 text-center leading-none tracking-tight">C. Naturales</span>
+</div>
+<div class="tile-pawns-container absolute -bottom-1.5 -right-1.5 flex gap-0.5 z-10" id="pawns-tile-23"></div>
+</div><!-- Tile 24: Sociales [WITH GER TOKEN] -->
+<div class="col-start-1 row-start-6 bg-sociales-light border-2 border-sociales-border hover:border-sociales-accent shadow-xs rounded-xl sm:rounded-2xl p-1 sm:p-1.5 md:p-2 flex flex-col justify-between transition-all hover:-translate-y-0.5 relative" id="tile-24">
+<div class="flex justify-between items-center text-[11px] font-black text-slate-400">
+<span class="">24</span>
+</div>
+<div class="flex flex-col items-center justify-center my-auto gap-1">
+<div class="tile-icon-badge w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 rounded-lg md:rounded-xl bg-amber-500 text-white flex items-center justify-center shadow-xs select-none" title="Ciencias Sociales">
+<svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="12" cy="12" r="9.5" fill="white" fill-opacity="0.25"/>
+  <path d="M2.5 12h19"/>
+  <path d="M12 2.5a14 14 0 0 0 0 19"/>
+  <path d="M12 2.5a14 14 0 0 1 0 19"/>
+  <path d="M4.5 7.5h15"/>
+  <path d="M4.5 16.5h15"/>
+</svg>
+</div>
+<span class="hidden md:block text-[10px] sm:text-[11px] font-extrabold text-sociales-text mt-0.5 text-center leading-none tracking-tight">C. Sociales</span>
+</div>
+<div class="tile-pawns-container absolute -bottom-1.5 -right-1.5 flex gap-0.5 z-10" id="pawns-tile-24"></div>
+</div><!-- Tile 25: Ingenio -->
+<div class="col-start-1 row-start-5 bg-ingenio-light border-2 border-ingenio-border hover:border-ingenio-accent shadow-xs rounded-xl sm:rounded-2xl p-1 sm:p-1.5 md:p-2 flex flex-col justify-between transition-all hover:-translate-y-0.5 relative" id="tile-25">
+<div class="flex justify-between items-center text-[11px] font-black text-slate-400">
+<span class="">25</span>
+</div>
+<div class="flex flex-col items-center justify-center my-auto gap-1">
+<div class="tile-icon-badge w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 rounded-lg md:rounded-xl bg-purple-600 text-white flex items-center justify-center shadow-xs select-none" title="Ingenio y Cultura">
+<svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5 text-amber-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M9 18h6"/>
+  <path d="M10 21h4"/>
+  <path d="M12 2v2"/>
+  <path d="M12 8a5 5 0 0 0-3 8.5c.5.5 1 1.5 1 2.5h4c0-1 .5-2 1-2.5A5 5 0 0 0 12 8z" fill="#FEF08A" fill-opacity="0.35"/>
+  <path d="M4.5 4.5l1.5 1.5"/>
+  <path d="M19.5 4.5l-1.5 1.5"/>
+</svg>
+</div>
+<span class="hidden md:block text-[10px] sm:text-[11px] font-extrabold text-ingenio-text mt-0.5 text-center leading-none tracking-tight">Ingenio</span>
+</div>
+<div class="tile-pawns-container absolute -bottom-1.5 -right-1.5 flex gap-0.5 z-10" id="pawns-tile-25"></div>
+</div><!-- Tile 26: Matematica -->
+<div class="col-start-1 row-start-4 bg-math-light border-2 border-math-border hover:border-math-accent shadow-xs rounded-xl sm:rounded-2xl p-1 sm:p-1.5 md:p-2 flex flex-col justify-between transition-all hover:-translate-y-0.5 relative" id="tile-26">
+<div class="flex justify-between items-center text-[11px] font-black text-slate-400">
+<span class="">26</span>
+</div>
+<div class="flex flex-col items-center justify-center my-auto gap-1">
+<div class="tile-icon-badge w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 rounded-lg md:rounded-xl bg-blue-600 text-white flex items-center justify-center shadow-xs select-none" title="Matemática">
+<svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M21.3 2.7a1 1 0 0 0-1.4 0L2.7 19.9a1 1 0 0 0 .7 1.7H20a1 1 0 0 0 1-1V3.4a1 1 0 0 0-.7-.7z"/>
+  <path d="M7 18h7a1 1 0 0 0 1-1v-7a1 1 0 0 0-1.7-.7L5.6 17a1 1 0 0 0 1.4 1z" fill="white" fill-opacity="0.3"/>
+  <path d="M18 10h-2"/>
+  <path d="M18 14h-3"/>
+  <path d="M14 18v-3"/>
+</svg>
+</div>
+<span class="hidden md:block text-[10px] sm:text-[11px] font-extrabold text-math-text mt-0.5 text-center leading-none tracking-tight">Matemática</span>
+</div>
+<div class="tile-pawns-container absolute -bottom-1.5 -right-1.5 flex gap-0.5 z-10" id="pawns-tile-26"></div>
+</div><!-- Tile 27: Ingenio [STAR TILE] -->
+<div class="col-start-1 row-start-3 bg-ingenio-light border-2 border-amber-400 ring-2 ring-amber-300/40 shadow-glow-star rounded-xl sm:rounded-2xl p-1 sm:p-1.5 md:p-2 flex flex-col justify-between transition-all hover:-translate-y-0.5 relative" id="tile-27">
+<div class="flex justify-between items-center text-[11px] font-black text-ingenio-text">
+<span class="">27</span>
+<span class="text-xs select-none leading-none">👑</span>
+</div>
+<div class="flex flex-col items-center justify-center my-auto gap-1">
+<div class="tile-icon-badge w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 rounded-lg md:rounded-xl bg-purple-600 text-white flex items-center justify-center shadow-xs select-none" title="Ingenio y Cultura">
+<svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5 text-amber-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M9 18h6"/>
+  <path d="M10 21h4"/>
+  <path d="M12 2v2"/>
+  <path d="M12 8a5 5 0 0 0-3 8.5c.5.5 1 1.5 1 2.5h4c0-1 .5-2 1-2.5A5 5 0 0 0 12 8z" fill="#FEF08A" fill-opacity="0.35"/>
+  <path d="M4.5 4.5l1.5 1.5"/>
+  <path d="M19.5 4.5l-1.5 1.5"/>
+</svg>
+</div>
+<span class="hidden md:block text-[10px] sm:text-[11px] font-extrabold text-ingenio-text mt-0.5 text-center leading-none tracking-tight">Ingenio</span>
+</div>
+<div class="tile-pawns-container absolute -bottom-1.5 -right-1.5 flex gap-0.5 z-10" id="pawns-tile-27"></div>
+</div><!-- Tile 28: Ciencias Naturales -->
+<div class="col-start-1 row-start-2 bg-naturales-light border-2 border-naturales-border hover:border-naturales-accent shadow-xs rounded-xl sm:rounded-2xl p-1 sm:p-1.5 md:p-2 flex flex-col justify-between transition-all hover:-translate-y-0.5 relative" id="tile-28">
+<div class="flex justify-between items-center text-[11px] font-black text-slate-400">
+<span class="">28</span>
+</div>
+<div class="flex flex-col items-center justify-center my-auto gap-1">
+<div class="tile-icon-badge w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 rounded-lg md:rounded-xl bg-emerald-600 text-white flex items-center justify-center shadow-xs select-none" title="Ciencias Naturales">
+<svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M12 21V4"/>
+  <path d="M12 4c0 0 2-2 4.5-2S20 3.5 20 5.5c0 2.5-3 3.5-8 4.5" fill="white" fill-opacity="0.3"/>
+  <path d="M12 9c0 0-2.5-2-5-2S3 8.5 3 10.5c0 2.5 3 3.5 9 4" fill="white" fill-opacity="0.3"/>
+  <path d="M12 14c0 0 2.5-2 5-2s4 1.5 4 3.5c0 2.5-3 3.5-9 4" fill="white" fill-opacity="0.3"/>
+</svg>
+</div>
+<span class="hidden md:block text-[10px] sm:text-[11px] font-extrabold text-naturales-text mt-0.5 text-center leading-none tracking-tight">C. Naturales</span>
+</div>
+<div class="tile-pawns-container absolute -bottom-1.5 -right-1.5 flex gap-0.5 z-10" id="pawns-tile-28"></div>
+</div><!-- ================= BOARD CENTER: INTERACTIVE ARENA ================= -->
+<!-- Center occupies columns 2 to 7 and rows 2 to 7 (6x6 area) -->
+<div class="col-span-6 row-span-6 col-start-2 row-start-2 bg-gradient-to-b from-slate-50/90 via-blue-50/30 to-indigo-50/50 rounded-3xl m-1 border-2 border-dashed border-slate-200/90 flex flex-col items-center justify-center p-2 sm:p-4 md:p-6 text-center relative shadow-inner overflow-hidden" data-purpose="board-center-interactive-area">
+<!-- Subtle watermark / themed badge in background -->
+<div class="absolute inset-0 flex items-center justify-center opacity-[0.03] pointer-events-none text-9xl font-black">
+            🎓
+          </div>
+<!-- Shockwave ring placeholder -->
+<div class="absolute w-44 h-44 rounded-full border-4 border-amber-400 pointer-events-none opacity-0 transition-opacity" id="shockwaveRing"></div>
+<!-- Burst particles container -->
+<div class="absolute inset-0 pointer-events-none overflow-hidden z-20" id="particlesLayer"></div>
+<!-- Active turn headline notification -->
+<div class="inline-flex items-center gap-2 bg-white px-4 py-1.5 rounded-full shadow-sm border border-slate-200 text-xs font-bold text-slate-700 mb-2 sm:mb-4 md:mb-6 transition-all" data-purpose="turn-indicator-pill" id="turnPill">
+<span class="w-2.5 h-2.5 rounded-full bg-blue-500 animate-pulse"></span>
+            Es el turno de <span class="text-blue-600 font-extrabold">Ger</span> (Oso 🐻)
+          </div>
+<!-- 3D Realistic Playful Dice Component -->
+<div class="relative group cursor-pointer my-2 dice-container-perspective" data-purpose="3d-dice-component" id="diceClickArea" title="Haz clic para tirar el dado">
+<!-- Shadow under the dice -->
+<div class="absolute -bottom-4 left-1/2 -translate-x-1/2 w-14 sm:w-16 md:w-24 h-3 sm:h-4 md:h-6 bg-slate-400/25 rounded-full blur-md group-hover:scale-95 transition-all" id="diceShadow"></div>
+<!-- Dice Cube Face (Showing 5 dots initially) -->
+<div class="w-14 h-14 sm:w-16 sm:h-16 md:w-24 md:h-24 lg:w-28 lg:h-28 bg-gradient-to-b from-white to-slate-100 rounded-2xl md:rounded-3xl border-2 md:border-4 border-slate-200 shadow-xl flex flex-col justify-between p-4 transform group-hover:-translate-y-1.5 group-active:translate-y-1 transition-all duration-150 relative select-none" id="diceCubeFace">
+<!-- Top Row: 2 Dots -->
+<div class="flex justify-between w-full h-4">
+<span class="dice-dot" id="dot-tl"></span>
+<span class="dice-dot opacity-0" id="dot-tc"></span>
+<span class="dice-dot" id="dot-tr"></span>
+</div>
+<!-- Center Row: 1 Dot -->
+<div class="flex justify-between w-full h-4 items-center">
+<span class="dice-dot opacity-0" id="dot-ml"></span>
+<span class="dice-dot" id="dot-mc"></span>
+<span class="dice-dot opacity-0" id="dot-mr"></span>
+</div>
+<!-- Bottom Row: 2 Dots -->
+<div class="flex justify-between w-full h-4">
+<span class="dice-dot" id="dot-bl"></span>
+<span class="dice-dot opacity-0" id="dot-bc"></span>
+<span class="dice-dot" id="dot-br"></span>
+</div>
+</div>
+</div>
+<!-- Dynamic result toast floating tag -->
+<div class="h-6 mt-1 flex items-center justify-center transition-all opacity-0 scale-90" id="resultFloatingToast">
+<span class="bg-amber-400 text-amber-950 font-black text-xs px-3 py-0.5 rounded-full shadow-md flex items-center gap-1.5">
+    ✨ <span id="toastValue">¡Sacaste 5!</span> 🎯
+  </span>
+</div>
+<!-- Interactive Roll CTA Button -->
+<div class="mt-1.5 sm:mt-2.5 md:mt-4 flex flex-col items-center">
+<button class="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 active:from-blue-700 active:to-indigo-700 text-white font-black text-lg md:text-xl px-4 py-2 sm:px-6 sm:py-2.5 md:px-10 md:py-3.5 rounded-xl md:rounded-2xl shadow-3d-btn active:shadow-3d-btn-active active:translate-y-1 transition-all duration-100 flex items-center gap-2 md:gap-3 tracking-wide" data-purpose="roll-dice-cta" id="rollDiceBtn">
+<span class="text-2xl inline-block" id="btnIcon">🎲</span>
+<span id="btnText">¡TIRAR DADO!</span>
+</button>
+<p class="text-xs md:text-sm font-bold text-slate-500 mt-3 flex items-center gap-1.5 transition-colors" id="actionHelperText">
+<span id="helperIcon">🎯</span> <span id="helperMessage">Turno de Ger. ¡Tirá el dado para avanzar por el tablero!</span>
+</p>
+</div>
+<!-- Mini roll info log -->
+<div class="hidden sm:flex mt-3 md:mt-6 items-center gap-2 md:gap-3 text-[10px] md:text-[11px] font-semibold text-slate-400 bg-white/70 px-3 py-1 rounded-lg border border-slate-100 shadow-2xs">
+<span id="lastRollLog">Último tiro: <strong>Ger sacó 5</strong></span>
+<span class="">•</span>
+<span class="text-emerald-600 font-bold" id="lastRollStatus">¡Listo para la pregunta!</span>
+</div>
+</div>
+<!-- END: BOARD CENTER -->
+</div>
+
+            <!-- END: Board Track -->
+        </section>
+        <!-- END: MainGameBoardArea -->
+
+    </main>
+    <!-- END: GameAreaContainer -->
+
+    <!-- BEGIN: BottomStatusBar (Stitch) -->
+    <footer class="max-w-[1540px] w-full mx-auto mt-4 px-3 py-2 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-400 font-semibold gap-2" data-purpose="footer-status-bar">
+        <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+            <span>Servidor sincronizado: <strong>carreradelsaber.netlify.app</strong></span>
+        </div>
+        <div class="flex items-center gap-4">
+            <span id="footer-fullscreen" class="hover:text-slate-600 transition-colors cursor-pointer">Pantalla Completa ⛶</span>
+            <span id="footer-restart" class="hover:text-slate-600 transition-colors cursor-pointer">Reiniciar Partida 🔄</span>
+            <span class="bg-slate-900 text-white text-[10px] font-extrabold px-2 py-0.5 rounded flex items-center gap-1">
+                Powered by Netlify
+            </span>
+        </div>
+    </footer>
+    <!-- END: BottomStatusBar -->
+
+    <!-- ========================================================================= -->
+    <!-- MODAL DE PREGUNTAS (DISEÑO STITCH PULIDO) -->
+    <!-- ========================================================================= -->
+    <div id="question-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center p-4">
+        <div class="w-full max-w-xl bg-white rounded-3xl overflow-hidden shadow-2xl border border-white transform transition-all animate-in fade-in zoom-in duration-200">
+            <!-- Modal Header -->
+            <div id="modal-header" class="p-5 text-white flex items-center justify-between bg-blue-600">
+                <div class="flex items-center gap-3">
+                    <span id="q-category-icon" class="w-12 h-12 rounded-2xl bg-white/20 flex items-center justify-center text-2xl">📐</span>
+                    <div class="flex flex-col">
+                        <span id="q-category-name" class="font-black text-lg tracking-wide uppercase">MATEMÁTICA</span>
+                        <span id="q-badge-indicator" class="text-[10px] font-black bg-amber-300 text-amber-900 px-2 py-0.5 rounded-full inline-block mt-0.5">⭐ ¡CASILLERO DE MEDALLA!</span>
+                    </div>
+                </div>
+                <!-- Countdown -->
+                <div class="w-12 h-12 rounded-full border-2 border-white/60 bg-black/20 flex items-center justify-center font-black text-xl" id="timer-number">
+                    25
+                </div>
+            </div>
+
+            <!-- Timer Bar -->
+            <div class="w-full h-2 bg-slate-100">
+                <div id="timer-bar" class="h-full bg-emerald-500 w-full transition-all duration-1000 ease-linear"></div>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="p-6 flex flex-col gap-4">
+                <div class="flex items-center justify-between text-xs font-bold text-slate-500">
+                    <span id="q-player-turn">Turno de: <strong>Ger</strong></span>
+                    <span id="q-grade-tag" class="px-2.5 py-0.5 rounded-full bg-slate-100 text-blue-700">6.° Grado · 39 restantes</span>
+                </div>
+
+                <h3 id="question-text" class="font-extrabold text-slate-800 text-lg md:text-xl leading-snug">
+                    Cargando pregunta...
+                </h3>
+
+                <!-- Options Grid -->
+                <div id="options-grid" class="flex flex-col gap-2.5 pt-1"></div>
+
+                <!-- Pedagogical Feedback Box -->
+                <div id="feedback-box" class="hidden p-4 rounded-2xl border flex flex-col gap-2 mt-2">
+                    <div id="feedback-title" class="font-black text-base">¡CORRECTO! 🎉</div>
+                    <p id="feedback-explanation" class="text-xs sm:text-sm text-slate-700 leading-relaxed"></p>
+                    <button id="btn-next-turn" class="w-full py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-black text-sm tracking-wide uppercase shadow-md transition-all cursor-pointer mt-1" type="button">
+                        Continuar ▶
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DE VICTORIA -->
+    <div id="victory-modal" class="fixed inset-0 z-50 bg-slate-900/70 backdrop-blur-md hidden items-center justify-center p-4">
+        <div class="w-full max-w-md bg-white rounded-3xl p-8 shadow-2xl border-4 border-amber-400 text-center flex flex-col items-center gap-4">
+            <span class="text-6xl animate-bounce">🏆</span>
+            <h2 class="font-black text-2xl text-amber-700">¡TENEMOS UN CAMPEÓN!</h2>
+            <div class="w-full bg-amber-50 p-4 rounded-2xl border border-amber-200 flex flex-col items-center">
+                <span id="winner-avatar" class="text-4xl mb-1">🐻</span>
+                <h3 id="winner-name" class="font-black text-xl text-slate-800">Ger</h3>
+                <p id="winner-grade-sub" class="text-xs font-bold text-slate-500 mt-1">¡Conquistó las preguntas de 6.° Grado!</p>
+            </div>
+            <div id="winner-badges-show" class="flex items-center justify-center gap-2 py-2"></div>
+            <button id="btn-play-again" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-black text-base uppercase shadow-md transition-all cursor-pointer" type="button">
+                🔄 Jugar Otra Partida
+            </button>
+        </div>
+    </div>
+
+    <!-- MODAL REGLAS DEL JUEGO -->
+    <div id="rules-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center p-4">
+        <div class="w-full max-w-lg bg-white rounded-3xl p-6 shadow-2xl flex flex-col gap-4 border border-slate-200">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                <div class="flex items-center gap-2">
+                    <span class="text-2xl">📖</span>
+                    <h3 class="font-black text-lg text-blue-700">Reglas de Carrera del Saber</h3>
+                </div>
+                <button id="btn-close-rules" class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center font-bold cursor-pointer">✕</button>
+            </div>
+            <div class="flex flex-col gap-3 text-xs sm:text-sm text-slate-600 leading-relaxed">
+                <p><strong>1. El Circuito:</strong> 28 casilleros perimetrales divididos por colores según la materia: Matemática (azul), Lengua (rojo), Ciencias Naturales (verde), Ciencias Sociales (naranja) e Ingenio y Cultura (violeta).</p>
+                <p><strong>2. Turnos y Dados 3D:</strong> En tu turno hacé clic en el dado 3D o en el botón "¡TIRAR DADO!" para avanzar por la pista.</p>
+                <p><strong>3. Casilleros Estrella / Corona (⭐):</strong> En los casilleros 3, 9, 15, 21 y 27 podés ganar la <strong>Medalla de esa materia</strong> respondiendo correctamente.</p>
+                <p><strong>4. Meta:</strong> El primer participante que consiga las medallas necesarias (4 en partida normal o 2 en rápida) gana la carrera escolar.</p>
+            </div>
+            <button id="btn-rules-got-it" class="w-full py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-black text-sm shadow-md cursor-pointer mt-1">
+                ¡Entendido, vamos a jugar! 🚀
+            </button>
+        </div>
+    </div>
+
+    <!-- Confetti Canvas -->
+    <canvas id="confetti-canvas"></canvas>
+
+    <!-- Scripts del Juego -->
+    <script src="questions.js"></script>
+    <script src="game.js"></script>
+</body>
+</html>
