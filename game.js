@@ -946,7 +946,7 @@ class CarreraDelSaberApp {
             const slot = document.getElementById(`pawns-tile-${tileNum}`);
             if (slot) {
                 const token = document.createElement('div');
-                token.className = `bg-gradient-to-tr ${p.tokenGradient} text-white rounded-full p-1.5 shadow-token border-2 border-white flex items-center justify-center text-sm transition-all`;
+                token.className = `bg-gradient-to-tr ${p.tokenGradient} text-white rounded-full p-0.5 md:p-1.5 shadow-token border md:border-2 border-white flex items-center justify-center text-[10px] md:text-sm transition-all`;
                 token.textContent = p.avatar;
                 token.title = `${p.name} (Casillero #${tileNum})`;
                 slot.appendChild(token);
