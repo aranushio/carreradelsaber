@@ -281,30 +281,37 @@ class MultiplayerManager {
 
     switchMode(mode) {
         this.currentMode = mode;
+        const titleLocal = document.getElementById('title-conn-local');
+        const titleOnline = document.getElementById('title-conn-online');
+
         if (mode === 'local') {
             this.btnConnLocal.classList.add('active', 'border-2', 'border-blue-500', 'bg-blue-50/50', 'shadow-sm');
             this.btnConnLocal.classList.remove('border-slate-200', 'bg-slate-50/60');
-            this.btnConnLocal.querySelector('span.text-slate-800, span.text-blue-700').className = 'font-black text-blue-700 text-sm';
+            if (titleLocal) titleLocal.className = 'font-black text-blue-700 text-sm';
 
-            this.btnConnOnline.classList.remove('active', 'border-2', 'border-blue-500', 'bg-blue-50/50', 'shadow-sm');
+            this.btnConnOnline.classList.remove('active', 'border-2', 'border-emerald-500', 'bg-emerald-50/50', 'shadow-sm');
             this.btnConnOnline.classList.add('border-slate-200', 'bg-slate-50/60');
-            this.btnConnOnline.querySelector('span.text-slate-800, span.text-blue-700').className = 'font-black text-slate-800 text-sm';
+            if (titleOnline) titleOnline.className = 'font-black text-slate-800 text-sm';
 
-            this.localContainer.classList.remove('hidden');
-            this.onlineContainer.classList.add('hidden');
-            this.onlineContainer.classList.remove('flex');
+            if (this.localContainer) this.localContainer.classList.remove('hidden');
+            if (this.onlineContainer) {
+                this.onlineContainer.classList.add('hidden');
+                this.onlineContainer.classList.remove('flex');
+            }
         } else {
             this.btnConnOnline.classList.add('active', 'border-2', 'border-emerald-500', 'bg-emerald-50/50', 'shadow-sm');
             this.btnConnOnline.classList.remove('border-slate-200', 'bg-slate-50/60');
-            this.btnConnOnline.querySelector('span.text-slate-800, span.text-blue-700').className = 'font-black text-emerald-700 text-sm';
+            if (titleOnline) titleOnline.className = 'font-black text-emerald-700 text-sm';
 
             this.btnConnLocal.classList.remove('active', 'border-2', 'border-blue-500', 'bg-blue-50/50', 'shadow-sm');
             this.btnConnLocal.classList.add('border-slate-200', 'bg-slate-50/60');
-            this.btnConnLocal.querySelector('span.text-slate-800, span.text-blue-700').className = 'font-black text-slate-800 text-sm';
+            if (titleLocal) titleLocal.className = 'font-black text-slate-800 text-sm';
 
-            this.localContainer.classList.add('hidden');
-            this.onlineContainer.classList.remove('hidden');
-            this.onlineContainer.classList.add('flex');
+            if (this.localContainer) this.localContainer.classList.add('hidden');
+            if (this.onlineContainer) {
+                this.onlineContainer.classList.remove('hidden');
+                this.onlineContainer.classList.add('flex');
+            }
         }
     }
 
