@@ -175,16 +175,62 @@
         z-index: 9999;
       }
       ::-webkit-scrollbar { display: none; }
-      @keyframes neloFloat {
-        0%, 100% {
-          transform: translateY(0px) rotate(0deg);
+      /* Micro-animación de Nelo Atleta Corriendo (Sprint / Trote continuo) */
+      @keyframes neloRunning {
+        0% {
+          transform: translateY(0px) rotate(-4deg) scale(1, 1);
+        }
+        25% {
+          transform: translateY(-13px) rotate(3deg) scale(0.96, 1.05);
         }
         50% {
-          transform: translateY(-8px) rotate(1.5deg);
+          transform: translateY(0px) rotate(-3deg) scale(1.05, 0.95);
+        }
+        75% {
+          transform: translateY(-10px) rotate(2deg) scale(0.97, 1.03);
+        }
+        100% {
+          transform: translateY(0px) rotate(-4deg) scale(1, 1);
         }
       }
-      .animate-nelo-float {
-        animation: neloFloat 3.5s ease-in-out infinite;
+
+      @keyframes shadowRun {
+        0%, 50%, 100% {
+          transform: scale(1);
+          opacity: 0.35;
+        }
+        25%, 75% {
+          transform: scale(0.65, 0.65);
+          opacity: 0.15;
+        }
+      }
+
+      @keyframes speedLine {
+        0% {
+          transform: translateX(12px) scaleX(0.3);
+          opacity: 0;
+        }
+        50% {
+          opacity: 0.85;
+        }
+        100% {
+          transform: translateX(-35px) scaleX(1.4);
+          opacity: 0;
+        }
+      }
+
+      .animate-nelo-running {
+        animation: neloRunning 0.58s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        transform-origin: bottom center;
+      }
+      .animate-nelo-shadow {
+        animation: shadowRun 0.58s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+      }
+      .speed-line-1 {
+        animation: speedLine 0.65s ease-out infinite;
+      }
+      .speed-line-2 {
+        animation: speedLine 0.65s ease-out 0.32s infinite;
       }
     </style>
 </head>
@@ -229,8 +275,13 @@
                 <button id="rulesToggleBtn" aria-label="Reglas del juego" class="w-9 h-9 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 font-extrabold flex items-center justify-center transition-colors text-base cursor-pointer" title="Reglas y ayuda">
                     ❓
                 </button>
-                <button id="btn-restart-setup" aria-label="Cambiar configuración" class="w-9 h-9 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold flex items-center justify-center transition-colors text-base cursor-pointer" title="Cambiar grado o participantes">
+                <button id="btn-restart-setup" aria-label="Cambiar configuración" class="w-9 h-9 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold hidden items-center justify-center transition-colors text-base cursor-pointer" title="Cambiar grado o participantes">
                     🔄
+                </button>
+                <!-- Botón visible Salir de Partida -->
+                <button id="btn-exit-game" type="button" aria-label="Salir de la partida" class="hidden px-3.5 py-1.5 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 font-extrabold text-xs md:text-sm border border-rose-200 shadow-2xs items-center gap-1.5 transition-all cursor-pointer group" title="Salir de la partida y volver al menú">
+                    <span class="group-hover:-translate-x-0.5 transition-transform text-sm">🚪</span>
+                    <span class="font-black">Salir</span>
                 </button>
             </div>
         </div>
@@ -246,17 +297,30 @@
             <!-- Hero Setup Title with Mascot Nelo -->
             <div class="text-center flex flex-col items-center relative">
                 <!-- Mascot (Desktop Floating on the right of the card) -->
-                <div class="hidden xl:flex flex-col items-center absolute -right-28 top-0 pointer-events-none select-none z-10 animate-nelo-float">
-                    <div class="relative bg-white text-indigo-900 font-black text-xs px-3.5 py-1.5 rounded-2xl shadow-md border-2 border-indigo-100 mb-2 whitespace-nowrap">
+                <div class="hidden xl:flex flex-col items-center absolute -right-32 top-2 pointer-events-none select-none z-10">
+                    <!-- Globo de Diálogo -->
+                    <div class="relative bg-white text-indigo-900 font-black text-xs px-3.5 py-1.5 rounded-2xl shadow-md border-2 border-indigo-100 mb-3 whitespace-nowrap">
                         <span>¡Preparate para correr! 🏃‍♂️💨</span>
                         <div class="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-3 h-3 bg-white border-b-2 border-r-2 border-indigo-100 rotate-45"></div>
                     </div>
-                    <img src="assets/mascot.png" alt="Nelo - Mascota Oficial" class="w-28 xl:w-32 h-auto drop-shadow-xl">
+                    
+                    <!-- Mascota Nelo con líneas de velocidad -->
+                    <div class="relative">
+                        <!-- Estelas de velocidad atrás de Nelo -->
+                        <div class="absolute -left-6 top-8 w-8 h-1 bg-gradient-to-r from-transparent to-amber-400/80 rounded-full speed-line-1"></div>
+                        <div class="absolute -left-8 top-16 w-10 h-1 bg-gradient-to-r from-transparent to-indigo-400/80 rounded-full speed-line-2"></div>
+                        
+                        <!-- Imagen animada corriendo -->
+                        <img src="assets/mascot.png" alt="Nelo - Mascota Oficial" class="w-32 h-auto drop-shadow-xl animate-nelo-running">
+                    </div>
+
+                    <!-- Sombra dinámica bajo las zapatillas -->
+                    <div class="w-20 h-2.5 bg-indigo-950/20 rounded-full blur-[2px] mx-auto -mt-2 animate-nelo-shadow"></div>
                 </div>
 
                 <!-- Mascot (Mobile / Tablet compact badge above title) -->
-                <div class="flex xl:hidden items-center gap-2 mb-2 bg-gradient-to-r from-amber-50 to-indigo-50 border border-indigo-100 px-3 py-1.5 rounded-full shadow-2xs animate-nelo-float">
-                    <img src="assets/mascot.png" alt="Nelo" class="w-8 h-8 object-contain">
+                <div class="flex xl:hidden items-center gap-2 mb-2 bg-gradient-to-r from-amber-50 to-indigo-50 border border-indigo-100 px-3.5 py-1.5 rounded-full shadow-2xs">
+                    <img src="assets/mascot.png" alt="Nelo" class="w-8 h-8 object-contain animate-nelo-running">
                     <span class="text-xs font-black text-indigo-800">Nelo dice: "¿Listo para el desafío?" 🏃‍♂️</span>
                 </div>
 
@@ -1410,6 +1474,28 @@
             <button id="btn-play-again" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-black text-base uppercase shadow-md transition-all cursor-pointer" type="button">
                 🔄 Jugar Otra Partida
             </button>
+        </div>
+    </div>
+
+
+    <!-- MODAL CONFIRMACIÓN DE SALIDA DE PARTIDA -->
+    <div id="modal-confirm-exit" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs hidden items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-sm w-full p-6 shadow-2xl border border-slate-200 flex flex-col items-center text-center animate-bounce-subtle">
+            <div class="w-16 h-16 rounded-2xl bg-rose-100 text-rose-600 flex items-center justify-center text-3xl mb-4 shadow-inner">
+                🚪
+            </div>
+            <h3 class="text-xl font-black text-slate-800">¿Salir de la partida?</h3>
+            <p class="text-xs sm:text-sm text-slate-500 font-semibold mt-2 leading-relaxed">
+                Si salís ahora, la ronda actual terminará y volverás a la pantalla de configuración del juego.
+            </p>
+            <div class="grid grid-cols-2 gap-3 w-full mt-6">
+                <button type="button" id="btn-cancel-exit" class="py-3 px-4 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-black text-xs sm:text-sm transition-all cursor-pointer">
+                    Continuar
+                </button>
+                <button type="button" id="btn-confirm-exit" class="py-3 px-4 rounded-xl bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-500 hover:to-red-500 text-white font-black text-xs sm:text-sm shadow-md transition-all cursor-pointer">
+                    Sí, Salir
+                </button>
+            </div>
         </div>
     </div>
 

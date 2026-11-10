@@ -547,15 +547,42 @@ class CarreraDelSaberApp {
             });
         });
 
-        // Reinicio
-        const restartBtns = [document.getElementById('btn-restart-setup'), document.getElementById('footer-restart')];
-        restartBtns.forEach(b => {
-            if (b) b.addEventListener('click', () => {
-                if (confirm('¿Deseás reiniciar la partida o cambiar los participantes?')) {
-                    this.showSetupScreen();
-                }
+        // Salir / Reiniciar Partida con Modal
+        const btnExitGame = document.getElementById('btn-exit-game');
+        const modalConfirmExit = document.getElementById('modal-confirm-exit');
+        const btnCancelExit = document.getElementById('btn-cancel-exit');
+        const btnConfirmExit = document.getElementById('btn-confirm-exit');
+
+        if (btnExitGame && modalConfirmExit) {
+            btnExitGame.addEventListener('click', () => {
+                modalConfirmExit.classList.remove('hidden');
+                modalConfirmExit.classList.add('flex');
             });
-        });
+        }
+        if (btnCancelExit && modalConfirmExit) {
+            btnCancelExit.addEventListener('click', () => {
+                modalConfirmExit.classList.add('hidden');
+                modalConfirmExit.classList.remove('flex');
+            });
+        }
+        if (btnConfirmExit && modalConfirmExit) {
+            btnConfirmExit.addEventListener('click', () => {
+                modalConfirmExit.classList.add('hidden');
+                modalConfirmExit.classList.remove('flex');
+                if (window.multiplayer && (window.multiplayer.isOnlineGameActive || window.multiplayer.roomCode)) {
+                    window.multiplayer.leaveRoom();
+                }
+                this.showSetupScreen();
+            });
+        }
+
+        const footerRestart = document.getElementById('footer-restart');
+        if (footerRestart && modalConfirmExit) {
+            footerRestart.addEventListener('click', () => {
+                modalConfirmExit.classList.remove('hidden');
+                modalConfirmExit.classList.add('flex');
+            });
+        }
 
         const playAgainBtn = document.getElementById('btn-play-again');
         if (playAgainBtn) {
@@ -643,6 +670,7 @@ class CarreraDelSaberApp {
     showSetupScreen() {
         const setup = document.getElementById('setup-screen');
         const game = document.getElementById('game-screen');
+        const btnExit = document.getElementById('btn-exit-game');
         if (setup) {
             setup.classList.remove('screen-hidden', 'hidden');
             setup.style.display = 'flex';
@@ -651,11 +679,16 @@ class CarreraDelSaberApp {
             game.classList.add('screen-hidden', 'hidden');
             game.style.display = 'none';
         }
+        if (btnExit) {
+            btnExit.classList.add('hidden');
+            btnExit.classList.remove('flex');
+        }
     }
 
     showGameScreen() {
         const setup = document.getElementById('setup-screen');
         const game = document.getElementById('game-screen');
+        const btnExit = document.getElementById('btn-exit-game');
         if (setup) {
             setup.classList.add('screen-hidden', 'hidden');
             setup.style.display = 'none';
@@ -663,6 +696,10 @@ class CarreraDelSaberApp {
         if (game) {
             game.classList.remove('screen-hidden', 'hidden');
             game.style.display = '';
+        }
+        if (btnExit) {
+            btnExit.classList.remove('hidden');
+            btnExit.classList.add('flex');
         }
     }
 

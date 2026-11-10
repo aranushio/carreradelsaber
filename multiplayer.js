@@ -587,6 +587,11 @@ class MultiplayerManager {
             game.classList.remove('screen-hidden', 'hidden');
             game.style.display = '';
         }
+        const btnExit = document.getElementById('btn-exit-game');
+        if (btnExit) {
+            btnExit.classList.remove('hidden');
+            btnExit.classList.add('flex');
+        }
 
         // Configurar jugadores de CarreraDelSaberApp con las jugadoras online
         const avatarsList = ['🐬', '🐻', '🦄', '🦁'];
@@ -708,6 +713,14 @@ class MultiplayerManager {
         this.playersInRoom = [];
         this.isOnlineGameActive = false;
         this.switchOnlineTab('create');
+        if (window.game) {
+            window.game.showSetupScreen();
+        }
+        const btnExit = document.getElementById('btn-exit-game');
+        if (btnExit) {
+            btnExit.classList.add('hidden');
+            btnExit.classList.remove('flex');
+        }
     }
 
     updateWaitingRoomUI() {
