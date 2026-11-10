@@ -1049,6 +1049,10 @@ class CarreraDelSaberApp {
                 lastRollStatus.textContent = '¡Avanzando por la pista!';
             }
 
+            if (this.isOnline && this.onlineManager) {
+                this.onlineManager.sendDiceRoll(finalNumber);
+            }
+
             setTimeout(() => {
                 this.isRolling = false;
                 this.movePlayer(finalNumber);
@@ -1293,6 +1297,10 @@ class CarreraDelSaberApp {
         }
 
         this.renderScoreboard();
+
+        if (this.isOnline && this.onlineManager) {
+            this.onlineManager.sendAnswer(isCorrect, player.position, Array.from(player.badges));
+        }
 
         const requiredBadges = this.winGoal === 'fast' ? 2 : 4;
         if (player.badges.size >= requiredBadges) {

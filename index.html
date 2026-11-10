@@ -209,6 +209,9 @@
             
             <!-- Action buttons -->
             <div class="flex items-center gap-2">
+                <span id="firebase-status-badge" class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-100 text-slate-700 text-[11px] font-black cursor-pointer hover:bg-slate-200 transition-colors" title="Estado de conexión en tiempo real">
+                    <span class="w-2 h-2 rounded-full bg-slate-400"></span> Servidor Online
+                </span>
                 <button id="soundToggleBtn" aria-label="Sonido activado" class="w-9 h-9 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center transition-colors text-base cursor-pointer" title="Alternar Sonido">
                     🔊
                 </button>
@@ -242,7 +245,46 @@
                 </p>
             </div>
 
-            <!-- 1. Elegí el Grado Escolar -->
+            <!-- 0. ¿Cómo van a jugar? (Selector Local vs Online) -->
+            <div class="flex flex-col gap-3">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                        <span class="w-7 h-7 rounded-xl bg-indigo-600 text-white font-black text-xs flex items-center justify-center shadow-sm">🌐</span>
+                        <h3 class="font-extrabold text-slate-800 text-base md:text-lg">¿Cómo van a jugar?</h3>
+                    </div>
+                    <span class="text-[11px] font-bold text-indigo-600 bg-indigo-50 px-2.5 py-0.5 rounded-full uppercase">Nuevo Modo</span>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3" id="connection-mode-group">
+                    <button type="button" id="btn-conn-local" class="conn-mode-btn active p-4 rounded-2xl border-2 border-blue-500 bg-blue-50/50 flex items-center gap-3.5 text-left cursor-pointer transition-all shadow-sm">
+                        <div class="w-12 h-12 rounded-xl bg-white shadow-xs flex items-center justify-center text-2xl shrink-0">
+                            📱
+                        </div>
+                        <div class="flex flex-col flex-1">
+                            <div class="flex justify-between items-center">
+                                <span class="font-black text-blue-700 text-sm">Mismo Dispositivo</span>
+                                <span class="text-[10px] font-extrabold uppercase bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full">Pasa y Juega</span>
+                            </div>
+                            <span class="text-xs text-slate-500 font-semibold mt-0.5">Una sola pantalla compartida (presencial)</span>
+                        </div>
+                    </button>
+                    <button type="button" id="btn-conn-online" class="conn-mode-btn p-4 rounded-2xl border-2 border-slate-200 bg-slate-50/60 hover:bg-slate-100 flex items-center gap-3.5 text-left cursor-pointer transition-all">
+                        <div class="w-12 h-12 rounded-xl bg-white shadow-xs flex items-center justify-center text-2xl shrink-0">
+                            🌐
+                        </div>
+                        <div class="flex flex-col flex-1">
+                            <div class="flex justify-between items-center">
+                                <span class="font-black text-slate-800 text-sm">Online con Amigas</span>
+                                <span class="text-[10px] font-extrabold uppercase bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full">Multidispositivo</span>
+                            </div>
+                            <span class="text-xs text-slate-500 font-semibold mt-0.5">Cada una desde su celular o tablet</span>
+                        </div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- CONTENEDOR MODO LOCAL (DEFAULT) -->
+            <div id="local-setup-container" class="flex flex-col gap-8">
+<!-- 1. Elegí el Grado Escolar -->
             <div class="flex flex-col gap-3">
                 <div class="flex items-center justify-between">
                     <div class="flex items-center gap-2">
@@ -381,6 +423,226 @@
                     <span>¡COMENZAR LA CARRERA!</span>
                 </button>
             </div>
+            </div>
+            <!-- FIN CONTENEDOR MODO LOCAL -->
+
+            <!-- CONTENEDOR MODO ONLINE (SISTEMA DE SALAS) -->
+            <div id="online-setup-container" class="hidden flex-col gap-6">
+                <!-- Sub-tabs: Crear Sala vs Unirme -->
+                <div class="grid grid-cols-2 gap-2 bg-slate-100 p-1.5 rounded-2xl" id="online-tabs-group">
+                    <button type="button" id="tab-create-room" class="online-tab-btn active py-3 rounded-xl bg-white text-indigo-700 font-black text-sm shadow-xs flex items-center justify-center gap-2 transition-all">
+                        <span>👑</span>
+                        <span>Crear Sala</span>
+                    </button>
+                    <button type="button" id="tab-join-room" class="online-tab-btn py-3 rounded-xl text-slate-600 hover:text-slate-900 font-bold text-sm flex items-center justify-center gap-2 transition-all">
+                        <span>👋</span>
+                        <span>Unirme a una Sala</span>
+                    </button>
+                </div>
+
+                <!-- PANEL 1: CREAR SALA (ANFITRIONA) -->
+                <div id="panel-create-room" class="flex flex-col gap-6">
+                    <div class="bg-indigo-50/60 p-5 rounded-2xl border border-indigo-100 flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
+                        <div class="w-14 h-14 rounded-2xl bg-indigo-600 text-white flex items-center justify-center text-3xl shadow-sm shrink-0">
+                            👑
+                        </div>
+                        <div class="flex flex-col">
+                            <h4 class="font-black text-indigo-950 text-base">Crear Sala como Anfitriona</h4>
+                            <p class="text-xs text-indigo-700/80 font-semibold mt-0.5">
+                                Vas a generar un código único para pasárselo a tus amigas por WhatsApp y jugar juntas.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Datos Anfitriona: Nombre y Avatar -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="flex flex-col gap-2">
+                            <label class="text-xs font-extrabold text-slate-700 uppercase tracking-wider">Tu Nombre</label>
+                            <input type="text" id="host-player-name" value="Cami" placeholder="Tu nombre..." class="w-full px-4 py-3 rounded-xl border-2 border-slate-200 focus:border-indigo-600 focus:outline-none font-bold text-slate-800 text-base bg-white shadow-2xs">
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            <label class="text-xs font-extrabold text-slate-700 uppercase tracking-wider">Elegí tu Avatar</label>
+                            <div class="grid grid-cols-4 gap-2" id="host-avatar-selector">
+                                <button type="button" class="avatar-opt active p-2.5 rounded-xl border-2 border-indigo-600 bg-indigo-50 text-2xl text-center shadow-xs cursor-pointer" data-avatar="🐬">🐬</button>
+                                <button type="button" class="avatar-opt p-2.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-2xl text-center cursor-pointer" data-avatar="🐻">🐻</button>
+                                <button type="button" class="avatar-opt p-2.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-2xl text-center cursor-pointer" data-avatar="🦄">🦄</button>
+                                <button type="button" class="avatar-opt p-2.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-2xl text-center cursor-pointer" data-avatar="🦁">🦁</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Grado Escolar para la Partida Online -->
+                    <div class="flex flex-col gap-2">
+                        <label class="text-xs font-extrabold text-slate-700 uppercase tracking-wider">Grado de las Preguntas</label>
+                        <div class="grid grid-cols-3 gap-2" id="online-grade-selector">
+                            <button type="button" class="online-grade-btn py-2.5 px-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 font-bold text-slate-700 text-xs sm:text-sm text-center cursor-pointer" data-grade="5">5.° Grado</button>
+                            <button type="button" class="online-grade-btn active py-2.5 px-3 rounded-xl border-2 border-indigo-600 bg-indigo-50 text-indigo-700 font-black text-xs sm:text-sm text-center shadow-xs cursor-pointer" data-grade="6">6.° Grado</button>
+                            <button type="button" class="online-grade-btn py-2.5 px-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 font-bold text-slate-700 text-xs sm:text-sm text-center cursor-pointer" data-grade="7">7.° Grado</button>
+                        </div>
+                    </div>
+
+                    <!-- Botón Crear Sala -->
+                    <div class="flex justify-center pt-2">
+                        <button type="button" id="btn-do-create-room" class="w-full sm:w-auto px-10 py-3.5 rounded-2xl bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-black text-base md:text-lg shadow-3d-btn active:shadow-3d-btn-active active:translate-y-1 transition-all flex items-center justify-center gap-3 cursor-pointer uppercase">
+                            <span>✨</span>
+                            <span>Crear Sala y Obtener Código</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- PANEL 2: UNIRME A UNA SALA EXISTENTE -->
+                <div id="panel-join-room" class="hidden flex-col gap-6">
+                    <div class="bg-emerald-50/60 p-5 rounded-2xl border border-emerald-100 flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
+                        <div class="w-14 h-14 rounded-2xl bg-emerald-600 text-white flex items-center justify-center text-3xl shadow-sm shrink-0">
+                            👋
+                        </div>
+                        <div class="flex flex-col">
+                            <h4 class="font-black text-emerald-950 text-base">Unirme con Código</h4>
+                            <p class="text-xs text-emerald-700/80 font-semibold mt-0.5">
+                                Ingresá el código de 4 letras que te pasó tu amiga para sumarte a su tablero.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Código de Sala -->
+                    <div class="flex flex-col items-center gap-2">
+                        <label class="text-xs font-extrabold text-slate-700 uppercase tracking-wider">Código de la Sala</label>
+                        <input type="text" id="join-room-code-input" maxlength="4" placeholder="EJ: AMIS" class="w-64 text-center px-4 py-3.5 rounded-2xl border-2 border-emerald-500 font-black text-slate-800 text-2xl tracking-[0.3em] uppercase bg-emerald-50/30 focus:outline-none focus:ring-4 focus:ring-emerald-200">
+                        <span class="text-[11px] text-slate-400 font-semibold">Código de 4 letras</span>
+                    </div>
+
+                    <!-- Datos Jugadora: Nombre y Avatar -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="flex flex-col gap-2">
+                            <label class="text-xs font-extrabold text-slate-700 uppercase tracking-wider">Tu Nombre</label>
+                            <input type="text" id="guest-player-name" placeholder="Tu nombre o apodo..." class="w-full px-4 py-3 rounded-xl border-2 border-slate-200 focus:border-emerald-600 focus:outline-none font-bold text-slate-800 text-base bg-white shadow-2xs">
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            <label class="text-xs font-extrabold text-slate-700 uppercase tracking-wider">Elegí tu Avatar</label>
+                            <div class="grid grid-cols-4 gap-2" id="guest-avatar-selector">
+                                <button type="button" class="avatar-opt p-2.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-2xl text-center cursor-pointer" data-avatar="🐬">🐬</button>
+                                <button type="button" class="avatar-opt active p-2.5 rounded-xl border-2 border-emerald-600 bg-emerald-50 text-2xl text-center shadow-xs cursor-pointer" data-avatar="🐻">🐻</button>
+                                <button type="button" class="avatar-opt p-2.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-2xl text-center cursor-pointer" data-avatar="🦄">🦄</button>
+                                <button type="button" class="avatar-opt p-2.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-2xl text-center cursor-pointer" data-avatar="🦁">🦁</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Botón Unirme -->
+                    <div class="flex justify-center pt-2">
+                        <button type="button" id="btn-do-join-room" class="w-full sm:w-auto px-10 py-3.5 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-black text-base md:text-lg shadow-3d-btn active:shadow-3d-btn-active active:translate-y-1 transition-all flex items-center justify-center gap-3 cursor-pointer uppercase">
+                            <span>🚀</span>
+                            <span>Unirme a la Sala</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- PANEL 3: SALA DE ESPERA EN VIVO (WAITING ROOM) -->
+                <div id="panel-waiting-room" class="hidden flex-col gap-6">
+                    <!-- Banner con Código de Sala y Botones de Compartir -->
+                    <div class="bg-gradient-to-br from-indigo-500 via-indigo-600 to-purple-700 text-white p-6 rounded-3xl shadow-lg flex flex-col items-center text-center relative overflow-hidden">
+                        <div class="absolute -top-10 -right-10 w-36 h-36 bg-white/10 rounded-full blur-xl pointer-events-none"></div>
+                        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/20 text-white text-[11px] font-black uppercase tracking-wider mb-2">
+                            🟢 Sala de Espera Activa
+                        </span>
+                        <h3 class="text-xs uppercase tracking-widest text-indigo-200 font-extrabold mt-1">Código de Partida</h3>
+                        <div class="flex items-center gap-3 my-2">
+                            <span id="display-room-code" class="text-4xl md:text-5xl font-black tracking-[0.25em] bg-white/15 px-6 py-2 rounded-2xl border border-white/30 text-amber-300 font-mono shadow-inner select-all">AMIS</span>
+                        </div>
+                        <p class="text-xs text-indigo-100 font-semibold max-w-sm mt-1">
+                            Pasale este código a tus amigas para que se unan desde sus celulares.
+                        </p>
+                        
+                        <!-- Botones de Acción Rápida -->
+                        <div class="flex flex-wrap items-center justify-center gap-2 mt-4">
+                            <button type="button" id="btn-copy-room-link" class="px-4 py-2 rounded-xl bg-white text-indigo-700 hover:bg-indigo-50 font-extrabold text-xs flex items-center gap-2 shadow-sm transition-all cursor-pointer">
+                                <span>📋</span>
+                                <span id="copy-btn-text">Copiar Enlace</span>
+                            </button>
+                            <a id="btn-share-whatsapp" href="#" target="_blank" class="px-4 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-white font-extrabold text-xs flex items-center gap-2 shadow-sm transition-all cursor-pointer">
+                                <span>💬</span>
+                                <span>Enviar por WhatsApp</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Lista de Jugadoras Conectadas (4 Slots) -->
+                    <div class="flex flex-col gap-3">
+                        <div class="flex items-center justify-between">
+                            <h4 class="font-black text-slate-800 text-sm md:text-base flex items-center gap-2">
+                                <span>👥</span> Amigas en la Sala (<span id="waiting-count">1</span>/4)
+                            </h4>
+                            <span class="text-xs font-bold text-slate-400" id="waiting-grade-badge">6.° Grado</span>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3" id="waiting-players-grid">
+                            <!-- Slot 1 (Anfitriona) -->
+                            <div class="p-3.5 rounded-2xl bg-indigo-50 border-2 border-indigo-300 flex items-center gap-3">
+                                <div class="w-12 h-12 rounded-xl bg-indigo-600 text-white flex items-center justify-center text-2xl shadow-xs">
+                                    🐬
+                                </div>
+                                <div class="flex flex-col flex-1">
+                                    <div class="flex items-center gap-1.5">
+                                        <span class="font-black text-slate-800 text-sm">Cami</span>
+                                        <span class="text-[9px] font-black uppercase bg-indigo-200 text-indigo-800 px-1.5 py-0.5 rounded-md">Anfitriona</span>
+                                    </div>
+                                    <span class="text-[11px] font-bold text-emerald-600 flex items-center gap-1 mt-0.5">
+                                        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Conectada
+                                    </span>
+                                </div>
+                            </div>
+
+                            <!-- Slot 2 -->
+                            <div class="p-3.5 rounded-2xl bg-slate-50 border-2 border-dashed border-slate-200 flex items-center gap-3 text-slate-400">
+                                <div class="w-12 h-12 rounded-xl bg-slate-200 text-slate-400 flex items-center justify-center text-2xl">
+                                    ⏳
+                                </div>
+                                <div class="flex flex-col">
+                                    <span class="font-bold text-slate-500 text-sm">Esperando amiga...</span>
+                                    <span class="text-[11px] text-slate-400">Ingresando código</span>
+                                </div>
+                            </div>
+
+                            <!-- Slot 3 -->
+                            <div class="p-3.5 rounded-2xl bg-slate-50 border-2 border-dashed border-slate-200 flex items-center gap-3 text-slate-400">
+                                <div class="w-12 h-12 rounded-xl bg-slate-200 text-slate-400 flex items-center justify-center text-2xl">
+                                    ⏳
+                                </div>
+                                <div class="flex flex-col">
+                                    <span class="font-bold text-slate-500 text-sm">Esperando amiga...</span>
+                                    <span class="text-[11px] text-slate-400">Ingresando código</span>
+                                </div>
+                            </div>
+
+                            <!-- Slot 4 -->
+                            <div class="p-3.5 rounded-2xl bg-slate-50 border-2 border-dashed border-slate-200 flex items-center gap-3 text-slate-400">
+                                <div class="w-12 h-12 rounded-xl bg-slate-200 text-slate-400 flex items-center justify-center text-2xl">
+                                    ⏳
+                                </div>
+                                <div class="flex flex-col">
+                                    <span class="font-bold text-slate-500 text-sm">Esperando amiga...</span>
+                                    <span class="text-[11px] text-slate-400">Ingresando código</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Botón de Inicio / Salir -->
+                    <div class="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
+                        <button type="button" id="btn-start-online-game" class="w-full sm:w-auto px-10 py-3.5 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-black text-base md:text-lg shadow-3d-btn active:shadow-3d-btn-active active:translate-y-1 transition-all flex items-center justify-center gap-2 cursor-pointer uppercase">
+                            <span>🎮</span>
+                            <span>¡Comenzar la Partida!</span>
+                        </button>
+                        <button type="button" id="btn-leave-room" class="w-full sm:w-auto px-6 py-3.5 rounded-2xl border-2 border-slate-200 text-slate-600 hover:bg-slate-100 font-bold text-sm transition-all cursor-pointer">
+                            ← Salir de la sala
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+            <!-- FIN CONTENEDOR MODO ONLINE -->
+
+            
 
         </div>
     </section>
@@ -1151,7 +1413,58 @@
     <canvas id="confetti-canvas"></canvas>
 
     <!-- Scripts del Juego -->
+    <!-- Firebase Realtime Database SDK (Compat v10) -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
+    <script src="firebase-config.js"></script>
     <script src="questions.js"></script>
     <script src="game.js"></script>
+<script src="multiplayer.js"></script>
+    <!-- MODAL: CONFIGURACIÓN FIREBASE (OPCIONAL/ASISTIDA) -->
+    <div id="firebase-config-modal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl p-6 sm:p-8 max-w-lg w-full shadow-2xl border border-slate-200 flex flex-col gap-5">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                <div class="flex items-center gap-2.5">
+                    <span class="text-2xl">🔥</span>
+                    <div>
+                        <h3 class="font-black text-slate-800 text-lg">Conectar con Firebase</h3>
+                        <p class="text-xs text-slate-500 font-semibold">Sincronización en tiempo real gratuita</p>
+                    </div>
+                </div>
+                <button id="btn-close-firebase-modal" class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 font-bold flex items-center justify-center cursor-pointer">&times;</button>
+            </div>
+
+            <div class="bg-amber-50 p-4 rounded-2xl border border-amber-200 text-xs text-amber-900 flex flex-col gap-2 font-medium">
+                <p><strong>Pasos para activar el juego entre diferentes celulares:</strong></p>
+                <ol class="list-decimal pl-4 space-y-1">
+                    <li>Entrá a <a href="https://console.firebase.google.com/" target="_blank" class="underline text-indigo-700 font-bold">console.firebase.google.com</a> con tu cuenta Google.</li>
+                    <li>Creá un proyecto gratis y habilitá <strong>Realtime Database</strong> (en modo prueba).</li>
+                    <li>Copiá la <strong>API Key</strong> y la <strong>Database URL</strong> acá abajo:</li>
+                </ol>
+            </div>
+
+            <div class="flex flex-col gap-3">
+                <div class="flex flex-col gap-1">
+                    <label class="text-xs font-black text-slate-700 uppercase">API Key</label>
+                    <input type="text" id="firebase-input-api-key" placeholder="AIzaSy..." class="px-3 py-2 rounded-xl border border-slate-200 text-xs font-mono focus:border-indigo-600 focus:outline-none">
+                </div>
+                <div class="flex flex-col gap-1">
+                    <label class="text-xs font-black text-slate-700 uppercase">Database URL</label>
+                    <input type="text" id="firebase-input-db-url" placeholder="https://tu-proyecto-default-rtdb.firebaseio.com" class="px-3 py-2 rounded-xl border border-slate-200 text-xs font-mono focus:border-indigo-600 focus:outline-none">
+                </div>
+                <div class="flex flex-col gap-1">
+                    <label class="text-xs font-black text-slate-700 uppercase">Project ID (Opcional)</label>
+                    <input type="text" id="firebase-input-project-id" placeholder="mi-proyecto-123" class="px-3 py-2 rounded-xl border border-slate-200 text-xs font-mono focus:border-indigo-600 focus:outline-none">
+                </div>
+            </div>
+
+            <div class="flex items-center justify-end gap-3 pt-2">
+                <button type="button" id="btn-save-firebase-config" class="w-full py-3 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-black text-sm shadow-md transition-all cursor-pointer">
+                    Guardar y Conectar
+                </button>
+            </div>
+        </div>
+    </div>
+
 </body>
 </html>
