@@ -8,7 +8,7 @@
     <!-- Google Fonts: Nunito -->
     <link href="https://fonts.googleapis.com" rel="preconnect"/>
     <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
     
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
@@ -70,8 +70,8 @@
         width: 14px;
         height: 14px;
         border-radius: 9999px;
-        background: linear-gradient(135deg, #1E3A8A, #172554);
-        box-shadow: inset 1px 1px 2px rgba(255,255,255,0.4), 0 2px 3px rgba(0,0,0,0.3);
+        background: radial-gradient(circle at 35% 35%, #38BDF8, #1D4ED8 65%, #172554 100%);
+        box-shadow: inset 1px 1px 2px rgba(255,255,255,0.6), 0 2px 3px rgba(0,0,0,0.35);
         display: inline-block;
         transition: opacity 0.1s ease;
       }
@@ -175,6 +175,32 @@
         z-index: 9999;
       }
       ::-webkit-scrollbar { display: none; }
+      body, button, input, select, textarea, .font-sans {
+        font-family: 'Fredoka', 'Nunito', system-ui, -apple-system, sans-serif !important;
+      }
+      .board-grid {
+        display: grid;
+        grid-template-columns: repeat(8, minmax(0, 1fr));
+        grid-template-rows: repeat(8, minmax(0, 1fr));
+        gap: 0.35rem;
+      }
+      @media (min-width: 768px) {
+        .board-grid {
+          gap: 0.65rem;
+        }
+      }
+      @keyframes neloCheer {
+        0%, 100% {
+          transform: scaleX(-1) translateY(0px) rotate(0deg);
+        }
+        50% {
+          transform: scaleX(-1) translateY(-6px) rotate(-2deg);
+        }
+      }
+      .animate-nelo-cheer {
+        animation: neloCheer 2.4s ease-in-out infinite;
+      }
+
       /* Micro-animación de Nelo Atleta Corriendo (Sprint / Trote continuo) */
       @keyframes neloRunning {
         0% {
@@ -758,31 +784,31 @@
                 </div>
             </section>
 
-            <!-- Subject Color Reference Legend -->
+            <!-- Subject Color Reference Legend (Pixar / Nintendo Vibrant Theme) -->
             <section class="bg-white rounded-3xl p-5 shadow-game-card border border-slate-200/80" data-purpose="subject-legend">
                 <h3 class="text-xs font-black uppercase tracking-wider text-slate-400 mb-3 flex items-center gap-1.5" id="legend-grade-title">
                     <span>📚</span> Materias de <span id="legend-grade-label">6.° Grado</span>
                 </h3>
                 <div class="flex flex-wrap gap-2 text-xs font-bold">
-                    <div class="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-blue-50 text-blue-700 border border-blue-200 shadow-2xs font-extrabold">
-                        <span class="w-6 h-6 rounded-lg bg-blue-100 flex items-center justify-center text-sm shadow-xs">📐</span> Matemática
+                    <div class="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-sky-100 text-sky-800 border-2 border-sky-200/90 shadow-2xs font-black">
+                        <span class="w-6 h-6 rounded-lg bg-sky-200/70 flex items-center justify-center text-sm shadow-xs">📐</span> Matemática
                     </div>
-                    <div class="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-red-50 text-red-700 border border-red-200 shadow-2xs font-extrabold">
-                        <span class="w-6 h-6 rounded-lg bg-red-100 flex items-center justify-center text-sm shadow-xs">📖</span> Lengua
+                    <div class="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-rose-100 text-rose-800 border-2 border-rose-200/90 shadow-2xs font-black">
+                        <span class="w-6 h-6 rounded-lg bg-rose-200/70 flex items-center justify-center text-sm shadow-xs">📖</span> Lengua
                     </div>
-                    <div class="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-emerald-50 text-emerald-700 border border-emerald-200 shadow-2xs font-extrabold">
-                        <span class="w-6 h-6 rounded-lg bg-emerald-100 flex items-center justify-center text-sm shadow-xs">🌿</span> C. Naturales
+                    <div class="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-emerald-100 text-emerald-800 border-2 border-emerald-200/90 shadow-2xs font-black">
+                        <span class="w-6 h-6 rounded-lg bg-emerald-200/70 flex items-center justify-center text-sm shadow-xs">🌿</span> C. Naturales
                     </div>
-                    <div class="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-amber-50 text-amber-700 border border-amber-200 shadow-2xs font-extrabold">
-                        <span class="w-6 h-6 rounded-lg bg-amber-100 flex items-center justify-center text-sm shadow-xs">🌍</span> C. Sociales
+                    <div class="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-amber-100 text-amber-800 border-2 border-amber-200/90 shadow-2xs font-black">
+                        <span class="w-6 h-6 rounded-lg bg-amber-200/70 flex items-center justify-center text-sm shadow-xs">🌍</span> C. Sociales
                     </div>
-                    <div class="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-purple-50 text-purple-700 border border-purple-200 shadow-2xs font-extrabold">
-                        <span class="w-6 h-6 rounded-lg bg-purple-100 flex items-center justify-center text-sm shadow-xs">💡</span> Ingenio y Cultura
+                    <div class="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-purple-100 text-purple-800 border-2 border-purple-200/90 shadow-2xs font-black">
+                        <span class="w-6 h-6 rounded-lg bg-purple-200/70 flex items-center justify-center text-sm shadow-xs">💡</span> Ingenio y Cultura
                     </div>
                 </div>
-                <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500 font-semibold">
-                    <span class="flex items-center gap-1"><span class="text-amber-500">⭐</span> Casillero de Corona / Medalla</span>
-                    <span class="font-bold text-slate-700">28 casillas</span>
+                <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500 font-bold">
+                    <span class="flex items-center gap-1.5"><span class="text-amber-500 text-sm">👑</span> Casillero de Corona / Medalla</span>
+                    <span class="font-black text-slate-700 bg-slate-100 px-2 py-0.5 rounded-md">28 casillas</span>
                 </div>
             </section>
         </aside>
@@ -792,596 +818,652 @@
         <section class="lg:col-span-9 bg-white rounded-3xl p-2 sm:p-4 md:p-6 shadow-game-card border border-slate-200/90 relative overflow-hidden" data-purpose="board-canvas-wrapper">
             <!-- Outer Board Track (28 Tiles along the perimeter: 8x8 grid) -->
             <div class="board-grid w-full aspect-square max-h-[820px] mx-auto select-none">
-<!-- ================= ROW 1 (TOP) ================= -->
-<!-- Tile 1: Matematica -->
-<div class="col-start-1 row-start-1 bg-math-light border-2 border-math-border hover:border-math-accent shadow-xs rounded-xl sm:rounded-2xl p-0.5 sm:p-1 md:p-2 flex flex-col justify-between transition-all hover:-translate-y-0.5 relative" id="tile-1">
-<div class="flex justify-between items-center text-[8px] sm:text-[9px] md:text-[11px] font-black leading-none text-slate-400">
-<span class="">1</span>
-</div>
-<div class="flex flex-col items-center justify-center my-auto md:gap-1">
-<div class="tile-icon-badge w-[19px] h-[19px] sm:w-6 sm:h-6 md:w-9 md:h-9 rounded-md md:rounded-xl bg-blue-600 text-white flex items-center justify-center shadow-xs select-none" title="Matemática">
-<svg class="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 md:w-5 md:h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+<!-- Tile 1: Matemática  -->
+<div class="col-start-1 row-start-1 bg-gradient-to-b from-sky-400 to-blue-500 border border-sky-300/70 border-b-[5px] border-blue-700 shadow-md rounded-xl sm:rounded-2xl p-0.5 sm:p-1 md:p-1.5 flex flex-col justify-between transition-all duration-150 hover:-translate-y-1 hover:shadow-lg relative select-none cursor-pointer group" id="tile-1">
+  <div class="flex justify-between items-center w-full">
+    <div class="bg-blue-800/80 text-white font-black text-[9px] sm:text-[10px] md:text-xs rounded-full w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 flex items-center justify-center shadow-inner border border-white/20">
+      <span>1</span>
+    </div>
+    
+  </div>
+  <div class="flex flex-col items-center justify-center my-auto">
+    <div class="tile-icon-badge w-5 h-5 sm:w-6 sm:h-6 md:w-9 md:h-9 rounded-md md:rounded-xl bg-white/25 backdrop-blur-2xs text-white flex items-center justify-center shadow-xs border border-white/30 select-none group-hover:scale-105 transition-transform" title="Matemática">
+      <svg class="w-3 h-3 sm:w-4 sm:h-4 md:w-6 md:h-6 text-white drop-shadow-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
   <path d="M21.3 2.7a1 1 0 0 0-1.4 0L2.7 19.9a1 1 0 0 0 .7 1.7H20a1 1 0 0 0 1-1V3.4a1 1 0 0 0-.7-.7z"/>
-  <path d="M7 18h7a1 1 0 0 0 1-1v-7a1 1 0 0 0-1.7-.7L5.6 17a1 1 0 0 0 1.4 1z" fill="white" fill-opacity="0.3"/>
-  <path d="M18 10h-2"/>
-  <path d="M18 14h-3"/>
-  <path d="M14 18v-3"/>
+  <path d="M7 18h7a1 1 0 0 0 1-1v-7a1 1 0 0 0-1.7-.7L5.6 17a1 1 0 0 0 1.4 1z" fill="white" fill-opacity="0.35"/>
+  <path d="M18 10h-2"/><path d="M18 14h-3"/><path d="M14 18v-3"/>
 </svg>
+    </div>
+    <span class="hidden md:block text-[9px] sm:text-[10px] md:text-[11px] font-black text-white mt-0.5 text-center leading-none tracking-tight drop-shadow-xs">Matemática</span>
+  </div>
+  <div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-1"></div>
 </div>
-<span class="hidden md:block text-[10px] sm:text-[11px] font-extrabold text-math-text mt-0.5 text-center leading-none tracking-tight">Matemática</span>
-</div>
-<div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-1"></div>
-</div><!-- Tile 2: Lengua -->
-<div class="col-start-2 row-start-1 bg-lengua-light border-2 border-lengua-border hover:border-lengua-accent shadow-xs rounded-xl sm:rounded-2xl p-0.5 sm:p-1 md:p-2 flex flex-col justify-between transition-all hover:-translate-y-0.5 relative" id="tile-2">
-<div class="flex justify-between items-center text-[8px] sm:text-[9px] md:text-[11px] font-black leading-none text-slate-400">
-<span class="">2</span>
-</div>
-<div class="flex flex-col items-center justify-center my-auto md:gap-1">
-<div class="tile-icon-badge w-[19px] h-[19px] sm:w-6 sm:h-6 md:w-9 md:h-9 rounded-md md:rounded-xl bg-rose-500 text-white flex items-center justify-center shadow-xs select-none" title="Lengua">
-<svg class="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 md:w-5 md:h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-  <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" fill="white" fill-opacity="0.25"/>
-  <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" fill="white" fill-opacity="0.25"/>
-  <path d="M6 8h2"/>
-  <path d="M16 8h2"/>
-  <path d="M6 12h2"/>
-  <path d="M16 12h2"/>
+<!-- Tile 2: Lengua  -->
+<div class="col-start-2 row-start-1 bg-gradient-to-b from-rose-400 to-red-500 border border-rose-300/70 border-b-[5px] border-red-700 shadow-md rounded-xl sm:rounded-2xl p-0.5 sm:p-1 md:p-1.5 flex flex-col justify-between transition-all duration-150 hover:-translate-y-1 hover:shadow-lg relative select-none cursor-pointer group" id="tile-2">
+  <div class="flex justify-between items-center w-full">
+    <div class="bg-red-800/80 text-white font-black text-[9px] sm:text-[10px] md:text-xs rounded-full w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 flex items-center justify-center shadow-inner border border-white/20">
+      <span>2</span>
+    </div>
+    
+  </div>
+  <div class="flex flex-col items-center justify-center my-auto">
+    <div class="tile-icon-badge w-5 h-5 sm:w-6 sm:h-6 md:w-9 md:h-9 rounded-md md:rounded-xl bg-white/25 backdrop-blur-2xs text-white flex items-center justify-center shadow-xs border border-white/30 select-none group-hover:scale-105 transition-transform" title="Lengua">
+      <svg class="w-3 h-3 sm:w-4 sm:h-4 md:w-6 md:h-6 text-white drop-shadow-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" fill="white" fill-opacity="0.35"/>
+  <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" fill="white" fill-opacity="0.35"/>
+  <path d="M6 8h2"/><path d="M16 8h2"/><path d="M6 12h2"/><path d="M16 12h2"/>
 </svg>
+    </div>
+    <span class="hidden md:block text-[9px] sm:text-[10px] md:text-[11px] font-black text-white mt-0.5 text-center leading-none tracking-tight drop-shadow-xs">Lengua</span>
+  </div>
+  <div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-2"></div>
 </div>
-<span class="hidden md:block text-[10px] sm:text-[11px] font-extrabold text-lengua-text mt-0.5 text-center leading-none tracking-tight">Lengua</span>
-</div>
-<div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-2"></div>
-</div><!-- Tile 3: Matematica [STAR TILE] -->
-<div class="col-start-3 row-start-1 bg-math-light border-2 border-amber-400 ring-2 ring-amber-300/40 shadow-glow-star rounded-xl sm:rounded-2xl p-0.5 sm:p-1 md:p-2 flex flex-col justify-between transition-all hover:-translate-y-0.5 relative" id="tile-3">
-<div class="flex justify-between items-center text-[8px] sm:text-[9px] md:text-[11px] font-black leading-none text-math-text">
-<span class="">3</span>
-<span class="text-[8px] sm:text-[10px] md:text-xs select-none leading-none">👑</span>
-</div>
-<div class="flex flex-col items-center justify-center my-auto md:gap-1">
-<div class="tile-icon-badge w-[19px] h-[19px] sm:w-6 sm:h-6 md:w-9 md:h-9 rounded-md md:rounded-xl bg-blue-600 text-white flex items-center justify-center shadow-xs select-none" title="Matemática">
-<svg class="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 md:w-5 md:h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+<!-- Tile 3: Matemática [STAR TILE] -->
+<div class="col-start-3 row-start-1 bg-gradient-to-b from-sky-400 to-blue-500 border-[3px] border-amber-300 ring-2 ring-amber-400/80 border-b-[6px] border-amber-600 shadow-[0_6px_0_#b45309,0_0_18px_rgba(251,191,36,0.5)] rounded-xl sm:rounded-2xl p-0.5 sm:p-1 md:p-1.5 flex flex-col justify-between transition-all duration-150 hover:-translate-y-1 hover:shadow-lg relative select-none cursor-pointer group" id="tile-3">
+  <div class="flex justify-between items-center w-full">
+    <div class="bg-blue-800/80 text-white font-black text-[9px] sm:text-[10px] md:text-xs rounded-full w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 flex items-center justify-center shadow-inner border border-white/20">
+      <span>3</span>
+    </div>
+    <span class="text-[11px] sm:text-xs md:text-sm select-none leading-none filter drop-shadow-xs animate-bounce-subtle">👑</span>
+  </div>
+  <div class="flex flex-col items-center justify-center my-auto">
+    <div class="tile-icon-badge w-5 h-5 sm:w-6 sm:h-6 md:w-9 md:h-9 rounded-md md:rounded-xl bg-white/25 backdrop-blur-2xs text-white flex items-center justify-center shadow-xs border border-white/30 select-none group-hover:scale-105 transition-transform" title="Matemática">
+      <svg class="w-3 h-3 sm:w-4 sm:h-4 md:w-6 md:h-6 text-white drop-shadow-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
   <path d="M21.3 2.7a1 1 0 0 0-1.4 0L2.7 19.9a1 1 0 0 0 .7 1.7H20a1 1 0 0 0 1-1V3.4a1 1 0 0 0-.7-.7z"/>
-  <path d="M7 18h7a1 1 0 0 0 1-1v-7a1 1 0 0 0-1.7-.7L5.6 17a1 1 0 0 0 1.4 1z" fill="white" fill-opacity="0.3"/>
-  <path d="M18 10h-2"/>
-  <path d="M18 14h-3"/>
-  <path d="M14 18v-3"/>
+  <path d="M7 18h7a1 1 0 0 0 1-1v-7a1 1 0 0 0-1.7-.7L5.6 17a1 1 0 0 0 1.4 1z" fill="white" fill-opacity="0.35"/>
+  <path d="M18 10h-2"/><path d="M18 14h-3"/><path d="M14 18v-3"/>
 </svg>
+    </div>
+    <span class="hidden md:block text-[9px] sm:text-[10px] md:text-[11px] font-black text-white mt-0.5 text-center leading-none tracking-tight drop-shadow-xs">Matemática</span>
+  </div>
+  <div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-3"></div>
 </div>
-<span class="hidden md:block text-[10px] sm:text-[11px] font-extrabold text-math-text mt-0.5 text-center leading-none tracking-tight">Matemática</span>
-</div>
-<div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-3"></div>
-</div><!-- Tile 4: Ciencias Sociales -->
-<div class="col-start-4 row-start-1 bg-sociales-light border-2 border-sociales-border hover:border-sociales-accent shadow-xs rounded-xl sm:rounded-2xl p-0.5 sm:p-1 md:p-2 flex flex-col justify-between transition-all hover:-translate-y-0.5 relative" id="tile-4">
-<div class="flex justify-between items-center text-[8px] sm:text-[9px] md:text-[11px] font-black leading-none text-slate-400">
-<span class="">4</span>
-</div>
-<div class="flex flex-col items-center justify-center my-auto md:gap-1">
-<div class="tile-icon-badge w-[19px] h-[19px] sm:w-6 sm:h-6 md:w-9 md:h-9 rounded-md md:rounded-xl bg-amber-500 text-white flex items-center justify-center shadow-xs select-none" title="Ciencias Sociales">
-<svg class="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 md:w-5 md:h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-  <circle cx="12" cy="12" r="9.5" fill="white" fill-opacity="0.25"/>
+<!-- Tile 4: C. Sociales  -->
+<div class="col-start-4 row-start-1 bg-gradient-to-b from-amber-400 to-orange-500 border border-amber-300/70 border-b-[5px] border-orange-700 shadow-md rounded-xl sm:rounded-2xl p-0.5 sm:p-1 md:p-1.5 flex flex-col justify-between transition-all duration-150 hover:-translate-y-1 hover:shadow-lg relative select-none cursor-pointer group" id="tile-4">
+  <div class="flex justify-between items-center w-full">
+    <div class="bg-orange-900/80 text-white font-black text-[9px] sm:text-[10px] md:text-xs rounded-full w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 flex items-center justify-center shadow-inner border border-white/20">
+      <span>4</span>
+    </div>
+    
+  </div>
+  <div class="flex flex-col items-center justify-center my-auto">
+    <div class="tile-icon-badge w-5 h-5 sm:w-6 sm:h-6 md:w-9 md:h-9 rounded-md md:rounded-xl bg-white/25 backdrop-blur-2xs text-white flex items-center justify-center shadow-xs border border-white/30 select-none group-hover:scale-105 transition-transform" title="C. Sociales">
+      <svg class="w-3 h-3 sm:w-4 sm:h-4 md:w-6 md:h-6 text-white drop-shadow-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="12" cy="12" r="9.5" fill="white" fill-opacity="0.3"/>
   <path d="M2.5 12h19"/>
   <path d="M12 2.5a14 14 0 0 0 0 19"/>
   <path d="M12 2.5a14 14 0 0 1 0 19"/>
-  <path d="M4.5 7.5h15"/>
-  <path d="M4.5 16.5h15"/>
+  <path d="M4.5 7.5h15"/><path d="M4.5 16.5h15"/>
 </svg>
+    </div>
+    <span class="hidden md:block text-[9px] sm:text-[10px] md:text-[11px] font-black text-white mt-0.5 text-center leading-none tracking-tight drop-shadow-xs">C. Sociales</span>
+  </div>
+  <div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-4"></div>
 </div>
-<span class="hidden md:block text-[10px] sm:text-[11px] font-extrabold text-sociales-text mt-0.5 text-center leading-none tracking-tight">C. Sociales</span>
-</div>
-<div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-4"></div>
-</div><!-- Tile 5: Ingenio y Cultura -->
-<div class="col-start-5 row-start-1 bg-ingenio-light border-2 border-ingenio-border hover:border-ingenio-accent shadow-xs rounded-xl sm:rounded-2xl p-0.5 sm:p-1 md:p-2 flex flex-col justify-between transition-all hover:-translate-y-0.5 relative" id="tile-5">
-<div class="flex justify-between items-center text-[8px] sm:text-[9px] md:text-[11px] font-black leading-none text-slate-400">
-<span class="">5</span>
-</div>
-<div class="flex flex-col items-center justify-center my-auto md:gap-1">
-<div class="tile-icon-badge w-[19px] h-[19px] sm:w-6 sm:h-6 md:w-9 md:h-9 rounded-md md:rounded-xl bg-purple-600 text-white flex items-center justify-center shadow-xs select-none" title="Ingenio y Cultura">
-<svg class="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 md:w-5 md:h-5 text-amber-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-  <path d="M9 18h6"/>
-  <path d="M10 21h4"/>
-  <path d="M12 2v2"/>
-  <path d="M12 8a5 5 0 0 0-3 8.5c.5.5 1 1.5 1 2.5h4c0-1 .5-2 1-2.5A5 5 0 0 0 12 8z" fill="#FEF08A" fill-opacity="0.35"/>
-  <path d="M4.5 4.5l1.5 1.5"/>
-  <path d="M19.5 4.5l-1.5 1.5"/>
+<!-- Tile 5: Ingenio  -->
+<div class="col-start-5 row-start-1 bg-gradient-to-b from-purple-400 to-indigo-600 border border-purple-300/70 border-b-[5px] border-indigo-800 shadow-md rounded-xl sm:rounded-2xl p-0.5 sm:p-1 md:p-1.5 flex flex-col justify-between transition-all duration-150 hover:-translate-y-1 hover:shadow-lg relative select-none cursor-pointer group" id="tile-5">
+  <div class="flex justify-between items-center w-full">
+    <div class="bg-indigo-950/80 text-white font-black text-[9px] sm:text-[10px] md:text-xs rounded-full w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 flex items-center justify-center shadow-inner border border-white/20">
+      <span>5</span>
+    </div>
+    
+  </div>
+  <div class="flex flex-col items-center justify-center my-auto">
+    <div class="tile-icon-badge w-5 h-5 sm:w-6 sm:h-6 md:w-9 md:h-9 rounded-md md:rounded-xl bg-white/25 backdrop-blur-2xs text-white flex items-center justify-center shadow-xs border border-white/30 select-none group-hover:scale-105 transition-transform" title="Ingenio">
+      <svg class="w-3 h-3 sm:w-4 sm:h-4 md:w-6 md:h-6 text-amber-200 drop-shadow-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M9 18h6"/><path d="M10 21h4"/><path d="M12 2v2"/>
+  <path d="M12 8a5 5 0 0 0-3 8.5c.5.5 1 1.5 1 2.5h4c0-1 .5-2 1-2.5A5 5 0 0 0 12 8z" fill="#FEF08A" fill-opacity="0.45"/>
+  <path d="M4.5 4.5l1.5 1.5"/><path d="M19.5 4.5l-1.5 1.5"/>
 </svg>
+    </div>
+    <span class="hidden md:block text-[9px] sm:text-[10px] md:text-[11px] font-black text-white mt-0.5 text-center leading-none tracking-tight drop-shadow-xs">Ingenio</span>
+  </div>
+  <div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-5"></div>
 </div>
-<span class="hidden md:block text-[10px] sm:text-[11px] font-extrabold text-ingenio-text mt-0.5 text-center leading-none tracking-tight">Ingenio</span>
-</div>
-<div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-5"></div>
-</div><!-- Tile 6: Matematica -->
-<div class="col-start-6 row-start-1 bg-math-light border-2 border-math-border hover:border-math-accent shadow-xs rounded-xl sm:rounded-2xl p-0.5 sm:p-1 md:p-2 flex flex-col justify-between transition-all hover:-translate-y-0.5 relative" id="tile-6">
-<div class="flex justify-between items-center text-[8px] sm:text-[9px] md:text-[11px] font-black leading-none text-slate-400">
-<span class="">6</span>
-</div>
-<div class="flex flex-col items-center justify-center my-auto md:gap-1">
-<div class="tile-icon-badge w-[19px] h-[19px] sm:w-6 sm:h-6 md:w-9 md:h-9 rounded-md md:rounded-xl bg-blue-600 text-white flex items-center justify-center shadow-xs select-none" title="Matemática">
-<svg class="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 md:w-5 md:h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+<!-- Tile 6: Matemática  -->
+<div class="col-start-6 row-start-1 bg-gradient-to-b from-sky-400 to-blue-500 border border-sky-300/70 border-b-[5px] border-blue-700 shadow-md rounded-xl sm:rounded-2xl p-0.5 sm:p-1 md:p-1.5 flex flex-col justify-between transition-all duration-150 hover:-translate-y-1 hover:shadow-lg relative select-none cursor-pointer group" id="tile-6">
+  <div class="flex justify-between items-center w-full">
+    <div class="bg-blue-800/80 text-white font-black text-[9px] sm:text-[10px] md:text-xs rounded-full w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 flex items-center justify-center shadow-inner border border-white/20">
+      <span>6</span>
+    </div>
+    
+  </div>
+  <div class="flex flex-col items-center justify-center my-auto">
+    <div class="tile-icon-badge w-5 h-5 sm:w-6 sm:h-6 md:w-9 md:h-9 rounded-md md:rounded-xl bg-white/25 backdrop-blur-2xs text-white flex items-center justify-center shadow-xs border border-white/30 select-none group-hover:scale-105 transition-transform" title="Matemática">
+      <svg class="w-3 h-3 sm:w-4 sm:h-4 md:w-6 md:h-6 text-white drop-shadow-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
   <path d="M21.3 2.7a1 1 0 0 0-1.4 0L2.7 19.9a1 1 0 0 0 .7 1.7H20a1 1 0 0 0 1-1V3.4a1 1 0 0 0-.7-.7z"/>
-  <path d="M7 18h7a1 1 0 0 0 1-1v-7a1 1 0 0 0-1.7-.7L5.6 17a1 1 0 0 0 1.4 1z" fill="white" fill-opacity="0.3"/>
-  <path d="M18 10h-2"/>
-  <path d="M18 14h-3"/>
-  <path d="M14 18v-3"/>
+  <path d="M7 18h7a1 1 0 0 0 1-1v-7a1 1 0 0 0-1.7-.7L5.6 17a1 1 0 0 0 1.4 1z" fill="white" fill-opacity="0.35"/>
+  <path d="M18 10h-2"/><path d="M18 14h-3"/><path d="M14 18v-3"/>
 </svg>
+    </div>
+    <span class="hidden md:block text-[9px] sm:text-[10px] md:text-[11px] font-black text-white mt-0.5 text-center leading-none tracking-tight drop-shadow-xs">Matemática</span>
+  </div>
+  <div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-6"></div>
 </div>
-<span class="hidden md:block text-[10px] sm:text-[11px] font-extrabold text-math-text mt-0.5 text-center leading-none tracking-tight">Matemática</span>
-</div>
-<div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-6"></div>
-</div><!-- Tile 7: Lengua -->
-<div class="col-start-7 row-start-1 bg-lengua-light border-2 border-lengua-border hover:border-lengua-accent shadow-xs rounded-xl sm:rounded-2xl p-0.5 sm:p-1 md:p-2 flex flex-col justify-between transition-all hover:-translate-y-0.5 relative" id="tile-7">
-<div class="flex justify-between items-center text-[8px] sm:text-[9px] md:text-[11px] font-black leading-none text-slate-400">
-<span class="">7</span>
-</div>
-<div class="flex flex-col items-center justify-center my-auto md:gap-1">
-<div class="tile-icon-badge w-[19px] h-[19px] sm:w-6 sm:h-6 md:w-9 md:h-9 rounded-md md:rounded-xl bg-rose-500 text-white flex items-center justify-center shadow-xs select-none" title="Lengua">
-<svg class="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 md:w-5 md:h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-  <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" fill="white" fill-opacity="0.25"/>
-  <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" fill="white" fill-opacity="0.25"/>
-  <path d="M6 8h2"/>
-  <path d="M16 8h2"/>
-  <path d="M6 12h2"/>
-  <path d="M16 12h2"/>
+<!-- Tile 7: Lengua  -->
+<div class="col-start-7 row-start-1 bg-gradient-to-b from-rose-400 to-red-500 border border-rose-300/70 border-b-[5px] border-red-700 shadow-md rounded-xl sm:rounded-2xl p-0.5 sm:p-1 md:p-1.5 flex flex-col justify-between transition-all duration-150 hover:-translate-y-1 hover:shadow-lg relative select-none cursor-pointer group" id="tile-7">
+  <div class="flex justify-between items-center w-full">
+    <div class="bg-red-800/80 text-white font-black text-[9px] sm:text-[10px] md:text-xs rounded-full w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 flex items-center justify-center shadow-inner border border-white/20">
+      <span>7</span>
+    </div>
+    
+  </div>
+  <div class="flex flex-col items-center justify-center my-auto">
+    <div class="tile-icon-badge w-5 h-5 sm:w-6 sm:h-6 md:w-9 md:h-9 rounded-md md:rounded-xl bg-white/25 backdrop-blur-2xs text-white flex items-center justify-center shadow-xs border border-white/30 select-none group-hover:scale-105 transition-transform" title="Lengua">
+      <svg class="w-3 h-3 sm:w-4 sm:h-4 md:w-6 md:h-6 text-white drop-shadow-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" fill="white" fill-opacity="0.35"/>
+  <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" fill="white" fill-opacity="0.35"/>
+  <path d="M6 8h2"/><path d="M16 8h2"/><path d="M6 12h2"/><path d="M16 12h2"/>
 </svg>
+    </div>
+    <span class="hidden md:block text-[9px] sm:text-[10px] md:text-[11px] font-black text-white mt-0.5 text-center leading-none tracking-tight drop-shadow-xs">Lengua</span>
+  </div>
+  <div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-7"></div>
 </div>
-<span class="hidden md:block text-[10px] sm:text-[11px] font-extrabold text-lengua-text mt-0.5 text-center leading-none tracking-tight">Lengua</span>
-</div>
-<div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-7"></div>
-</div><!-- Tile 8: Ciencias Naturales (Corner) -->
-<div class="col-start-8 row-start-1 bg-naturales-light border-2 border-naturales-border hover:border-naturales-accent shadow-xs rounded-xl sm:rounded-2xl p-0.5 sm:p-1 md:p-2 flex flex-col justify-between transition-all hover:-translate-y-0.5 relative" id="tile-8">
-<div class="flex justify-between items-center text-[8px] sm:text-[9px] md:text-[11px] font-black leading-none text-slate-400">
-<span class="">8</span>
-</div>
-<div class="flex flex-col items-center justify-center my-auto md:gap-1">
-<div class="tile-icon-badge w-[19px] h-[19px] sm:w-6 sm:h-6 md:w-9 md:h-9 rounded-md md:rounded-xl bg-emerald-600 text-white flex items-center justify-center shadow-xs select-none" title="Ciencias Naturales">
-<svg class="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 md:w-5 md:h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+<!-- Tile 8: C. Naturales  -->
+<div class="col-start-8 row-start-1 bg-gradient-to-b from-emerald-400 to-green-500 border border-emerald-300/70 border-b-[5px] border-green-700 shadow-md rounded-xl sm:rounded-2xl p-0.5 sm:p-1 md:p-1.5 flex flex-col justify-between transition-all duration-150 hover:-translate-y-1 hover:shadow-lg relative select-none cursor-pointer group" id="tile-8">
+  <div class="flex justify-between items-center w-full">
+    <div class="bg-green-800/80 text-white font-black text-[9px] sm:text-[10px] md:text-xs rounded-full w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 flex items-center justify-center shadow-inner border border-white/20">
+      <span>8</span>
+    </div>
+    
+  </div>
+  <div class="flex flex-col items-center justify-center my-auto">
+    <div class="tile-icon-badge w-5 h-5 sm:w-6 sm:h-6 md:w-9 md:h-9 rounded-md md:rounded-xl bg-white/25 backdrop-blur-2xs text-white flex items-center justify-center shadow-xs border border-white/30 select-none group-hover:scale-105 transition-transform" title="C. Naturales">
+      <svg class="w-3 h-3 sm:w-4 sm:h-4 md:w-6 md:h-6 text-white drop-shadow-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
   <path d="M12 21V4"/>
-  <path d="M12 4c0 0 2-2 4.5-2S20 3.5 20 5.5c0 2.5-3 3.5-8 4.5" fill="white" fill-opacity="0.3"/>
-  <path d="M12 9c0 0-2.5-2-5-2S3 8.5 3 10.5c0 2.5 3 3.5 9 4" fill="white" fill-opacity="0.3"/>
-  <path d="M12 14c0 0 2.5-2 5-2s4 1.5 4 3.5c0 2.5-3 3.5-9 4" fill="white" fill-opacity="0.3"/>
+  <path d="M12 4c0 0 2-2 4.5-2S20 3.5 20 5.5c0 2.5-3 3.5-8 4.5" fill="white" fill-opacity="0.35"/>
+  <path d="M12 9c0 0-2.5-2-5-2S3 8.5 3 10.5c0 2.5 3 3.5 9 4" fill="white" fill-opacity="0.35"/>
+  <path d="M12 14c0 0 2.5-2 5-2s4 1.5 4 3.5c0 2.5-3 3.5-9 4" fill="white" fill-opacity="0.35"/>
 </svg>
+    </div>
+    <span class="hidden md:block text-[9px] sm:text-[10px] md:text-[11px] font-black text-white mt-0.5 text-center leading-none tracking-tight drop-shadow-xs">C. Naturales</span>
+  </div>
+  <div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-8"></div>
 </div>
-<span class="hidden md:block text-[10px] sm:text-[11px] font-extrabold text-naturales-text mt-0.5 text-center leading-none tracking-tight">C. Naturales</span>
-</div>
-<div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-8"></div>
-</div>
-<!-- ================= ROW 2 TO 7 (RIGHT EDGE) ================= -->
 <!-- Tile 9: Lengua [STAR TILE] -->
-<div class="col-start-8 row-start-2 bg-lengua-light border-2 border-amber-400 ring-2 ring-amber-300/40 shadow-glow-star rounded-xl sm:rounded-2xl p-0.5 sm:p-1 md:p-2 flex flex-col justify-between transition-all hover:-translate-y-0.5 relative" id="tile-9">
-<div class="flex justify-between items-center text-[8px] sm:text-[9px] md:text-[11px] font-black leading-none text-lengua-text">
-<span class="">9</span>
-<span class="text-[8px] sm:text-[10px] md:text-xs select-none leading-none">👑</span>
+<div class="col-start-8 row-start-2 bg-gradient-to-b from-amber-300 via-amber-400 to-yellow-500 border-[3px] border-amber-200 ring-2 ring-amber-400/80 border-b-[6px] border-amber-600 shadow-[0_6px_0_#b45309,0_0_18px_rgba(251,191,36,0.5)] rounded-xl sm:rounded-2xl p-0.5 sm:p-1 md:p-1.5 flex flex-col justify-between transition-all duration-150 hover:-translate-y-1 hover:shadow-lg relative select-none cursor-pointer group" id="tile-9">
+  <div class="flex justify-between items-center w-full">
+    <div class="bg-amber-900/80 text-white font-black text-[9px] sm:text-[10px] md:text-xs rounded-full w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 flex items-center justify-center shadow-inner border border-white/20">
+      <span>9</span>
+    </div>
+    <span class="text-[11px] sm:text-xs md:text-sm select-none leading-none filter drop-shadow-xs animate-bounce-subtle">👑</span>
+  </div>
+  <div class="flex flex-col items-center justify-center my-auto">
+    <div class="tile-icon-badge w-5 h-5 sm:w-6 sm:h-6 md:w-9 md:h-9 rounded-md md:rounded-xl bg-white/25 backdrop-blur-2xs text-white flex items-center justify-center shadow-xs border border-white/30 select-none group-hover:scale-105 transition-transform" title="Lengua">
+      <span class="text-xl sm:text-2xl md:text-3xl filter drop-shadow-md select-none">👑</span>
+    </div>
+    <span class="hidden md:block text-[9px] sm:text-[10px] md:text-[11px] font-black text-amber-950 mt-0.5 text-center leading-none tracking-tight drop-shadow-xs">Lengua</span>
+  </div>
+  <div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-9"></div>
 </div>
-<div class="flex flex-col items-center justify-center my-auto md:gap-1">
-<div class="tile-icon-badge w-[19px] h-[19px] sm:w-6 sm:h-6 md:w-9 md:h-9 rounded-md md:rounded-xl bg-rose-500 text-white flex items-center justify-center shadow-xs select-none" title="Lengua">
-<svg class="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 md:w-5 md:h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-  <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" fill="white" fill-opacity="0.25"/>
-  <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" fill="white" fill-opacity="0.25"/>
-  <path d="M6 8h2"/>
-  <path d="M16 8h2"/>
-  <path d="M6 12h2"/>
-  <path d="M16 12h2"/>
+<!-- Tile 10: Ingenio  -->
+<div class="col-start-8 row-start-3 bg-gradient-to-b from-purple-400 to-indigo-600 border border-purple-300/70 border-b-[5px] border-indigo-800 shadow-md rounded-xl sm:rounded-2xl p-0.5 sm:p-1 md:p-1.5 flex flex-col justify-between transition-all duration-150 hover:-translate-y-1 hover:shadow-lg relative select-none cursor-pointer group" id="tile-10">
+  <div class="flex justify-between items-center w-full">
+    <div class="bg-indigo-950/80 text-white font-black text-[9px] sm:text-[10px] md:text-xs rounded-full w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 flex items-center justify-center shadow-inner border border-white/20">
+      <span>10</span>
+    </div>
+    
+  </div>
+  <div class="flex flex-col items-center justify-center my-auto">
+    <div class="tile-icon-badge w-5 h-5 sm:w-6 sm:h-6 md:w-9 md:h-9 rounded-md md:rounded-xl bg-white/25 backdrop-blur-2xs text-white flex items-center justify-center shadow-xs border border-white/30 select-none group-hover:scale-105 transition-transform" title="Ingenio">
+      <svg class="w-3 h-3 sm:w-4 sm:h-4 md:w-6 md:h-6 text-amber-200 drop-shadow-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M9 18h6"/><path d="M10 21h4"/><path d="M12 2v2"/>
+  <path d="M12 8a5 5 0 0 0-3 8.5c.5.5 1 1.5 1 2.5h4c0-1 .5-2 1-2.5A5 5 0 0 0 12 8z" fill="#FEF08A" fill-opacity="0.45"/>
+  <path d="M4.5 4.5l1.5 1.5"/><path d="M19.5 4.5l-1.5 1.5"/>
 </svg>
+    </div>
+    <span class="hidden md:block text-[9px] sm:text-[10px] md:text-[11px] font-black text-white mt-0.5 text-center leading-none tracking-tight drop-shadow-xs">Ingenio</span>
+  </div>
+  <div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-10"></div>
 </div>
-<span class="hidden md:block text-[10px] sm:text-[11px] font-extrabold text-lengua-text mt-0.5 text-center leading-none tracking-tight">Lengua</span>
-</div>
-<div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-9"></div>
-</div><!-- Tile 10: Ingenio -->
-<div class="col-start-8 row-start-3 bg-ingenio-light border-2 border-ingenio-border hover:border-ingenio-accent shadow-xs rounded-xl sm:rounded-2xl p-0.5 sm:p-1 md:p-2 flex flex-col justify-between transition-all hover:-translate-y-0.5 relative" id="tile-10">
-<div class="flex justify-between items-center text-[8px] sm:text-[9px] md:text-[11px] font-black leading-none text-slate-400">
-<span class="">10</span>
-</div>
-<div class="flex flex-col items-center justify-center my-auto md:gap-1">
-<div class="tile-icon-badge w-[19px] h-[19px] sm:w-6 sm:h-6 md:w-9 md:h-9 rounded-md md:rounded-xl bg-purple-600 text-white flex items-center justify-center shadow-xs select-none" title="Ingenio y Cultura">
-<svg class="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 md:w-5 md:h-5 text-amber-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-  <path d="M9 18h6"/>
-  <path d="M10 21h4"/>
-  <path d="M12 2v2"/>
-  <path d="M12 8a5 5 0 0 0-3 8.5c.5.5 1 1.5 1 2.5h4c0-1 .5-2 1-2.5A5 5 0 0 0 12 8z" fill="#FEF08A" fill-opacity="0.35"/>
-  <path d="M4.5 4.5l1.5 1.5"/>
-  <path d="M19.5 4.5l-1.5 1.5"/>
-</svg>
-</div>
-<span class="hidden md:block text-[10px] sm:text-[11px] font-extrabold text-ingenio-text mt-0.5 text-center leading-none tracking-tight">Ingenio</span>
-</div>
-<div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-10"></div>
-</div><!-- Tile 11: Matematica -->
-<div class="col-start-8 row-start-4 bg-math-light border-2 border-math-border hover:border-math-accent shadow-xs rounded-xl sm:rounded-2xl p-0.5 sm:p-1 md:p-2 flex flex-col justify-between transition-all hover:-translate-y-0.5 relative" id="tile-11">
-<div class="flex justify-between items-center text-[8px] sm:text-[9px] md:text-[11px] font-black leading-none text-slate-400">
-<span class="">11</span>
-</div>
-<div class="flex flex-col items-center justify-center my-auto md:gap-1">
-<div class="tile-icon-badge w-[19px] h-[19px] sm:w-6 sm:h-6 md:w-9 md:h-9 rounded-md md:rounded-xl bg-blue-600 text-white flex items-center justify-center shadow-xs select-none" title="Matemática">
-<svg class="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 md:w-5 md:h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+<!-- Tile 11: Matemática  -->
+<div class="col-start-8 row-start-4 bg-gradient-to-b from-sky-400 to-blue-500 border border-sky-300/70 border-b-[5px] border-blue-700 shadow-md rounded-xl sm:rounded-2xl p-0.5 sm:p-1 md:p-1.5 flex flex-col justify-between transition-all duration-150 hover:-translate-y-1 hover:shadow-lg relative select-none cursor-pointer group" id="tile-11">
+  <div class="flex justify-between items-center w-full">
+    <div class="bg-blue-800/80 text-white font-black text-[9px] sm:text-[10px] md:text-xs rounded-full w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 flex items-center justify-center shadow-inner border border-white/20">
+      <span>11</span>
+    </div>
+    
+  </div>
+  <div class="flex flex-col items-center justify-center my-auto">
+    <div class="tile-icon-badge w-5 h-5 sm:w-6 sm:h-6 md:w-9 md:h-9 rounded-md md:rounded-xl bg-white/25 backdrop-blur-2xs text-white flex items-center justify-center shadow-xs border border-white/30 select-none group-hover:scale-105 transition-transform" title="Matemática">
+      <svg class="w-3 h-3 sm:w-4 sm:h-4 md:w-6 md:h-6 text-white drop-shadow-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
   <path d="M21.3 2.7a1 1 0 0 0-1.4 0L2.7 19.9a1 1 0 0 0 .7 1.7H20a1 1 0 0 0 1-1V3.4a1 1 0 0 0-.7-.7z"/>
-  <path d="M7 18h7a1 1 0 0 0 1-1v-7a1 1 0 0 0-1.7-.7L5.6 17a1 1 0 0 0 1.4 1z" fill="white" fill-opacity="0.3"/>
-  <path d="M18 10h-2"/>
-  <path d="M18 14h-3"/>
-  <path d="M14 18v-3"/>
+  <path d="M7 18h7a1 1 0 0 0 1-1v-7a1 1 0 0 0-1.7-.7L5.6 17a1 1 0 0 0 1.4 1z" fill="white" fill-opacity="0.35"/>
+  <path d="M18 10h-2"/><path d="M18 14h-3"/><path d="M14 18v-3"/>
 </svg>
+    </div>
+    <span class="hidden md:block text-[9px] sm:text-[10px] md:text-[11px] font-black text-white mt-0.5 text-center leading-none tracking-tight drop-shadow-xs">Matemática</span>
+  </div>
+  <div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-11"></div>
 </div>
-<span class="hidden md:block text-[10px] sm:text-[11px] font-extrabold text-math-text mt-0.5 text-center leading-none tracking-tight">Matemática</span>
-</div>
-<div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-11"></div>
-</div><!-- Tile 12: Lengua -->
-<div class="col-start-8 row-start-5 bg-lengua-light border-2 border-lengua-border hover:border-lengua-accent shadow-xs rounded-xl sm:rounded-2xl p-0.5 sm:p-1 md:p-2 flex flex-col justify-between transition-all hover:-translate-y-0.5 relative" id="tile-12">
-<div class="flex justify-between items-center text-[8px] sm:text-[9px] md:text-[11px] font-black leading-none text-slate-400">
-<span class="">12</span>
-</div>
-<div class="flex flex-col items-center justify-center my-auto md:gap-1">
-<div class="tile-icon-badge w-[19px] h-[19px] sm:w-6 sm:h-6 md:w-9 md:h-9 rounded-md md:rounded-xl bg-rose-500 text-white flex items-center justify-center shadow-xs select-none" title="Lengua">
-<svg class="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 md:w-5 md:h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-  <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" fill="white" fill-opacity="0.25"/>
-  <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" fill="white" fill-opacity="0.25"/>
-  <path d="M6 8h2"/>
-  <path d="M16 8h2"/>
-  <path d="M6 12h2"/>
-  <path d="M16 12h2"/>
+<!-- Tile 12: Lengua  -->
+<div class="col-start-8 row-start-5 bg-gradient-to-b from-rose-400 to-red-500 border border-rose-300/70 border-b-[5px] border-red-700 shadow-md rounded-xl sm:rounded-2xl p-0.5 sm:p-1 md:p-1.5 flex flex-col justify-between transition-all duration-150 hover:-translate-y-1 hover:shadow-lg relative select-none cursor-pointer group" id="tile-12">
+  <div class="flex justify-between items-center w-full">
+    <div class="bg-red-800/80 text-white font-black text-[9px] sm:text-[10px] md:text-xs rounded-full w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 flex items-center justify-center shadow-inner border border-white/20">
+      <span>12</span>
+    </div>
+    
+  </div>
+  <div class="flex flex-col items-center justify-center my-auto">
+    <div class="tile-icon-badge w-5 h-5 sm:w-6 sm:h-6 md:w-9 md:h-9 rounded-md md:rounded-xl bg-white/25 backdrop-blur-2xs text-white flex items-center justify-center shadow-xs border border-white/30 select-none group-hover:scale-105 transition-transform" title="Lengua">
+      <svg class="w-3 h-3 sm:w-4 sm:h-4 md:w-6 md:h-6 text-white drop-shadow-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" fill="white" fill-opacity="0.35"/>
+  <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" fill="white" fill-opacity="0.35"/>
+  <path d="M6 8h2"/><path d="M16 8h2"/><path d="M6 12h2"/><path d="M16 12h2"/>
 </svg>
+    </div>
+    <span class="hidden md:block text-[9px] sm:text-[10px] md:text-[11px] font-black text-white mt-0.5 text-center leading-none tracking-tight drop-shadow-xs">Lengua</span>
+  </div>
+  <div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-12"></div>
 </div>
-<span class="hidden md:block text-[10px] sm:text-[11px] font-extrabold text-lengua-text mt-0.5 text-center leading-none tracking-tight">Lengua</span>
-</div>
-<div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-12"></div>
-</div><!-- Tile 13: Ciencias Naturales -->
-<div class="col-start-8 row-start-6 bg-naturales-light border-2 border-naturales-border hover:border-naturales-accent shadow-xs rounded-xl sm:rounded-2xl p-0.5 sm:p-1 md:p-2 flex flex-col justify-between transition-all hover:-translate-y-0.5 relative" id="tile-13">
-<div class="flex justify-between items-center text-[8px] sm:text-[9px] md:text-[11px] font-black leading-none text-slate-400">
-<span class="">13</span>
-</div>
-<div class="flex flex-col items-center justify-center my-auto md:gap-1">
-<div class="tile-icon-badge w-[19px] h-[19px] sm:w-6 sm:h-6 md:w-9 md:h-9 rounded-md md:rounded-xl bg-emerald-600 text-white flex items-center justify-center shadow-xs select-none" title="Ciencias Naturales">
-<svg class="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 md:w-5 md:h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+<!-- Tile 13: C. Naturales  -->
+<div class="col-start-8 row-start-6 bg-gradient-to-b from-emerald-400 to-green-500 border border-emerald-300/70 border-b-[5px] border-green-700 shadow-md rounded-xl sm:rounded-2xl p-0.5 sm:p-1 md:p-1.5 flex flex-col justify-between transition-all duration-150 hover:-translate-y-1 hover:shadow-lg relative select-none cursor-pointer group" id="tile-13">
+  <div class="flex justify-between items-center w-full">
+    <div class="bg-green-800/80 text-white font-black text-[9px] sm:text-[10px] md:text-xs rounded-full w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 flex items-center justify-center shadow-inner border border-white/20">
+      <span>13</span>
+    </div>
+    
+  </div>
+  <div class="flex flex-col items-center justify-center my-auto">
+    <div class="tile-icon-badge w-5 h-5 sm:w-6 sm:h-6 md:w-9 md:h-9 rounded-md md:rounded-xl bg-white/25 backdrop-blur-2xs text-white flex items-center justify-center shadow-xs border border-white/30 select-none group-hover:scale-105 transition-transform" title="C. Naturales">
+      <svg class="w-3 h-3 sm:w-4 sm:h-4 md:w-6 md:h-6 text-white drop-shadow-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
   <path d="M12 21V4"/>
-  <path d="M12 4c0 0 2-2 4.5-2S20 3.5 20 5.5c0 2.5-3 3.5-8 4.5" fill="white" fill-opacity="0.3"/>
-  <path d="M12 9c0 0-2.5-2-5-2S3 8.5 3 10.5c0 2.5 3 3.5 9 4" fill="white" fill-opacity="0.3"/>
-  <path d="M12 14c0 0 2.5-2 5-2s4 1.5 4 3.5c0 2.5-3 3.5-9 4" fill="white" fill-opacity="0.3"/>
+  <path d="M12 4c0 0 2-2 4.5-2S20 3.5 20 5.5c0 2.5-3 3.5-8 4.5" fill="white" fill-opacity="0.35"/>
+  <path d="M12 9c0 0-2.5-2-5-2S3 8.5 3 10.5c0 2.5 3 3.5 9 4" fill="white" fill-opacity="0.35"/>
+  <path d="M12 14c0 0 2.5-2 5-2s4 1.5 4 3.5c0 2.5-3 3.5-9 4" fill="white" fill-opacity="0.35"/>
 </svg>
+    </div>
+    <span class="hidden md:block text-[9px] sm:text-[10px] md:text-[11px] font-black text-white mt-0.5 text-center leading-none tracking-tight drop-shadow-xs">C. Naturales</span>
+  </div>
+  <div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-13"></div>
 </div>
-<span class="hidden md:block text-[10px] sm:text-[11px] font-extrabold text-naturales-text mt-0.5 text-center leading-none tracking-tight">C. Naturales</span>
-</div>
-<div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-13"></div>
-</div><!-- Tile 14: Ciencias Sociales -->
-<div class="col-start-8 row-start-7 bg-sociales-light border-2 border-sociales-border hover:border-sociales-accent shadow-xs rounded-xl sm:rounded-2xl p-0.5 sm:p-1 md:p-2 flex flex-col justify-between transition-all hover:-translate-y-0.5 relative" id="tile-14">
-<div class="flex justify-between items-center text-[8px] sm:text-[9px] md:text-[11px] font-black leading-none text-slate-400">
-<span class="">14</span>
-</div>
-<div class="flex flex-col items-center justify-center my-auto md:gap-1">
-<div class="tile-icon-badge w-[19px] h-[19px] sm:w-6 sm:h-6 md:w-9 md:h-9 rounded-md md:rounded-xl bg-amber-500 text-white flex items-center justify-center shadow-xs select-none" title="Ciencias Sociales">
-<svg class="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 md:w-5 md:h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-  <circle cx="12" cy="12" r="9.5" fill="white" fill-opacity="0.25"/>
+<!-- Tile 14: C. Sociales  -->
+<div class="col-start-8 row-start-7 bg-gradient-to-b from-amber-400 to-orange-500 border border-amber-300/70 border-b-[5px] border-orange-700 shadow-md rounded-xl sm:rounded-2xl p-0.5 sm:p-1 md:p-1.5 flex flex-col justify-between transition-all duration-150 hover:-translate-y-1 hover:shadow-lg relative select-none cursor-pointer group" id="tile-14">
+  <div class="flex justify-between items-center w-full">
+    <div class="bg-orange-900/80 text-white font-black text-[9px] sm:text-[10px] md:text-xs rounded-full w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 flex items-center justify-center shadow-inner border border-white/20">
+      <span>14</span>
+    </div>
+    
+  </div>
+  <div class="flex flex-col items-center justify-center my-auto">
+    <div class="tile-icon-badge w-5 h-5 sm:w-6 sm:h-6 md:w-9 md:h-9 rounded-md md:rounded-xl bg-white/25 backdrop-blur-2xs text-white flex items-center justify-center shadow-xs border border-white/30 select-none group-hover:scale-105 transition-transform" title="C. Sociales">
+      <svg class="w-3 h-3 sm:w-4 sm:h-4 md:w-6 md:h-6 text-white drop-shadow-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="12" cy="12" r="9.5" fill="white" fill-opacity="0.3"/>
   <path d="M2.5 12h19"/>
   <path d="M12 2.5a14 14 0 0 0 0 19"/>
   <path d="M12 2.5a14 14 0 0 1 0 19"/>
-  <path d="M4.5 7.5h15"/>
-  <path d="M4.5 16.5h15"/>
+  <path d="M4.5 7.5h15"/><path d="M4.5 16.5h15"/>
 </svg>
+    </div>
+    <span class="hidden md:block text-[9px] sm:text-[10px] md:text-[11px] font-black text-white mt-0.5 text-center leading-none tracking-tight drop-shadow-xs">C. Sociales</span>
+  </div>
+  <div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-14"></div>
 </div>
-<span class="hidden md:block text-[10px] sm:text-[11px] font-extrabold text-sociales-text mt-0.5 text-center leading-none tracking-tight">C. Sociales</span>
-</div>
-<div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-14"></div>
-</div>
-<!-- ================= ROW 8 (BOTTOM - RIGHT TO LEFT) ================= -->
-<!-- Tile 15: Naturales [STAR TILE] (Corner) -->
-<div class="col-start-8 row-start-8 bg-naturales-light border-2 border-amber-400 ring-2 ring-amber-300/40 shadow-glow-star rounded-xl sm:rounded-2xl p-0.5 sm:p-1 md:p-2 flex flex-col justify-between transition-all hover:-translate-y-0.5 relative" id="tile-15">
-<div class="flex justify-between items-center text-[8px] sm:text-[9px] md:text-[11px] font-black leading-none text-naturales-text">
-<span class="">15</span>
-<span class="text-[8px] sm:text-[10px] md:text-xs select-none leading-none">👑</span>
-</div>
-<div class="flex flex-col items-center justify-center my-auto md:gap-1">
-<div class="tile-icon-badge w-[19px] h-[19px] sm:w-6 sm:h-6 md:w-9 md:h-9 rounded-md md:rounded-xl bg-emerald-600 text-white flex items-center justify-center shadow-xs select-none" title="Ciencias Naturales">
-<svg class="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 md:w-5 md:h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+<!-- Tile 15: C. Naturales [STAR TILE] -->
+<div class="col-start-8 row-start-8 bg-gradient-to-b from-emerald-400 to-green-500 border-[3px] border-amber-300 ring-2 ring-amber-400/80 border-b-[6px] border-amber-600 shadow-[0_6px_0_#b45309,0_0_18px_rgba(251,191,36,0.5)] rounded-xl sm:rounded-2xl p-0.5 sm:p-1 md:p-1.5 flex flex-col justify-between transition-all duration-150 hover:-translate-y-1 hover:shadow-lg relative select-none cursor-pointer group" id="tile-15">
+  <div class="flex justify-between items-center w-full">
+    <div class="bg-green-800/80 text-white font-black text-[9px] sm:text-[10px] md:text-xs rounded-full w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 flex items-center justify-center shadow-inner border border-white/20">
+      <span>15</span>
+    </div>
+    <span class="text-[11px] sm:text-xs md:text-sm select-none leading-none filter drop-shadow-xs animate-bounce-subtle">👑</span>
+  </div>
+  <div class="flex flex-col items-center justify-center my-auto">
+    <div class="tile-icon-badge w-5 h-5 sm:w-6 sm:h-6 md:w-9 md:h-9 rounded-md md:rounded-xl bg-white/25 backdrop-blur-2xs text-white flex items-center justify-center shadow-xs border border-white/30 select-none group-hover:scale-105 transition-transform" title="C. Naturales">
+      <svg class="w-3 h-3 sm:w-4 sm:h-4 md:w-6 md:h-6 text-white drop-shadow-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
   <path d="M12 21V4"/>
-  <path d="M12 4c0 0 2-2 4.5-2S20 3.5 20 5.5c0 2.5-3 3.5-8 4.5" fill="white" fill-opacity="0.3"/>
-  <path d="M12 9c0 0-2.5-2-5-2S3 8.5 3 10.5c0 2.5 3 3.5 9 4" fill="white" fill-opacity="0.3"/>
-  <path d="M12 14c0 0 2.5-2 5-2s4 1.5 4 3.5c0 2.5-3 3.5-9 4" fill="white" fill-opacity="0.3"/>
+  <path d="M12 4c0 0 2-2 4.5-2S20 3.5 20 5.5c0 2.5-3 3.5-8 4.5" fill="white" fill-opacity="0.35"/>
+  <path d="M12 9c0 0-2.5-2-5-2S3 8.5 3 10.5c0 2.5 3 3.5 9 4" fill="white" fill-opacity="0.35"/>
+  <path d="M12 14c0 0 2.5-2 5-2s4 1.5 4 3.5c0 2.5-3 3.5-9 4" fill="white" fill-opacity="0.35"/>
 </svg>
+    </div>
+    <span class="hidden md:block text-[9px] sm:text-[10px] md:text-[11px] font-black text-white mt-0.5 text-center leading-none tracking-tight drop-shadow-xs">C. Naturales</span>
+  </div>
+  <div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-15"></div>
 </div>
-<span class="hidden md:block text-[10px] sm:text-[11px] font-extrabold text-naturales-text mt-0.5 text-center leading-none tracking-tight">C. Naturales</span>
-</div>
-<div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-15"></div>
-</div><!-- Tile 16: Matematica -->
-<div class="col-start-7 row-start-8 bg-math-light border-2 border-math-border hover:border-math-accent shadow-xs rounded-xl sm:rounded-2xl p-0.5 sm:p-1 md:p-2 flex flex-col justify-between transition-all hover:-translate-y-0.5 relative" id="tile-16">
-<div class="flex justify-between items-center text-[8px] sm:text-[9px] md:text-[11px] font-black leading-none text-slate-400">
-<span class="">16</span>
-</div>
-<div class="flex flex-col items-center justify-center my-auto md:gap-1">
-<div class="tile-icon-badge w-[19px] h-[19px] sm:w-6 sm:h-6 md:w-9 md:h-9 rounded-md md:rounded-xl bg-blue-600 text-white flex items-center justify-center shadow-xs select-none" title="Matemática">
-<svg class="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 md:w-5 md:h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+<!-- Tile 16: Matemática  -->
+<div class="col-start-7 row-start-8 bg-gradient-to-b from-sky-400 to-blue-500 border border-sky-300/70 border-b-[5px] border-blue-700 shadow-md rounded-xl sm:rounded-2xl p-0.5 sm:p-1 md:p-1.5 flex flex-col justify-between transition-all duration-150 hover:-translate-y-1 hover:shadow-lg relative select-none cursor-pointer group" id="tile-16">
+  <div class="flex justify-between items-center w-full">
+    <div class="bg-blue-800/80 text-white font-black text-[9px] sm:text-[10px] md:text-xs rounded-full w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 flex items-center justify-center shadow-inner border border-white/20">
+      <span>16</span>
+    </div>
+    
+  </div>
+  <div class="flex flex-col items-center justify-center my-auto">
+    <div class="tile-icon-badge w-5 h-5 sm:w-6 sm:h-6 md:w-9 md:h-9 rounded-md md:rounded-xl bg-white/25 backdrop-blur-2xs text-white flex items-center justify-center shadow-xs border border-white/30 select-none group-hover:scale-105 transition-transform" title="Matemática">
+      <svg class="w-3 h-3 sm:w-4 sm:h-4 md:w-6 md:h-6 text-white drop-shadow-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
   <path d="M21.3 2.7a1 1 0 0 0-1.4 0L2.7 19.9a1 1 0 0 0 .7 1.7H20a1 1 0 0 0 1-1V3.4a1 1 0 0 0-.7-.7z"/>
-  <path d="M7 18h7a1 1 0 0 0 1-1v-7a1 1 0 0 0-1.7-.7L5.6 17a1 1 0 0 0 1.4 1z" fill="white" fill-opacity="0.3"/>
-  <path d="M18 10h-2"/>
-  <path d="M18 14h-3"/>
-  <path d="M14 18v-3"/>
+  <path d="M7 18h7a1 1 0 0 0 1-1v-7a1 1 0 0 0-1.7-.7L5.6 17a1 1 0 0 0 1.4 1z" fill="white" fill-opacity="0.35"/>
+  <path d="M18 10h-2"/><path d="M18 14h-3"/><path d="M14 18v-3"/>
 </svg>
+    </div>
+    <span class="hidden md:block text-[9px] sm:text-[10px] md:text-[11px] font-black text-white mt-0.5 text-center leading-none tracking-tight drop-shadow-xs">Matemática</span>
+  </div>
+  <div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-16"></div>
 </div>
-<span class="hidden md:block text-[10px] sm:text-[11px] font-extrabold text-math-text mt-0.5 text-center leading-none tracking-tight">Matemática</span>
-</div>
-<div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-16"></div>
-</div><!-- Tile 17: Lengua -->
-<div class="col-start-6 row-start-8 bg-lengua-light border-2 border-lengua-border hover:border-lengua-accent shadow-xs rounded-xl sm:rounded-2xl p-0.5 sm:p-1 md:p-2 flex flex-col justify-between transition-all hover:-translate-y-0.5 relative" id="tile-17">
-<div class="flex justify-between items-center text-[8px] sm:text-[9px] md:text-[11px] font-black leading-none text-slate-400">
-<span class="">17</span>
-</div>
-<div class="flex flex-col items-center justify-center my-auto md:gap-1">
-<div class="tile-icon-badge w-[19px] h-[19px] sm:w-6 sm:h-6 md:w-9 md:h-9 rounded-md md:rounded-xl bg-rose-500 text-white flex items-center justify-center shadow-xs select-none" title="Lengua">
-<svg class="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 md:w-5 md:h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-  <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" fill="white" fill-opacity="0.25"/>
-  <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" fill="white" fill-opacity="0.25"/>
-  <path d="M6 8h2"/>
-  <path d="M16 8h2"/>
-  <path d="M6 12h2"/>
-  <path d="M16 12h2"/>
+<!-- Tile 17: Lengua  -->
+<div class="col-start-6 row-start-8 bg-gradient-to-b from-rose-400 to-red-500 border border-rose-300/70 border-b-[5px] border-red-700 shadow-md rounded-xl sm:rounded-2xl p-0.5 sm:p-1 md:p-1.5 flex flex-col justify-between transition-all duration-150 hover:-translate-y-1 hover:shadow-lg relative select-none cursor-pointer group" id="tile-17">
+  <div class="flex justify-between items-center w-full">
+    <div class="bg-red-800/80 text-white font-black text-[9px] sm:text-[10px] md:text-xs rounded-full w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 flex items-center justify-center shadow-inner border border-white/20">
+      <span>17</span>
+    </div>
+    
+  </div>
+  <div class="flex flex-col items-center justify-center my-auto">
+    <div class="tile-icon-badge w-5 h-5 sm:w-6 sm:h-6 md:w-9 md:h-9 rounded-md md:rounded-xl bg-white/25 backdrop-blur-2xs text-white flex items-center justify-center shadow-xs border border-white/30 select-none group-hover:scale-105 transition-transform" title="Lengua">
+      <svg class="w-3 h-3 sm:w-4 sm:h-4 md:w-6 md:h-6 text-white drop-shadow-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" fill="white" fill-opacity="0.35"/>
+  <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" fill="white" fill-opacity="0.35"/>
+  <path d="M6 8h2"/><path d="M16 8h2"/><path d="M6 12h2"/><path d="M16 12h2"/>
 </svg>
+    </div>
+    <span class="hidden md:block text-[9px] sm:text-[10px] md:text-[11px] font-black text-white mt-0.5 text-center leading-none tracking-tight drop-shadow-xs">Lengua</span>
+  </div>
+  <div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-17"></div>
 </div>
-<span class="hidden md:block text-[10px] sm:text-[11px] font-extrabold text-lengua-text mt-0.5 text-center leading-none tracking-tight">Lengua</span>
-</div>
-<div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-17"></div>
-</div><!-- Tile 18: Ciencias Naturales -->
-<div class="col-start-5 row-start-8 bg-naturales-light border-2 border-naturales-border hover:border-naturales-accent shadow-xs rounded-xl sm:rounded-2xl p-0.5 sm:p-1 md:p-2 flex flex-col justify-between transition-all hover:-translate-y-0.5 relative" id="tile-18">
-<div class="flex justify-between items-center text-[8px] sm:text-[9px] md:text-[11px] font-black leading-none text-slate-400">
-<span class="">18</span>
-</div>
-<div class="flex flex-col items-center justify-center my-auto md:gap-1">
-<div class="tile-icon-badge w-[19px] h-[19px] sm:w-6 sm:h-6 md:w-9 md:h-9 rounded-md md:rounded-xl bg-emerald-600 text-white flex items-center justify-center shadow-xs select-none" title="Ciencias Naturales">
-<svg class="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 md:w-5 md:h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+<!-- Tile 18: C. Naturales  -->
+<div class="col-start-5 row-start-8 bg-gradient-to-b from-emerald-400 to-green-500 border border-emerald-300/70 border-b-[5px] border-green-700 shadow-md rounded-xl sm:rounded-2xl p-0.5 sm:p-1 md:p-1.5 flex flex-col justify-between transition-all duration-150 hover:-translate-y-1 hover:shadow-lg relative select-none cursor-pointer group" id="tile-18">
+  <div class="flex justify-between items-center w-full">
+    <div class="bg-green-800/80 text-white font-black text-[9px] sm:text-[10px] md:text-xs rounded-full w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 flex items-center justify-center shadow-inner border border-white/20">
+      <span>18</span>
+    </div>
+    
+  </div>
+  <div class="flex flex-col items-center justify-center my-auto">
+    <div class="tile-icon-badge w-5 h-5 sm:w-6 sm:h-6 md:w-9 md:h-9 rounded-md md:rounded-xl bg-white/25 backdrop-blur-2xs text-white flex items-center justify-center shadow-xs border border-white/30 select-none group-hover:scale-105 transition-transform" title="C. Naturales">
+      <svg class="w-3 h-3 sm:w-4 sm:h-4 md:w-6 md:h-6 text-white drop-shadow-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
   <path d="M12 21V4"/>
-  <path d="M12 4c0 0 2-2 4.5-2S20 3.5 20 5.5c0 2.5-3 3.5-8 4.5" fill="white" fill-opacity="0.3"/>
-  <path d="M12 9c0 0-2.5-2-5-2S3 8.5 3 10.5c0 2.5 3 3.5 9 4" fill="white" fill-opacity="0.3"/>
-  <path d="M12 14c0 0 2.5-2 5-2s4 1.5 4 3.5c0 2.5-3 3.5-9 4" fill="white" fill-opacity="0.3"/>
+  <path d="M12 4c0 0 2-2 4.5-2S20 3.5 20 5.5c0 2.5-3 3.5-8 4.5" fill="white" fill-opacity="0.35"/>
+  <path d="M12 9c0 0-2.5-2-5-2S3 8.5 3 10.5c0 2.5 3 3.5 9 4" fill="white" fill-opacity="0.35"/>
+  <path d="M12 14c0 0 2.5-2 5-2s4 1.5 4 3.5c0 2.5-3 3.5-9 4" fill="white" fill-opacity="0.35"/>
 </svg>
+    </div>
+    <span class="hidden md:block text-[9px] sm:text-[10px] md:text-[11px] font-black text-white mt-0.5 text-center leading-none tracking-tight drop-shadow-xs">C. Naturales</span>
+  </div>
+  <div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-18"></div>
 </div>
-<span class="hidden md:block text-[10px] sm:text-[11px] font-extrabold text-naturales-text mt-0.5 text-center leading-none tracking-tight">C. Naturales</span>
-</div>
-<div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-18"></div>
-</div><!-- Tile 19: Ciencias Sociales -->
-<div class="col-start-4 row-start-8 bg-sociales-light border-2 border-sociales-border hover:border-sociales-accent shadow-xs rounded-xl sm:rounded-2xl p-0.5 sm:p-1 md:p-2 flex flex-col justify-between transition-all hover:-translate-y-0.5 relative" id="tile-19">
-<div class="flex justify-between items-center text-[8px] sm:text-[9px] md:text-[11px] font-black leading-none text-slate-400">
-<span class="">19</span>
-</div>
-<div class="flex flex-col items-center justify-center my-auto md:gap-1">
-<div class="tile-icon-badge w-[19px] h-[19px] sm:w-6 sm:h-6 md:w-9 md:h-9 rounded-md md:rounded-xl bg-amber-500 text-white flex items-center justify-center shadow-xs select-none" title="Ciencias Sociales">
-<svg class="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 md:w-5 md:h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-  <circle cx="12" cy="12" r="9.5" fill="white" fill-opacity="0.25"/>
+<!-- Tile 19: C. Sociales  -->
+<div class="col-start-4 row-start-8 bg-gradient-to-b from-amber-400 to-orange-500 border border-amber-300/70 border-b-[5px] border-orange-700 shadow-md rounded-xl sm:rounded-2xl p-0.5 sm:p-1 md:p-1.5 flex flex-col justify-between transition-all duration-150 hover:-translate-y-1 hover:shadow-lg relative select-none cursor-pointer group" id="tile-19">
+  <div class="flex justify-between items-center w-full">
+    <div class="bg-orange-900/80 text-white font-black text-[9px] sm:text-[10px] md:text-xs rounded-full w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 flex items-center justify-center shadow-inner border border-white/20">
+      <span>19</span>
+    </div>
+    
+  </div>
+  <div class="flex flex-col items-center justify-center my-auto">
+    <div class="tile-icon-badge w-5 h-5 sm:w-6 sm:h-6 md:w-9 md:h-9 rounded-md md:rounded-xl bg-white/25 backdrop-blur-2xs text-white flex items-center justify-center shadow-xs border border-white/30 select-none group-hover:scale-105 transition-transform" title="C. Sociales">
+      <svg class="w-3 h-3 sm:w-4 sm:h-4 md:w-6 md:h-6 text-white drop-shadow-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="12" cy="12" r="9.5" fill="white" fill-opacity="0.3"/>
   <path d="M2.5 12h19"/>
   <path d="M12 2.5a14 14 0 0 0 0 19"/>
   <path d="M12 2.5a14 14 0 0 1 0 19"/>
-  <path d="M4.5 7.5h15"/>
-  <path d="M4.5 16.5h15"/>
+  <path d="M4.5 7.5h15"/><path d="M4.5 16.5h15"/>
 </svg>
+    </div>
+    <span class="hidden md:block text-[9px] sm:text-[10px] md:text-[11px] font-black text-white mt-0.5 text-center leading-none tracking-tight drop-shadow-xs">C. Sociales</span>
+  </div>
+  <div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-19"></div>
 </div>
-<span class="hidden md:block text-[10px] sm:text-[11px] font-extrabold text-sociales-text mt-0.5 text-center leading-none tracking-tight">C. Sociales</span>
-</div>
-<div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-19"></div>
-</div><!-- Tile 20: Ingenio y Cultura [WITH CAMI TOKEN] -->
-<div class="col-start-3 row-start-8 bg-ingenio-light border-2 border-ingenio-border hover:border-ingenio-accent shadow-xs rounded-xl sm:rounded-2xl p-0.5 sm:p-1 md:p-2 flex flex-col justify-between transition-all hover:-translate-y-0.5 relative" id="tile-20">
-<div class="flex justify-between items-center text-[8px] sm:text-[9px] md:text-[11px] font-black leading-none text-slate-400">
-<span class="">20</span>
-</div>
-<div class="flex flex-col items-center justify-center my-auto md:gap-1">
-<div class="tile-icon-badge w-[19px] h-[19px] sm:w-6 sm:h-6 md:w-9 md:h-9 rounded-md md:rounded-xl bg-purple-600 text-white flex items-center justify-center shadow-xs select-none" title="Ingenio y Cultura">
-<svg class="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 md:w-5 md:h-5 text-amber-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-  <path d="M9 18h6"/>
-  <path d="M10 21h4"/>
-  <path d="M12 2v2"/>
-  <path d="M12 8a5 5 0 0 0-3 8.5c.5.5 1 1.5 1 2.5h4c0-1 .5-2 1-2.5A5 5 0 0 0 12 8z" fill="#FEF08A" fill-opacity="0.35"/>
-  <path d="M4.5 4.5l1.5 1.5"/>
-  <path d="M19.5 4.5l-1.5 1.5"/>
+<!-- Tile 20: Ingenio  -->
+<div class="col-start-3 row-start-8 bg-gradient-to-b from-purple-400 to-indigo-600 border border-purple-300/70 border-b-[5px] border-indigo-800 shadow-md rounded-xl sm:rounded-2xl p-0.5 sm:p-1 md:p-1.5 flex flex-col justify-between transition-all duration-150 hover:-translate-y-1 hover:shadow-lg relative select-none cursor-pointer group" id="tile-20">
+  <div class="flex justify-between items-center w-full">
+    <div class="bg-indigo-950/80 text-white font-black text-[9px] sm:text-[10px] md:text-xs rounded-full w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 flex items-center justify-center shadow-inner border border-white/20">
+      <span>20</span>
+    </div>
+    
+  </div>
+  <div class="flex flex-col items-center justify-center my-auto">
+    <div class="tile-icon-badge w-5 h-5 sm:w-6 sm:h-6 md:w-9 md:h-9 rounded-md md:rounded-xl bg-white/25 backdrop-blur-2xs text-white flex items-center justify-center shadow-xs border border-white/30 select-none group-hover:scale-105 transition-transform" title="Ingenio">
+      <svg class="w-3 h-3 sm:w-4 sm:h-4 md:w-6 md:h-6 text-amber-200 drop-shadow-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M9 18h6"/><path d="M10 21h4"/><path d="M12 2v2"/>
+  <path d="M12 8a5 5 0 0 0-3 8.5c.5.5 1 1.5 1 2.5h4c0-1 .5-2 1-2.5A5 5 0 0 0 12 8z" fill="#FEF08A" fill-opacity="0.45"/>
+  <path d="M4.5 4.5l1.5 1.5"/><path d="M19.5 4.5l-1.5 1.5"/>
 </svg>
+    </div>
+    <span class="hidden md:block text-[9px] sm:text-[10px] md:text-[11px] font-black text-white mt-0.5 text-center leading-none tracking-tight drop-shadow-xs">Ingenio</span>
+  </div>
+  <div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-20"></div>
 </div>
-<span class="hidden md:block text-[10px] sm:text-[11px] font-extrabold text-ingenio-text mt-0.5 text-center leading-none tracking-tight">Ingenio</span>
-</div>
-<div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-20"></div>
-</div><!-- Tile 21: Ciencias Sociales [STAR TILE] -->
-<div class="col-start-2 row-start-8 bg-sociales-light border-2 border-amber-400 ring-2 ring-amber-300/40 shadow-glow-star rounded-xl sm:rounded-2xl p-0.5 sm:p-1 md:p-2 flex flex-col justify-between transition-all hover:-translate-y-0.5 relative" id="tile-21">
-<div class="flex justify-between items-center text-[8px] sm:text-[9px] md:text-[11px] font-black leading-none text-sociales-text">
-<span class="">21</span>
-<span class="text-[8px] sm:text-[10px] md:text-xs select-none leading-none">👑</span>
-</div>
-<div class="flex flex-col items-center justify-center my-auto md:gap-1">
-<div class="tile-icon-badge w-[19px] h-[19px] sm:w-6 sm:h-6 md:w-9 md:h-9 rounded-md md:rounded-xl bg-amber-500 text-white flex items-center justify-center shadow-xs select-none" title="Ciencias Sociales">
-<svg class="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 md:w-5 md:h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-  <circle cx="12" cy="12" r="9.5" fill="white" fill-opacity="0.25"/>
+<!-- Tile 21: C. Sociales [STAR TILE] -->
+<div class="col-start-2 row-start-8 bg-gradient-to-b from-amber-400 to-orange-500 border-[3px] border-amber-300 ring-2 ring-amber-400/80 border-b-[6px] border-amber-600 shadow-[0_6px_0_#b45309,0_0_18px_rgba(251,191,36,0.5)] rounded-xl sm:rounded-2xl p-0.5 sm:p-1 md:p-1.5 flex flex-col justify-between transition-all duration-150 hover:-translate-y-1 hover:shadow-lg relative select-none cursor-pointer group" id="tile-21">
+  <div class="flex justify-between items-center w-full">
+    <div class="bg-orange-900/80 text-white font-black text-[9px] sm:text-[10px] md:text-xs rounded-full w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 flex items-center justify-center shadow-inner border border-white/20">
+      <span>21</span>
+    </div>
+    <span class="text-[11px] sm:text-xs md:text-sm select-none leading-none filter drop-shadow-xs animate-bounce-subtle">👑</span>
+  </div>
+  <div class="flex flex-col items-center justify-center my-auto">
+    <div class="tile-icon-badge w-5 h-5 sm:w-6 sm:h-6 md:w-9 md:h-9 rounded-md md:rounded-xl bg-white/25 backdrop-blur-2xs text-white flex items-center justify-center shadow-xs border border-white/30 select-none group-hover:scale-105 transition-transform" title="C. Sociales">
+      <svg class="w-3 h-3 sm:w-4 sm:h-4 md:w-6 md:h-6 text-white drop-shadow-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="12" cy="12" r="9.5" fill="white" fill-opacity="0.3"/>
   <path d="M2.5 12h19"/>
   <path d="M12 2.5a14 14 0 0 0 0 19"/>
   <path d="M12 2.5a14 14 0 0 1 0 19"/>
-  <path d="M4.5 7.5h15"/>
-  <path d="M4.5 16.5h15"/>
+  <path d="M4.5 7.5h15"/><path d="M4.5 16.5h15"/>
 </svg>
+    </div>
+    <span class="hidden md:block text-[9px] sm:text-[10px] md:text-[11px] font-black text-white mt-0.5 text-center leading-none tracking-tight drop-shadow-xs">C. Sociales</span>
+  </div>
+  <div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-21"></div>
 </div>
-<span class="hidden md:block text-[10px] sm:text-[11px] font-extrabold text-sociales-text mt-0.5 text-center leading-none tracking-tight">C. Sociales</span>
-</div>
-<div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-21"></div>
-</div><!-- Tile 22: Lengua (Corner Bottom-Left) -->
-<div class="col-start-1 row-start-8 bg-lengua-light border-2 border-lengua-border hover:border-lengua-accent shadow-xs rounded-xl sm:rounded-2xl p-0.5 sm:p-1 md:p-2 flex flex-col justify-between transition-all hover:-translate-y-0.5 relative" id="tile-22">
-<div class="flex justify-between items-center text-[8px] sm:text-[9px] md:text-[11px] font-black leading-none text-slate-400">
-<span class="">22</span>
-</div>
-<div class="flex flex-col items-center justify-center my-auto md:gap-1">
-<div class="tile-icon-badge w-[19px] h-[19px] sm:w-6 sm:h-6 md:w-9 md:h-9 rounded-md md:rounded-xl bg-rose-500 text-white flex items-center justify-center shadow-xs select-none" title="Lengua">
-<svg class="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 md:w-5 md:h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-  <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" fill="white" fill-opacity="0.25"/>
-  <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" fill="white" fill-opacity="0.25"/>
-  <path d="M6 8h2"/>
-  <path d="M16 8h2"/>
-  <path d="M6 12h2"/>
-  <path d="M16 12h2"/>
+<!-- Tile 22: Lengua  -->
+<div class="col-start-1 row-start-8 bg-gradient-to-b from-rose-400 to-red-500 border border-rose-300/70 border-b-[5px] border-red-700 shadow-md rounded-xl sm:rounded-2xl p-0.5 sm:p-1 md:p-1.5 flex flex-col justify-between transition-all duration-150 hover:-translate-y-1 hover:shadow-lg relative select-none cursor-pointer group" id="tile-22">
+  <div class="flex justify-between items-center w-full">
+    <div class="bg-red-800/80 text-white font-black text-[9px] sm:text-[10px] md:text-xs rounded-full w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 flex items-center justify-center shadow-inner border border-white/20">
+      <span>22</span>
+    </div>
+    
+  </div>
+  <div class="flex flex-col items-center justify-center my-auto">
+    <div class="tile-icon-badge w-5 h-5 sm:w-6 sm:h-6 md:w-9 md:h-9 rounded-md md:rounded-xl bg-white/25 backdrop-blur-2xs text-white flex items-center justify-center shadow-xs border border-white/30 select-none group-hover:scale-105 transition-transform" title="Lengua">
+      <svg class="w-3 h-3 sm:w-4 sm:h-4 md:w-6 md:h-6 text-white drop-shadow-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" fill="white" fill-opacity="0.35"/>
+  <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" fill="white" fill-opacity="0.35"/>
+  <path d="M6 8h2"/><path d="M16 8h2"/><path d="M6 12h2"/><path d="M16 12h2"/>
 </svg>
+    </div>
+    <span class="hidden md:block text-[9px] sm:text-[10px] md:text-[11px] font-black text-white mt-0.5 text-center leading-none tracking-tight drop-shadow-xs">Lengua</span>
+  </div>
+  <div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-22"></div>
 </div>
-<span class="hidden md:block text-[10px] sm:text-[11px] font-extrabold text-lengua-text mt-0.5 text-center leading-none tracking-tight">Lengua</span>
-</div>
-<div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-22"></div>
-</div>
-<!-- ================= ROW 7 TO 2 (LEFT EDGE - BOTTOM TO TOP) ================= -->
-<!-- Tile 23: Naturales -->
-<div class="col-start-1 row-start-7 bg-naturales-light border-2 border-naturales-border hover:border-naturales-accent shadow-xs rounded-xl sm:rounded-2xl p-0.5 sm:p-1 md:p-2 flex flex-col justify-between transition-all hover:-translate-y-0.5 relative" id="tile-23">
-<div class="flex justify-between items-center text-[8px] sm:text-[9px] md:text-[11px] font-black leading-none text-slate-400">
-<span class="">23</span>
-</div>
-<div class="flex flex-col items-center justify-center my-auto md:gap-1">
-<div class="tile-icon-badge w-[19px] h-[19px] sm:w-6 sm:h-6 md:w-9 md:h-9 rounded-md md:rounded-xl bg-emerald-600 text-white flex items-center justify-center shadow-xs select-none" title="Ciencias Naturales">
-<svg class="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 md:w-5 md:h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+<!-- Tile 23: C. Naturales  -->
+<div class="col-start-1 row-start-7 bg-gradient-to-b from-emerald-400 to-green-500 border border-emerald-300/70 border-b-[5px] border-green-700 shadow-md rounded-xl sm:rounded-2xl p-0.5 sm:p-1 md:p-1.5 flex flex-col justify-between transition-all duration-150 hover:-translate-y-1 hover:shadow-lg relative select-none cursor-pointer group" id="tile-23">
+  <div class="flex justify-between items-center w-full">
+    <div class="bg-green-800/80 text-white font-black text-[9px] sm:text-[10px] md:text-xs rounded-full w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 flex items-center justify-center shadow-inner border border-white/20">
+      <span>23</span>
+    </div>
+    
+  </div>
+  <div class="flex flex-col items-center justify-center my-auto">
+    <div class="tile-icon-badge w-5 h-5 sm:w-6 sm:h-6 md:w-9 md:h-9 rounded-md md:rounded-xl bg-white/25 backdrop-blur-2xs text-white flex items-center justify-center shadow-xs border border-white/30 select-none group-hover:scale-105 transition-transform" title="C. Naturales">
+      <svg class="w-3 h-3 sm:w-4 sm:h-4 md:w-6 md:h-6 text-white drop-shadow-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
   <path d="M12 21V4"/>
-  <path d="M12 4c0 0 2-2 4.5-2S20 3.5 20 5.5c0 2.5-3 3.5-8 4.5" fill="white" fill-opacity="0.3"/>
-  <path d="M12 9c0 0-2.5-2-5-2S3 8.5 3 10.5c0 2.5 3 3.5 9 4" fill="white" fill-opacity="0.3"/>
-  <path d="M12 14c0 0 2.5-2 5-2s4 1.5 4 3.5c0 2.5-3 3.5-9 4" fill="white" fill-opacity="0.3"/>
+  <path d="M12 4c0 0 2-2 4.5-2S20 3.5 20 5.5c0 2.5-3 3.5-8 4.5" fill="white" fill-opacity="0.35"/>
+  <path d="M12 9c0 0-2.5-2-5-2S3 8.5 3 10.5c0 2.5 3 3.5 9 4" fill="white" fill-opacity="0.35"/>
+  <path d="M12 14c0 0 2.5-2 5-2s4 1.5 4 3.5c0 2.5-3 3.5-9 4" fill="white" fill-opacity="0.35"/>
 </svg>
+    </div>
+    <span class="hidden md:block text-[9px] sm:text-[10px] md:text-[11px] font-black text-white mt-0.5 text-center leading-none tracking-tight drop-shadow-xs">C. Naturales</span>
+  </div>
+  <div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-23"></div>
 </div>
-<span class="hidden md:block text-[10px] sm:text-[11px] font-extrabold text-naturales-text mt-0.5 text-center leading-none tracking-tight">C. Naturales</span>
-</div>
-<div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-23"></div>
-</div><!-- Tile 24: Sociales [WITH GER TOKEN] -->
-<div class="col-start-1 row-start-6 bg-sociales-light border-2 border-sociales-border hover:border-sociales-accent shadow-xs rounded-xl sm:rounded-2xl p-0.5 sm:p-1 md:p-2 flex flex-col justify-between transition-all hover:-translate-y-0.5 relative" id="tile-24">
-<div class="flex justify-between items-center text-[8px] sm:text-[9px] md:text-[11px] font-black leading-none text-slate-400">
-<span class="">24</span>
-</div>
-<div class="flex flex-col items-center justify-center my-auto md:gap-1">
-<div class="tile-icon-badge w-[19px] h-[19px] sm:w-6 sm:h-6 md:w-9 md:h-9 rounded-md md:rounded-xl bg-amber-500 text-white flex items-center justify-center shadow-xs select-none" title="Ciencias Sociales">
-<svg class="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 md:w-5 md:h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-  <circle cx="12" cy="12" r="9.5" fill="white" fill-opacity="0.25"/>
+<!-- Tile 24: C. Sociales  -->
+<div class="col-start-1 row-start-6 bg-gradient-to-b from-amber-400 to-orange-500 border border-amber-300/70 border-b-[5px] border-orange-700 shadow-md rounded-xl sm:rounded-2xl p-0.5 sm:p-1 md:p-1.5 flex flex-col justify-between transition-all duration-150 hover:-translate-y-1 hover:shadow-lg relative select-none cursor-pointer group" id="tile-24">
+  <div class="flex justify-between items-center w-full">
+    <div class="bg-orange-900/80 text-white font-black text-[9px] sm:text-[10px] md:text-xs rounded-full w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 flex items-center justify-center shadow-inner border border-white/20">
+      <span>24</span>
+    </div>
+    
+  </div>
+  <div class="flex flex-col items-center justify-center my-auto">
+    <div class="tile-icon-badge w-5 h-5 sm:w-6 sm:h-6 md:w-9 md:h-9 rounded-md md:rounded-xl bg-white/25 backdrop-blur-2xs text-white flex items-center justify-center shadow-xs border border-white/30 select-none group-hover:scale-105 transition-transform" title="C. Sociales">
+      <svg class="w-3 h-3 sm:w-4 sm:h-4 md:w-6 md:h-6 text-white drop-shadow-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="12" cy="12" r="9.5" fill="white" fill-opacity="0.3"/>
   <path d="M2.5 12h19"/>
   <path d="M12 2.5a14 14 0 0 0 0 19"/>
   <path d="M12 2.5a14 14 0 0 1 0 19"/>
-  <path d="M4.5 7.5h15"/>
-  <path d="M4.5 16.5h15"/>
+  <path d="M4.5 7.5h15"/><path d="M4.5 16.5h15"/>
 </svg>
+    </div>
+    <span class="hidden md:block text-[9px] sm:text-[10px] md:text-[11px] font-black text-white mt-0.5 text-center leading-none tracking-tight drop-shadow-xs">C. Sociales</span>
+  </div>
+  <div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-24"></div>
 </div>
-<span class="hidden md:block text-[10px] sm:text-[11px] font-extrabold text-sociales-text mt-0.5 text-center leading-none tracking-tight">C. Sociales</span>
-</div>
-<div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-24"></div>
-</div><!-- Tile 25: Ingenio -->
-<div class="col-start-1 row-start-5 bg-ingenio-light border-2 border-ingenio-border hover:border-ingenio-accent shadow-xs rounded-xl sm:rounded-2xl p-0.5 sm:p-1 md:p-2 flex flex-col justify-between transition-all hover:-translate-y-0.5 relative" id="tile-25">
-<div class="flex justify-between items-center text-[8px] sm:text-[9px] md:text-[11px] font-black leading-none text-slate-400">
-<span class="">25</span>
-</div>
-<div class="flex flex-col items-center justify-center my-auto md:gap-1">
-<div class="tile-icon-badge w-[19px] h-[19px] sm:w-6 sm:h-6 md:w-9 md:h-9 rounded-md md:rounded-xl bg-purple-600 text-white flex items-center justify-center shadow-xs select-none" title="Ingenio y Cultura">
-<svg class="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 md:w-5 md:h-5 text-amber-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-  <path d="M9 18h6"/>
-  <path d="M10 21h4"/>
-  <path d="M12 2v2"/>
-  <path d="M12 8a5 5 0 0 0-3 8.5c.5.5 1 1.5 1 2.5h4c0-1 .5-2 1-2.5A5 5 0 0 0 12 8z" fill="#FEF08A" fill-opacity="0.35"/>
-  <path d="M4.5 4.5l1.5 1.5"/>
-  <path d="M19.5 4.5l-1.5 1.5"/>
+<!-- Tile 25: Ingenio  -->
+<div class="col-start-1 row-start-5 bg-gradient-to-b from-purple-400 to-indigo-600 border border-purple-300/70 border-b-[5px] border-indigo-800 shadow-md rounded-xl sm:rounded-2xl p-0.5 sm:p-1 md:p-1.5 flex flex-col justify-between transition-all duration-150 hover:-translate-y-1 hover:shadow-lg relative select-none cursor-pointer group" id="tile-25">
+  <div class="flex justify-between items-center w-full">
+    <div class="bg-indigo-950/80 text-white font-black text-[9px] sm:text-[10px] md:text-xs rounded-full w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 flex items-center justify-center shadow-inner border border-white/20">
+      <span>25</span>
+    </div>
+    
+  </div>
+  <div class="flex flex-col items-center justify-center my-auto">
+    <div class="tile-icon-badge w-5 h-5 sm:w-6 sm:h-6 md:w-9 md:h-9 rounded-md md:rounded-xl bg-white/25 backdrop-blur-2xs text-white flex items-center justify-center shadow-xs border border-white/30 select-none group-hover:scale-105 transition-transform" title="Ingenio">
+      <svg class="w-3 h-3 sm:w-4 sm:h-4 md:w-6 md:h-6 text-amber-200 drop-shadow-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M9 18h6"/><path d="M10 21h4"/><path d="M12 2v2"/>
+  <path d="M12 8a5 5 0 0 0-3 8.5c.5.5 1 1.5 1 2.5h4c0-1 .5-2 1-2.5A5 5 0 0 0 12 8z" fill="#FEF08A" fill-opacity="0.45"/>
+  <path d="M4.5 4.5l1.5 1.5"/><path d="M19.5 4.5l-1.5 1.5"/>
 </svg>
+    </div>
+    <span class="hidden md:block text-[9px] sm:text-[10px] md:text-[11px] font-black text-white mt-0.5 text-center leading-none tracking-tight drop-shadow-xs">Ingenio</span>
+  </div>
+  <div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-25"></div>
 </div>
-<span class="hidden md:block text-[10px] sm:text-[11px] font-extrabold text-ingenio-text mt-0.5 text-center leading-none tracking-tight">Ingenio</span>
-</div>
-<div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-25"></div>
-</div><!-- Tile 26: Matematica -->
-<div class="col-start-1 row-start-4 bg-math-light border-2 border-math-border hover:border-math-accent shadow-xs rounded-xl sm:rounded-2xl p-0.5 sm:p-1 md:p-2 flex flex-col justify-between transition-all hover:-translate-y-0.5 relative" id="tile-26">
-<div class="flex justify-between items-center text-[8px] sm:text-[9px] md:text-[11px] font-black leading-none text-slate-400">
-<span class="">26</span>
-</div>
-<div class="flex flex-col items-center justify-center my-auto md:gap-1">
-<div class="tile-icon-badge w-[19px] h-[19px] sm:w-6 sm:h-6 md:w-9 md:h-9 rounded-md md:rounded-xl bg-blue-600 text-white flex items-center justify-center shadow-xs select-none" title="Matemática">
-<svg class="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 md:w-5 md:h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+<!-- Tile 26: Matemática  -->
+<div class="col-start-1 row-start-4 bg-gradient-to-b from-sky-400 to-blue-500 border border-sky-300/70 border-b-[5px] border-blue-700 shadow-md rounded-xl sm:rounded-2xl p-0.5 sm:p-1 md:p-1.5 flex flex-col justify-between transition-all duration-150 hover:-translate-y-1 hover:shadow-lg relative select-none cursor-pointer group" id="tile-26">
+  <div class="flex justify-between items-center w-full">
+    <div class="bg-blue-800/80 text-white font-black text-[9px] sm:text-[10px] md:text-xs rounded-full w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 flex items-center justify-center shadow-inner border border-white/20">
+      <span>26</span>
+    </div>
+    
+  </div>
+  <div class="flex flex-col items-center justify-center my-auto">
+    <div class="tile-icon-badge w-5 h-5 sm:w-6 sm:h-6 md:w-9 md:h-9 rounded-md md:rounded-xl bg-white/25 backdrop-blur-2xs text-white flex items-center justify-center shadow-xs border border-white/30 select-none group-hover:scale-105 transition-transform" title="Matemática">
+      <svg class="w-3 h-3 sm:w-4 sm:h-4 md:w-6 md:h-6 text-white drop-shadow-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
   <path d="M21.3 2.7a1 1 0 0 0-1.4 0L2.7 19.9a1 1 0 0 0 .7 1.7H20a1 1 0 0 0 1-1V3.4a1 1 0 0 0-.7-.7z"/>
-  <path d="M7 18h7a1 1 0 0 0 1-1v-7a1 1 0 0 0-1.7-.7L5.6 17a1 1 0 0 0 1.4 1z" fill="white" fill-opacity="0.3"/>
-  <path d="M18 10h-2"/>
-  <path d="M18 14h-3"/>
-  <path d="M14 18v-3"/>
+  <path d="M7 18h7a1 1 0 0 0 1-1v-7a1 1 0 0 0-1.7-.7L5.6 17a1 1 0 0 0 1.4 1z" fill="white" fill-opacity="0.35"/>
+  <path d="M18 10h-2"/><path d="M18 14h-3"/><path d="M14 18v-3"/>
 </svg>
+    </div>
+    <span class="hidden md:block text-[9px] sm:text-[10px] md:text-[11px] font-black text-white mt-0.5 text-center leading-none tracking-tight drop-shadow-xs">Matemática</span>
+  </div>
+  <div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-26"></div>
 </div>
-<span class="hidden md:block text-[10px] sm:text-[11px] font-extrabold text-math-text mt-0.5 text-center leading-none tracking-tight">Matemática</span>
+<!-- Tile 27: Ingenio [STAR TILE] -->
+<div class="col-start-1 row-start-3 bg-gradient-to-b from-purple-500 via-indigo-600 to-purple-700 border-[3px] border-amber-300 ring-2 ring-amber-400/80 border-b-[6px] border-amber-600 shadow-[0_6px_0_#b45309,0_0_18px_rgba(251,191,36,0.5)] rounded-xl sm:rounded-2xl p-0.5 sm:p-1 md:p-1.5 flex flex-col justify-between transition-all duration-150 hover:-translate-y-1 hover:shadow-lg relative select-none cursor-pointer group" id="tile-27">
+  <div class="flex justify-between items-center w-full">
+    <div class="bg-indigo-950/80 text-white font-black text-[9px] sm:text-[10px] md:text-xs rounded-full w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 flex items-center justify-center shadow-inner border border-white/20">
+      <span>27</span>
+    </div>
+    <span class="text-[11px] sm:text-xs md:text-sm select-none leading-none filter drop-shadow-xs animate-bounce-subtle">👑</span>
+  </div>
+  <div class="flex flex-col items-center justify-center my-auto">
+    <div class="tile-icon-badge w-5 h-5 sm:w-6 sm:h-6 md:w-9 md:h-9 rounded-md md:rounded-xl bg-white/25 backdrop-blur-2xs text-white flex items-center justify-center shadow-xs border border-white/30 select-none group-hover:scale-105 transition-transform" title="Ingenio">
+      <span class="text-xl sm:text-2xl md:text-3xl filter drop-shadow-md select-none">👑</span>
+    </div>
+    <span class="hidden md:block text-[9px] sm:text-[10px] md:text-[11px] font-black text-white mt-0.5 text-center leading-none tracking-tight drop-shadow-xs">Ingenio</span>
+  </div>
+  <div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-27"></div>
 </div>
-<div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-26"></div>
-</div><!-- Tile 27: Ingenio [STAR TILE] -->
-<div class="col-start-1 row-start-3 bg-ingenio-light border-2 border-amber-400 ring-2 ring-amber-300/40 shadow-glow-star rounded-xl sm:rounded-2xl p-0.5 sm:p-1 md:p-2 flex flex-col justify-between transition-all hover:-translate-y-0.5 relative" id="tile-27">
-<div class="flex justify-between items-center text-[8px] sm:text-[9px] md:text-[11px] font-black leading-none text-ingenio-text">
-<span class="">27</span>
-<span class="text-[8px] sm:text-[10px] md:text-xs select-none leading-none">👑</span>
-</div>
-<div class="flex flex-col items-center justify-center my-auto md:gap-1">
-<div class="tile-icon-badge w-[19px] h-[19px] sm:w-6 sm:h-6 md:w-9 md:h-9 rounded-md md:rounded-xl bg-purple-600 text-white flex items-center justify-center shadow-xs select-none" title="Ingenio y Cultura">
-<svg class="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 md:w-5 md:h-5 text-amber-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-  <path d="M9 18h6"/>
-  <path d="M10 21h4"/>
-  <path d="M12 2v2"/>
-  <path d="M12 8a5 5 0 0 0-3 8.5c.5.5 1 1.5 1 2.5h4c0-1 .5-2 1-2.5A5 5 0 0 0 12 8z" fill="#FEF08A" fill-opacity="0.35"/>
-  <path d="M4.5 4.5l1.5 1.5"/>
-  <path d="M19.5 4.5l-1.5 1.5"/>
-</svg>
-</div>
-<span class="hidden md:block text-[10px] sm:text-[11px] font-extrabold text-ingenio-text mt-0.5 text-center leading-none tracking-tight">Ingenio</span>
-</div>
-<div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-27"></div>
-</div><!-- Tile 28: Ciencias Naturales -->
-<div class="col-start-1 row-start-2 bg-naturales-light border-2 border-naturales-border hover:border-naturales-accent shadow-xs rounded-xl sm:rounded-2xl p-0.5 sm:p-1 md:p-2 flex flex-col justify-between transition-all hover:-translate-y-0.5 relative" id="tile-28">
-<div class="flex justify-between items-center text-[8px] sm:text-[9px] md:text-[11px] font-black leading-none text-slate-400">
-<span class="">28</span>
-</div>
-<div class="flex flex-col items-center justify-center my-auto md:gap-1">
-<div class="tile-icon-badge w-[19px] h-[19px] sm:w-6 sm:h-6 md:w-9 md:h-9 rounded-md md:rounded-xl bg-emerald-600 text-white flex items-center justify-center shadow-xs select-none" title="Ciencias Naturales">
-<svg class="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 md:w-5 md:h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+<!-- Tile 28: C. Naturales  -->
+<div class="col-start-1 row-start-2 bg-gradient-to-b from-emerald-400 to-green-500 border border-emerald-300/70 border-b-[5px] border-green-700 shadow-md rounded-xl sm:rounded-2xl p-0.5 sm:p-1 md:p-1.5 flex flex-col justify-between transition-all duration-150 hover:-translate-y-1 hover:shadow-lg relative select-none cursor-pointer group" id="tile-28">
+  <div class="flex justify-between items-center w-full">
+    <div class="bg-green-800/80 text-white font-black text-[9px] sm:text-[10px] md:text-xs rounded-full w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 flex items-center justify-center shadow-inner border border-white/20">
+      <span>28</span>
+    </div>
+    
+  </div>
+  <div class="flex flex-col items-center justify-center my-auto">
+    <div class="tile-icon-badge w-5 h-5 sm:w-6 sm:h-6 md:w-9 md:h-9 rounded-md md:rounded-xl bg-white/25 backdrop-blur-2xs text-white flex items-center justify-center shadow-xs border border-white/30 select-none group-hover:scale-105 transition-transform" title="C. Naturales">
+      <svg class="w-3 h-3 sm:w-4 sm:h-4 md:w-6 md:h-6 text-white drop-shadow-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
   <path d="M12 21V4"/>
-  <path d="M12 4c0 0 2-2 4.5-2S20 3.5 20 5.5c0 2.5-3 3.5-8 4.5" fill="white" fill-opacity="0.3"/>
-  <path d="M12 9c0 0-2.5-2-5-2S3 8.5 3 10.5c0 2.5 3 3.5 9 4" fill="white" fill-opacity="0.3"/>
-  <path d="M12 14c0 0 2.5-2 5-2s4 1.5 4 3.5c0 2.5-3 3.5-9 4" fill="white" fill-opacity="0.3"/>
+  <path d="M12 4c0 0 2-2 4.5-2S20 3.5 20 5.5c0 2.5-3 3.5-8 4.5" fill="white" fill-opacity="0.35"/>
+  <path d="M12 9c0 0-2.5-2-5-2S3 8.5 3 10.5c0 2.5 3 3.5 9 4" fill="white" fill-opacity="0.35"/>
+  <path d="M12 14c0 0 2.5-2 5-2s4 1.5 4 3.5c0 2.5-3 3.5-9 4" fill="white" fill-opacity="0.35"/>
 </svg>
+    </div>
+    <span class="hidden md:block text-[9px] sm:text-[10px] md:text-[11px] font-black text-white mt-0.5 text-center leading-none tracking-tight drop-shadow-xs">C. Naturales</span>
+  </div>
+  <div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-28"></div>
 </div>
-<span class="hidden md:block text-[10px] sm:text-[11px] font-extrabold text-naturales-text mt-0.5 text-center leading-none tracking-tight">C. Naturales</span>
-</div>
-<div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-28"></div>
-</div><!-- ================= BOARD CENTER: INTERACTIVE ARENA ================= -->
+<!-- ================= BOARD CENTER: INTERACTIVE ARENA ================= -->
 <!-- Center occupies columns 2 to 7 and rows 2 to 7 (6x6 area) -->
-<div class="col-span-6 row-span-6 col-start-2 row-start-2 bg-gradient-to-b from-slate-50/90 via-blue-50/30 to-indigo-50/50 rounded-3xl m-1 border-2 border-dashed border-slate-200/90 flex flex-col items-center justify-center p-2 sm:p-4 md:p-6 text-center relative shadow-inner overflow-hidden" data-purpose="board-center-interactive-area">
-<!-- Subtle watermark / themed badge in background -->
-<div class="absolute inset-0 flex items-center justify-center opacity-[0.03] pointer-events-none text-9xl font-black">
-            🎓
-          </div>
-<!-- Shockwave ring placeholder -->
-<div class="absolute w-44 h-44 rounded-full border-4 border-amber-400 pointer-events-none opacity-0 transition-opacity" id="shockwaveRing"></div>
-<!-- Burst particles container -->
-<div class="absolute inset-0 pointer-events-none overflow-hidden z-20" id="particlesLayer"></div>
-<!-- Active turn headline notification -->
-<div class="inline-flex items-center gap-2 bg-white px-4 py-1.5 rounded-full shadow-sm border border-slate-200 text-xs font-bold text-slate-700 mb-2 sm:mb-4 md:mb-6 transition-all" data-purpose="turn-indicator-pill" id="turnPill">
-<span class="w-2.5 h-2.5 rounded-full bg-blue-500 animate-pulse"></span>
-            Es el turno de <span class="text-blue-600 font-extrabold">Ger</span> (Oso 🐻)
-          </div>
-<!-- 3D Realistic Playful Dice Component -->
-<div class="relative group cursor-pointer my-2 dice-container-perspective" data-purpose="3d-dice-component" id="diceClickArea" title="Haz clic para tirar el dado">
-<!-- Shadow under the dice -->
-<div class="absolute -bottom-4 left-1/2 -translate-x-1/2 w-14 sm:w-16 md:w-24 h-3 sm:h-4 md:h-6 bg-slate-400/25 rounded-full blur-md group-hover:scale-95 transition-all" id="diceShadow"></div>
-<!-- Dice Cube Face (Showing 5 dots initially) -->
-<div class="w-14 h-14 sm:w-16 sm:h-16 md:w-24 md:h-24 lg:w-28 lg:h-28 bg-gradient-to-b from-white to-slate-100 rounded-2xl md:rounded-3xl border-2 md:border-4 border-slate-200 shadow-xl flex flex-col justify-between p-4 transform group-hover:-translate-y-1.5 group-active:translate-y-1 transition-all duration-150 relative select-none" id="diceCubeFace">
-<!-- Top Row: 2 Dots -->
-<div class="flex justify-between w-full h-4">
-<span class="dice-dot" id="dot-tl"></span>
-<span class="dice-dot opacity-0" id="dot-tc"></span>
-<span class="dice-dot" id="dot-tr"></span>
-</div>
-<!-- Center Row: 1 Dot -->
-<div class="flex justify-between w-full h-4 items-center">
-<span class="dice-dot opacity-0" id="dot-ml"></span>
-<span class="dice-dot" id="dot-mc"></span>
-<span class="dice-dot opacity-0" id="dot-mr"></span>
-</div>
-<!-- Bottom Row: 2 Dots -->
-<div class="flex justify-between w-full h-4">
-<span class="dice-dot" id="dot-bl"></span>
-<span class="dice-dot opacity-0" id="dot-bc"></span>
-<span class="dice-dot" id="dot-br"></span>
-</div>
-</div>
-</div>
-<!-- Dynamic result toast floating tag -->
-<div class="h-6 mt-1 flex items-center justify-center transition-all opacity-0 scale-90" id="resultFloatingToast">
-<span class="bg-amber-400 text-amber-950 font-black text-xs px-3 py-0.5 rounded-full shadow-md flex items-center gap-1.5">
-    ✨ <span id="toastValue">¡Sacaste 5!</span> 🎯
-  </span>
-</div>
-<!-- Interactive Roll CTA Button -->
-<div class="mt-1.5 sm:mt-2.5 md:mt-4 flex flex-col items-center">
-<button class="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 active:from-blue-700 active:to-indigo-700 text-white font-black text-lg md:text-xl px-4 py-2 sm:px-6 sm:py-2.5 md:px-10 md:py-3.5 rounded-xl md:rounded-2xl shadow-3d-btn active:shadow-3d-btn-active active:translate-y-1 transition-all duration-100 flex items-center gap-2 md:gap-3 tracking-wide" data-purpose="roll-dice-cta" id="rollDiceBtn">
-<span class="text-2xl inline-block" id="btnIcon">🎲</span>
-<span id="btnText">¡TIRAR DADO!</span>
-</button>
-<p class="text-xs md:text-sm font-bold text-slate-500 mt-3 flex items-center gap-1.5 transition-colors" id="actionHelperText">
-<span id="helperIcon">🎯</span> <span id="helperMessage">Turno de Ger. ¡Tirá el dado para avanzar por el tablero!</span>
-</p>
-</div>
-<!-- Mini roll info log -->
-<div class="hidden sm:flex mt-3 md:mt-6 items-center gap-2 md:gap-3 text-[10px] md:text-[11px] font-semibold text-slate-400 bg-white/70 px-3 py-1 rounded-lg border border-slate-100 shadow-2xs">
-<span id="lastRollLog">Último tiro: <strong>Ger sacó 5</strong></span>
-<span class="">•</span>
-<span class="text-emerald-600 font-bold" id="lastRollStatus">¡Listo para la pregunta!</span>
-</div>
+<div class="col-span-6 row-span-6 col-start-2 row-start-2 bg-gradient-to-b from-sky-50/70 via-slate-50/80 to-indigo-50/70 rounded-3xl m-0.5 sm:m-1 border-2 border-indigo-100/90 flex flex-col items-center justify-center p-2 sm:p-4 md:p-6 text-center relative shadow-inner overflow-hidden" data-purpose="board-center-interactive-area">
+  <!-- Subtle watermark / themed badge in background -->
+  <div class="absolute inset-0 flex items-center justify-center opacity-[0.03] pointer-events-none text-9xl font-black">
+    🎓
+  </div>
+  <!-- Shockwave ring placeholder -->
+  <div class="absolute w-44 h-44 rounded-full border-4 border-amber-400 pointer-events-none opacity-0 transition-opacity" id="shockwaveRing"></div>
+  <!-- Burst particles container -->
+  <div class="absolute inset-0 pointer-events-none overflow-hidden z-20" id="particlesLayer"></div>
+
+  <!-- Active turn headline notification -->
+  <div class="inline-flex items-center gap-2 bg-white px-4 py-1.5 rounded-full shadow-md border border-slate-200/80 text-xs sm:text-sm font-black text-slate-800 mb-1.5 sm:mb-3 md:mb-5 transition-all select-none" data-purpose="turn-indicator-pill" id="turnPill">
+    <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+    <span>Es el turno de <span class="text-indigo-600 font-black">Ger</span> 💻</span>
+  </div>
+
+  <!-- 3D Realistic Playful Dice Component + Mascot Stage -->
+  <div class="relative flex items-center justify-center gap-2 sm:gap-4 md:gap-7 my-1 sm:my-2">
+    <!-- 3D Realistic Playful Dice Component -->
+    <div class="relative group cursor-pointer dice-container-perspective" data-purpose="3d-dice-component" id="diceClickArea" title="Haz clic para tirar el dado">
+      <!-- Shadow under the dice -->
+      <div class="absolute -bottom-3 left-1/2 -translate-x-1/2 w-14 sm:w-16 md:w-24 h-3 sm:h-4 md:h-6 bg-indigo-950/20 rounded-full blur-md group-hover:scale-95 transition-all" id="diceShadow"></div>
+      <!-- Dice Cube Face (Showing 5 dots initially) -->
+      <div class="w-14 h-14 sm:w-16 sm:h-16 md:w-24 md:h-24 lg:w-28 lg:h-28 bg-gradient-to-b from-white via-slate-50 to-slate-100 rounded-2xl md:rounded-3xl border-2 md:border-4 border-slate-200 shadow-xl flex flex-col justify-between p-2.5 sm:p-3 md:p-4 transform group-hover:-translate-y-1.5 group-active:translate-y-1 transition-all duration-150 relative select-none" id="diceCubeFace">
+        <!-- Top Row: 2 Dots -->
+        <div class="flex justify-between w-full h-3 sm:h-4">
+          <span class="dice-dot" id="dot-tl"></span>
+          <span class="dice-dot opacity-0" id="dot-tc"></span>
+          <span class="dice-dot" id="dot-tr"></span>
+        </div>
+        <!-- Center Row: 1 Dot -->
+        <div class="flex justify-between w-full h-3 sm:h-4 items-center">
+          <span class="dice-dot opacity-0" id="dot-ml"></span>
+          <span class="dice-dot" id="dot-mc"></span>
+          <span class="dice-dot opacity-0" id="dot-mr"></span>
+        </div>
+        <!-- Bottom Row: 2 Dots -->
+        <div class="flex justify-between w-full h-3 sm:h-4">
+          <span class="dice-dot" id="dot-bl"></span>
+          <span class="dice-dot opacity-0" id="dot-bc"></span>
+          <span class="dice-dot" id="dot-br"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cheerful Mascot Nelo standing beside the die (As in Mockup) -->
+    <div class="flex flex-col items-center select-none pointer-events-none animate-nelo-cheer" title="Nelo alentando">
+      <img src="assets/mascot.png" alt="Nelo" class="w-14 sm:w-18 md:w-28 lg:w-32 h-auto drop-shadow-xl transform scale-x-[-1] hover:scale-105 transition-transform">
+      <div class="w-10 sm:w-14 md:w-20 h-2 md:h-2.5 bg-indigo-950/20 rounded-full blur-[2px] -mt-1 md:-mt-2"></div>
+    </div>
+  </div>
+
+  <!-- Dynamic result toast floating tag -->
+  <div class="h-6 mt-0.5 sm:mt-1 flex items-center justify-center transition-all opacity-0 scale-90" id="resultFloatingToast">
+    <span class="bg-amber-400 text-amber-950 font-black text-xs px-3 py-0.5 rounded-full shadow-md flex items-center gap-1.5">
+      ✨ <span id="toastValue">¡Sacaste 5!</span> 🎯
+    </span>
+  </div>
+
+  <!-- Interactive Roll CTA Button (3D Pixar / Nintendo Giant Button) -->
+  <div class="mt-1 sm:mt-2 md:mt-3 flex flex-col items-center">
+    <button class="bg-gradient-to-r from-blue-600 via-indigo-600 to-indigo-700 hover:from-blue-500 hover:via-indigo-500 hover:to-indigo-600 text-white font-black text-base sm:text-xl md:text-2xl px-6 py-2.5 sm:px-10 sm:py-3 md:px-14 md:py-4 rounded-2xl md:rounded-3xl border-b-[6px] md:border-b-[8px] border-indigo-950 shadow-[0_10px_20px_rgba(30,27,75,0.35)] active:translate-y-1.5 active:border-b-[2px] active:shadow-md transition-all duration-100 flex items-center gap-2 md:gap-3 tracking-wider cursor-pointer select-none" data-purpose="roll-dice-cta" id="rollDiceBtn">
+      <span class="text-xl sm:text-2xl md:text-3xl inline-block" id="btnIcon">🎲</span>
+      <span id="btnText">¡TIRAR DADO!</span>
+    </button>
+    <p class="text-[11px] sm:text-xs md:text-sm font-bold text-slate-500 mt-2 sm:mt-3 flex items-center gap-1.5 transition-colors" id="actionHelperText">
+      <span id="helperIcon">🎯</span> <span id="helperMessage">Turno de Ger. ¡Tirá el dado para avanzar por el tablero!</span>
+    </p>
+  </div>
+
+  <!-- Mini roll info log -->
+  <div class="hidden sm:flex mt-2 md:mt-4 items-center gap-2 md:gap-3 text-[10px] md:text-[11px] font-bold text-slate-400 bg-white/80 px-3 py-1 rounded-xl border border-slate-200/60 shadow-2xs">
+    <span id="lastRollLog">Último tiro: <strong>Ger sacó 5</strong></span>
+    <span class="">•</span>
+    <span class="text-emerald-600 font-extrabold" id="lastRollStatus">¡Listo para la pregunta!</span>
+  </div>
 </div>
 <!-- END: BOARD CENTER -->
 </div>
