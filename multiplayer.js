@@ -12,6 +12,7 @@ class MultiplayerManager {
         this.playerName = 'Cami';
         this.playerAvatar = '🐬';
         this.selectedGrade = 6;
+        this.targetPlayers = 2;
         this.playersInRoom = [];
         this.roomRef = null;
         this.isOnlineGameActive = false;
@@ -372,6 +373,7 @@ class MultiplayerManager {
                 const roomData = {
                     code: this.roomCode,
                     grade: this.selectedGrade,
+                    targetPlayers: this.targetPlayers || 2,
                     hostId: this.myPlayerId,
                     status: 'waiting',
                     createdAt: firebase.database.ServerValue.TIMESTAMP,
@@ -451,8 +453,9 @@ class MultiplayerManager {
                 }
 
                 const currentPlayers = room.players ? Object.keys(room.players) : [];
-                if (currentPlayers.length >= 4) {
-                    alert('La sala ya está llena (máximo 4 jugadoras).');
+                const maxAllowed = room.targetPlayers || 2;
+                if (currentPlayers.length >= maxAllowed) {
+                    alert(`La sala ya está completa (máximo ${maxAllowed} jugadoras).`);
                     return;
                 }
 
@@ -512,6 +515,7 @@ class MultiplayerManager {
             // 1. Actualizar lista de jugadoras
             if (room.players) {
                 this.playersInRoom = Object.values(room.players);
+                if (room.targetPlayers) this.roomTargetPlayers = room.targetPlayers;
             } else {
                 this.playersInRoom = [];
             }
@@ -737,9 +741,22 @@ class MultiplayerManager {
         }
 
         // Render slots in grid
+        const maxSlots = this.roomTargetPlayers || this.targetPlayers || 2;
+        const maxBadge = document.getElementById('waiting-max-count');
+        if (maxBadge) maxBadge.textContent = maxSlots;
+
         if (this.waitingPlayersGrid) {
             let html = '';
-            for (let i = 0; i < 4; i++) {
+            // Adapt grid columns according to maxSlots
+            if (maxSlots === 2) {
+                this.waitingPlayersGrid.className = 'grid grid-cols-1 sm:grid-cols-2 gap-3';
+            } else if (maxSlots === 3) {
+                this.waitingPlayersGrid.className = 'grid grid-cols-1 sm:grid-cols-3 gap-3';
+            } else {
+                this.waitingPlayersGrid.className = 'grid grid-cols-1 sm:grid-cols-2 gap-3';
+            }
+
+            for (let i = 0; i < maxSlots; i++) {
                 const player = this.playersInRoom[i];
                 if (player) {
                     html += `

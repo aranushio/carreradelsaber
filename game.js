@@ -873,25 +873,29 @@ class CarreraDelSaberApp {
                     }
                 });
 
+                article.className = isActive
+                    ? 'p-3.5 rounded-2xl border-2 border-blue-500 bg-blue-50/70 relative shadow-sm transition-all'
+                    : 'p-3.5 rounded-2xl border border-slate-200 bg-white/95 shadow-2xs transition-all';
+
                 article.innerHTML = `
                     ${isActive ? `
-                    <div class="absolute -top-2 right-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-black text-[9px] tracking-wider px-2 py-0.2 rounded-full uppercase turn-glow shadow-xs">
+                    <div class="absolute -top-2.5 right-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-black text-[10px] tracking-wider px-2.5 py-0.5 rounded-full uppercase turn-glow shadow-xs">
                         Turno
                     </div>` : ''}
 
-                    <div class="flex items-center gap-2 mb-1.5">
-                        <div class="w-11 h-11 rounded-full ${p.avatarBg} border-2 border-white shadow-md flex items-center justify-center text-2xl relative shrink-0">
+                    <div class="flex items-center gap-3 mb-2">
+                        <div class="w-12 h-12 rounded-full ${p.avatarBg} border-2 border-white shadow-sm flex items-center justify-center text-2xl relative shrink-0">
                             ${p.avatar}
                             ${isActive ? '<span class="absolute -bottom-1 -right-1 text-xs">⭐</span>' : ''}
                         </div>
-                        <div class="min-w-0">
-                            <div class="flex items-center gap-1.5">
-                                <h3 class="font-extrabold text-slate-900 text-xs truncate max-w-[110px]">${p.name}</h3>
-                                <span class="text-[9px] ${isActive ? 'bg-amber-100 text-amber-800' : 'bg-slate-100 text-slate-600'} font-bold px-1 rounded" id="player-tile-tag-${p.id}">
+                        <div class="min-w-0 flex-1">
+                            <div class="flex items-center justify-between">
+                                <h3 class="font-black text-slate-900 text-sm truncate max-w-[120px]">${p.name}</h3>
+                                <span class="text-xs font-bold text-slate-500" id="player-tile-tag-${p.id}">
                                     Casilla #${p.position + 1}
                                 </span>
                             </div>
-                            <p class="text-[10px] ${isActive ? 'text-blue-700 font-bold' : 'text-slate-500 font-semibold'} mt-0.5">
+                            <p class="text-xs font-black ${isActive ? 'text-blue-600' : 'text-blue-500/90'} mt-0.5">
                                 ${p.badges.size} / 5 Insignias maestras
                             </p>
                         </div>
@@ -1211,18 +1215,33 @@ class CarreraDelSaberApp {
         const questionText = document.getElementById('question-text');
         if (questionText) questionText.textContent = question.question;
 
-        // Opciones interactivas
+        // Opciones interactivas con barajado aleatorio (Fisher-Yates Shuffle)
         const optionsGrid = document.getElementById('options-grid');
         if (optionsGrid) {
             optionsGrid.innerHTML = '';
             const letters = ['A', 'B', 'C', 'D'];
 
-            question.options.forEach((optText, idx) => {
+            // Crear array mapeado identificando la opción correcta original
+            const mappedOptions = question.options.map((optText, origIdx) => ({
+                text: optText,
+                isCorrect: origIdx === question.correct
+            }));
+
+            // Barajar aleatoriamente el orden de las opciones (A, B, C, D)
+            for (let i = mappedOptions.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [mappedOptions[i], mappedOptions[j]] = [mappedOptions[j], mappedOptions[i]];
+            }
+
+            // Guardar el nuevo índice donde quedó la respuesta correcta
+            this.currentCorrectOptionIndex = mappedOptions.findIndex(o => o.isCorrect);
+
+            mappedOptions.forEach((opt, idx) => {
                 const btn = document.createElement('button');
                 btn.className = 'option-btn flex items-center gap-3 p-3.5 rounded-2xl bg-slate-50 hover:bg-slate-100 font-bold text-sm text-left border-2 border-slate-200 transition-all cursor-pointer shadow-xs active:translate-y-0.5 text-slate-800';
                 btn.innerHTML = `
                     <span class="w-8 h-8 rounded-xl bg-white shadow-xs flex items-center justify-center font-black text-xs text-slate-700 shrink-0 border border-slate-200">${letters[idx]}</span>
-                    <span class="flex-1">${optText}</span>
+                    <span class="flex-1">${opt.text}</span>
                 `;
                 btn.addEventListener('click', () => this.handleAnswer(idx));
                 optionsGrid.appendChild(btn);
@@ -1285,7 +1304,7 @@ class CarreraDelSaberApp {
         const optionsBtns = document.querySelectorAll('.option-btn');
         optionsBtns.forEach(b => b.disabled = true);
 
-        const isCorrect = selectedIndex === this.currentQuestion.correct;
+        const isCorrect = selectedIndex === (this.currentCorrectOptionIndex !== undefined ? this.currentCorrectOptionIndex : this.currentQuestion.correct);
         const player = this.players[this.currentPlayerIndex];
         const tile = this.currentTile;
 
@@ -1297,8 +1316,9 @@ class CarreraDelSaberApp {
             }
         }
 
-        if (optionsBtns[this.currentQuestion.correct]) {
-            optionsBtns[this.currentQuestion.correct].className = 'option-btn flex items-center gap-3 p-3.5 rounded-2xl bg-green-100 border-2 border-emerald-500 font-bold text-sm text-emerald-900';
+        const correctIdx = (this.currentCorrectOptionIndex !== undefined ? this.currentCorrectOptionIndex : this.currentQuestion.correct);
+        if (optionsBtns[correctIdx]) {
+            optionsBtns[correctIdx].className = 'option-btn flex items-center gap-3 p-3.5 rounded-2xl bg-green-100 border-2 border-emerald-500 font-bold text-sm text-emerald-900';
         }
 
         const feedbackBox = document.getElementById('feedback-box');
