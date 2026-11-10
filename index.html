@@ -201,62 +201,111 @@
         animation: neloCheer 2.4s ease-in-out infinite;
       }
 
-      /* Micro-animación de Nelo Atleta Corriendo (Sprint / Trote continuo) */
-      @keyframes neloRunning {
+      /* Micro-animación de Nelo Atleta Corriendo en el lugar (Trote atlético continuo) */
+      @keyframes neloRunningInPlace {
         0% {
-          transform: translateY(0px) rotate(-4deg) scale(1, 1);
+          transform: translateY(0px) rotate(-6deg) scale(1.06, 0.93);
         }
         25% {
-          transform: translateY(-13px) rotate(3deg) scale(0.96, 1.05);
+          transform: translateY(-18px) rotate(3deg) scale(0.95, 1.06);
         }
         50% {
-          transform: translateY(0px) rotate(-3deg) scale(1.05, 0.95);
+          transform: translateY(0px) rotate(-4deg) scale(1.05, 0.94);
         }
         75% {
-          transform: translateY(-10px) rotate(2deg) scale(0.97, 1.03);
+          transform: translateY(-14px) rotate(2deg) scale(0.96, 1.05);
         }
         100% {
-          transform: translateY(0px) rotate(-4deg) scale(1, 1);
+          transform: translateY(0px) rotate(-6deg) scale(1.06, 0.93);
         }
       }
 
-      @keyframes shadowRun {
+      @keyframes shadowRunningInPlace {
         0%, 50%, 100% {
-          transform: scale(1);
-          opacity: 0.35;
+          transform: scale(1.2, 1.1);
+          opacity: 0.38;
+          filter: blur(1.5px);
         }
         25%, 75% {
-          transform: scale(0.65, 0.65);
-          opacity: 0.15;
+          transform: scale(0.65, 0.55);
+          opacity: 0.12;
+          filter: blur(4px);
         }
       }
 
-      @keyframes speedLine {
-        0% {
-          transform: translateX(12px) scaleX(0.3);
-          opacity: 0;
+      @keyframes bubbleFloat {
+        0%, 100% {
+          transform: translateY(0px);
         }
         50% {
+          transform: translateY(-6px);
+        }
+      }
+
+      @keyframes speedDash1 {
+        0% {
+          transform: translateX(12px) scaleX(0.2);
+          opacity: 0;
+        }
+        40% {
           opacity: 0.85;
         }
         100% {
-          transform: translateX(-35px) scaleX(1.4);
+          transform: translateX(-42px) scaleX(1.4);
           opacity: 0;
+        }
+      }
+
+      @keyframes speedDash2 {
+        0% {
+          transform: translateX(15px) scaleX(0.2);
+          opacity: 0;
+        }
+        50% {
+          opacity: 0.95;
+        }
+        100% {
+          transform: translateX(-52px) scaleX(1.6);
+          opacity: 0;
+        }
+      }
+
+      @keyframes avatarTrot {
+        0%, 100% {
+          transform: translateY(0px) rotate(-3deg) scale(1.02, 0.97);
+        }
+        25% {
+          transform: translateY(-3.5px) rotate(3deg) scale(0.97, 1.03);
+        }
+        50% {
+          transform: translateY(0px) rotate(-2deg) scale(1.02, 0.98);
+        }
+        75% {
+          transform: translateY(-2.5px) rotate(2deg) scale(0.98, 1.02);
         }
       }
 
       .animate-nelo-running {
-        animation: neloRunning 0.58s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-        transform-origin: bottom center;
+        animation: neloRunningInPlace 0.52s cubic-bezier(0.42, 0.08, 0.58, 0.96) infinite;
+        transform-origin: 50% 92%;
+        will-change: transform;
       }
       .animate-nelo-shadow {
-        animation: shadowRun 0.58s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        animation: shadowRunningInPlace 0.52s cubic-bezier(0.42, 0.08, 0.58, 0.96) infinite;
+        will-change: transform, opacity;
+      }
+      .animate-bubble-float {
+        animation: bubbleFloat 2.4s ease-in-out infinite;
+      }
+      .animate-avatar-trot {
+        animation: avatarTrot 0.58s ease-in-out infinite;
+        transform-origin: 50% 90%;
       }
       .speed-line-1 {
-        animation: speedLine 0.65s ease-out infinite;
+        animation: speedDash1 0.62s ease-out infinite;
       }
       .speed-line-2 {
-        animation: speedLine 0.65s ease-out 0.32s infinite;
+        animation: speedDash2 0.62s ease-out 0.28s infinite;
       }
     </style>
 </head>
@@ -267,7 +316,7 @@
         <div class="flex items-center space-x-3">
             <a href="#" id="header-brand-link" class="flex items-center space-x-3 cursor-pointer group">
                 <div class="w-10 h-10 md:w-11 md:h-11 rounded-full bg-gradient-to-tr from-amber-100 via-rose-50 to-indigo-100 border-2 border-indigo-200/80 shadow-xs flex items-center justify-center overflow-hidden shrink-0 group-hover:scale-105 transition-transform">
-                    <img src="assets/mascot.png" alt="Nelo - Mascota Oficial" class="w-full h-full object-contain p-0.5">
+                    <img src="assets/mascot.png" alt="Nelo - Mascota Oficial" class="w-full h-full object-contain p-0.5 animate-avatar-trot">
                 </div>
                 <div>
                     <h1 class="text-xl md:text-2xl font-black text-slate-800 tracking-tight flex items-center gap-2">
@@ -323,31 +372,32 @@
             <!-- Hero Setup Title with Mascot Nelo -->
             <div class="text-center flex flex-col items-center relative">
                 <!-- Mascot (Desktop Floating on the right of the card) -->
-                <div class="hidden xl:flex flex-col items-center absolute -right-32 top-2 pointer-events-none select-none z-10">
+                <div class="hidden lg:flex flex-col items-center absolute -right-6 xl:-right-28 top-0 pointer-events-none select-none z-10">
                     <!-- Globo de Diálogo -->
-                    <div class="relative bg-white text-indigo-900 font-black text-xs px-3.5 py-1.5 rounded-2xl shadow-md border-2 border-indigo-100 mb-3 whitespace-nowrap">
+                    <div class="relative bg-white text-indigo-900 font-black text-xs px-3.5 py-1.5 rounded-2xl shadow-md border-2 border-indigo-100 mb-2.5 whitespace-nowrap animate-bubble-float">
                         <span>¡Preparate para correr! 🏃‍♂️💨</span>
                         <div class="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-3 h-3 bg-white border-b-2 border-r-2 border-indigo-100 rotate-45"></div>
                     </div>
                     
                     <!-- Mascota Nelo con líneas de velocidad -->
-                    <div class="relative">
+                    <div class="relative flex items-center justify-center">
                         <!-- Estelas de velocidad atrás de Nelo -->
-                        <div class="absolute -left-6 top-8 w-8 h-1 bg-gradient-to-r from-transparent to-amber-400/80 rounded-full speed-line-1"></div>
-                        <div class="absolute -left-8 top-16 w-10 h-1 bg-gradient-to-r from-transparent to-indigo-400/80 rounded-full speed-line-2"></div>
+                        <div class="absolute -left-6 top-8 w-8 h-1 bg-gradient-to-r from-transparent to-amber-400/80 rounded-full speed-line-1 pointer-events-none"></div>
+                        <div class="absolute -left-8 top-16 w-10 h-1.5 bg-gradient-to-r from-transparent to-indigo-400/80 rounded-full speed-line-2 pointer-events-none"></div>
+                        <div class="absolute -left-5 top-22 w-6 h-1 bg-gradient-to-r from-transparent to-sky-400/70 rounded-full speed-line-1 pointer-events-none" style="animation-delay: 0.15s;"></div>
                         
-                        <!-- Imagen animada corriendo -->
-                        <img src="assets/mascot.png" alt="Nelo - Mascota Oficial" class="w-32 h-auto drop-shadow-xl animate-nelo-running">
+                        <!-- Imagen animada corriendo en el lugar -->
+                        <img src="assets/mascot.png" alt="Nelo - Mascota Oficial" class="w-32 lg:w-36 h-auto drop-shadow-xl animate-nelo-running">
                     </div>
 
                     <!-- Sombra dinámica bajo las zapatillas -->
-                    <div class="w-20 h-2.5 bg-indigo-950/20 rounded-full blur-[2px] mx-auto -mt-2 animate-nelo-shadow"></div>
+                    <div class="w-22 h-2.5 bg-indigo-950/25 rounded-full blur-[2px] mx-auto -mt-2 animate-nelo-shadow"></div>
                 </div>
 
                 <!-- Mascot (Mobile / Tablet compact badge above title) -->
-                <div class="flex xl:hidden items-center gap-2 mb-2 bg-gradient-to-r from-amber-50 to-indigo-50 border border-indigo-100 px-3.5 py-1.5 rounded-full shadow-2xs">
+                <div class="flex lg:hidden items-center gap-2 mb-2 bg-gradient-to-r from-amber-50 to-indigo-50 border border-indigo-100 px-3.5 py-1.5 rounded-full shadow-2xs">
                     <img src="assets/mascot.png" alt="Nelo" class="w-8 h-8 object-contain animate-nelo-running">
-                    <span class="text-xs font-black text-indigo-800">Nelo dice: "¿Listo para el desafío?" 🏃‍♂️</span>
+                    <span class="text-xs font-black text-indigo-800">Nelo dice: "¡Listo para el desafío!" 🏃‍♂️💨</span>
                 </div>
 
                 <span class="inline-flex items-center gap-1.5 px-4 py-1 rounded-full bg-amber-100 text-amber-800 text-xs font-black uppercase tracking-wider mb-2">
