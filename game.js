@@ -847,8 +847,8 @@ class CarreraDelSaberApp {
             if (desktopContainer) {
                 const article = document.createElement('article');
                 article.className = isActive
-                    ? 'p-2.5 rounded-xl border-2 border-blue-500 bg-blue-50/40 relative shadow-xs'
-                    : 'p-2.5 rounded-xl border border-slate-200 bg-white shadow-xs';
+                    ? 'p-3 rounded-2xl border-2 border-blue-500 bg-blue-50/60 relative shadow-md transition-all'
+                    : 'p-3 rounded-2xl border border-slate-200 bg-white shadow-xs transition-all';
 
                 let badgesHtml = '';
                 badgeKeys.forEach(k => {
@@ -880,9 +880,9 @@ class CarreraDelSaberApp {
                     </div>` : ''}
 
                     <div class="flex items-center gap-2 mb-1.5">
-                        <div class="w-8 h-8 rounded-xl ${p.avatarBg} flex items-center justify-center text-lg shadow-inner relative">
+                        <div class="w-11 h-11 rounded-full ${p.avatarBg} border-2 border-white shadow-md flex items-center justify-center text-2xl relative shrink-0">
                             ${p.avatar}
-                            ${isActive ? '<span class="absolute -bottom-1 -right-1 text-[10px]">⭐</span>' : ''}
+                            ${isActive ? '<span class="absolute -bottom-1 -right-1 text-xs">⭐</span>' : ''}
                         </div>
                         <div class="min-w-0">
                             <div class="flex items-center gap-1.5">
