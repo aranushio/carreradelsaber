@@ -1136,6 +1136,11 @@ class CarreraDelSaberApp {
         const tile = TILES_METADATA[player.position];
         this.currentTile = tile;
 
+        // Persistir inmediatamente la posicion final en Firebase al aterrizar
+        if (this.isOnline && this.onlineManager && player.id === this.onlineManager.myPlayerId) {
+            this.onlineManager.updatePlayerPosition(player.id, player.position);
+        }
+
         const turnPill = document.getElementById('turnPill');
         if (turnPill) {
             turnPill.innerHTML = `<span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span> ¡${player.name} cayó en <strong class="text-blue-600 font-black text-sm ml-1">${tile.label}</strong> (Casilla #${tile.id})!`;

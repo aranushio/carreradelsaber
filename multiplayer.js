@@ -527,8 +527,13 @@ class MultiplayerManager {
                         if (localP) {
                             if (rp.score !== undefined) localP.score = rp.score;
                             if (Array.isArray(rp.badges)) localP.badges = new Set(rp.badges);
+                            // Sincronizar posicion sin reiniciar el peon local a 0
                             if (rp.position !== undefined && !window.game.isMoving) {
-                                localP.position = rp.position;
+                                if (localP.id !== this.myPlayerId) {
+                                    localP.position = rp.position;
+                                } else if (rp.position !== localP.position && !window.game.isRolling) {
+                                    localP.position = rp.position;
+                                }
                             }
                         }
                     });
@@ -690,12 +695,30 @@ class MultiplayerManager {
     sendDiceRoll(diceValue) {
         if (!this.roomRef) return;
         const roller = window.game ? window.game.players[window.game.currentPlayerIndex] : null;
+        const targetPos = roller ? (roller.position + diceValue) % 28 : 0;
+
+        // 1. Persistir inmediatamente la nueva casilla en Firebase para que no se reinicie a 0
+        if (roller && roller.id === this.myPlayerId) {
+            this.roomRef.child(`players/${this.myPlayerId}`).update({
+                position: targetPos
+            });
+        }
+
+        // 2. Transmitir el tiro a los demas dispositivos
         this.roomRef.child('gameState').update({
             action: 'diceRoll',
             diceValue: diceValue,
+            targetPosition: targetPos,
             rollerId: roller ? roller.id : this.myPlayerId,
             rollerName: roller ? roller.name : this.playerName,
             rollTimestamp: firebase.database.ServerValue.TIMESTAMP
+        });
+    }
+
+    updatePlayerPosition(playerId, position) {
+        if (!this.roomRef) return;
+        this.roomRef.child(`players/${playerId}`).update({
+            position: position
         });
     }
 
