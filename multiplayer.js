@@ -793,7 +793,29 @@ class MultiplayerManager {
             }
         }
 
-        // 2. EVENTO: Pregunta abierta (Modo Espectador en vivo)
+        // 2. EVENTO: Casillero Comodín activo
+        if (gameState.action === 'comodinActive' && gameState.activePlayerId !== this.myPlayerId) {
+            const hud = document.getElementById('spectator-hud');
+            if (hud) {
+                hud.classList.remove('hidden');
+                hud.classList.add('flex');
+            }
+            const status = document.getElementById('spectator-hud-status');
+            if (status) {
+                status.innerHTML = `<span class="flex items-center gap-1.5 font-black text-indigo-700"><span>🃏</span> <span>¡${gameState.activePlayerName} cayó en COMODÍN y está eligiendo materia...!</span></span>`;
+            }
+        }
+
+        // 3. EVENTO: Medalla canjeada por 300 puntos (Opción A)
+        if (gameState.action === 'medalRedeemed' && gameState.lastResult && gameState.lastResult.playerId !== this.myPlayerId) {
+            const status = document.getElementById('spectator-hud-status');
+            if (status) {
+                status.innerHTML = `<span class="flex items-center gap-1.5 font-black text-amber-700 text-xs sm:text-sm"><span>🏆</span> <span>¡${gameState.lastResult.playerName} sumó 300 pts y canjeó la medalla de ${gameState.lastResult.catName}! 🎖️</span></span>`;
+            }
+            window.game.audio.playBadgeWon();
+        }
+
+        // 4. EVENTO: Pregunta abierta (Modo Espectador en vivo)
         if (gameState.action === 'questionActive' && gameState.activeQuestion) {
             if (gameState.activeQuestion.playerId !== this.myPlayerId && gameState.activeQuestion.questionTimestamp !== this.lastHandledQuestionTimestamp) {
                 this.lastHandledQuestionTimestamp = gameState.activeQuestion.questionTimestamp;
@@ -960,6 +982,42 @@ class MultiplayerManager {
                 this.joinCodeInput.value = sala.toUpperCase();
             }
         }
+    }
+
+    sendComodinActive(tile, player) {
+        if (!this.roomRef) return;
+        this.roomRef.child('gameState').update({
+            action: 'comodinActive',
+            activePlayerId: player ? player.id : this.myPlayerId,
+            activePlayerName: player ? player.name : this.playerName,
+            timestamp: firebase.database.ServerValue.TIMESTAMP
+        });
+    }
+
+    sendMedalRedeemed(catKey, catName, position, badgesArray, score) {
+        if (!this.roomRef) return;
+        const nextTurnIndex = (window.game.currentPlayerIndex + 1) % window.game.players.length;
+
+        // Actualizar datos del jugador
+        this.roomRef.child(`players/${this.myPlayerId}`).update({
+            position: position,
+            badges: badgesArray,
+            score: score
+        });
+
+        // Registrar canje y pasar turno
+        this.roomRef.child('gameState').update({
+            action: 'medalRedeemed',
+            lastResult: {
+                playerId: this.myPlayerId,
+                playerName: this.playerName,
+                catName: catName,
+                score: score,
+                timestamp: firebase.database.ServerValue.TIMESTAMP
+            },
+            currentTurnIndex: nextTurnIndex,
+            isRolling: false
+        });
     }
 }
 

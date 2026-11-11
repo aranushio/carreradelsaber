@@ -254,7 +254,7 @@ const TILES_METADATA = [
     { id: 2, cat: 'lengua', label: 'Lengua', icon: '📖', star: false },
     { id: 3, cat: 'matematica', label: 'Matemática', icon: '📐', star: true },
     { id: 4, cat: 'sociales', label: 'Ciencias Sociales', icon: '🌍', star: false },
-    { id: 5, cat: 'ingenio', label: 'Ingenio y Cultura', icon: '💡', star: false },
+    { id: 5, cat: 'comodin', label: 'Comodín', icon: '🃏', star: false },
     { id: 6, cat: 'matematica', label: 'Matemática', icon: '📐', star: false },
     { id: 7, cat: 'lengua', label: 'Lengua', icon: '📖', star: false },
     { id: 8, cat: 'naturales', label: 'Ciencias Naturales', icon: '🌿', star: false },
@@ -267,7 +267,7 @@ const TILES_METADATA = [
     { id: 15, cat: 'matematica', label: 'Matemática', icon: '📐', star: false },
     { id: 16, cat: 'sociales', label: 'Ciencias Sociales', icon: '🌍', star: false },
     { id: 17, cat: 'matematica', label: 'Matemática', icon: '📐', star: true },
-    { id: 18, cat: 'naturales', label: 'Ciencias Naturales', icon: '🌿', star: false },
+    { id: 18, cat: 'comodin', label: 'Comodín', icon: '🃏', star: false },
     { id: 19, cat: 'lengua', label: 'Lengua', icon: '📖', star: false },
     { id: 20, cat: 'ingenio', label: 'Ingenio y Cultura', icon: '💡', star: false },
     { id: 21, cat: 'ingenio', label: 'Ingenio y Cultura', icon: '💡', star: false },
@@ -314,6 +314,13 @@ const SUBJECT_THEME = {
         short: 'Ing',
         icon: `<svg class="w-5 h-5 drop-shadow-xs" fill="none" viewBox="0 0 32 32"><path d="M11 14 C11 8 21 8 21 14 C21 17.5 18 19 18 22 L14 22 C14 19 11 17.5 11 14 Z" fill="url(#bulb-glow)" stroke="#a855f7" stroke-width="1.3"></path></svg>`,
         activeRing: 'bg-gradient-to-b from-purple-50 to-purple-100 ring-1.5 ring-purple-400 text-purple-700 font-black shadow-2xs'
+    },
+    comodin: {
+        headerBg: '#6366f1',
+        name: 'Comodín',
+        short: 'Com',
+        icon: `<span class="text-xl">🃏</span>`,
+        activeRing: 'bg-gradient-to-b from-purple-50 to-indigo-100 ring-1.5 ring-indigo-400 text-indigo-700 font-black shadow-2xs'
     }
 };
 
@@ -893,6 +900,16 @@ class CarreraDelSaberApp {
                                     Casilla #${p.position + 1}
                                 </span>
                             </div>
+                            <!-- Barra de progreso hacia canje de 300 puntos -->
+                            <div class="mt-1 flex flex-col gap-0.5 w-full">
+                                <div class="flex items-center justify-between text-[10px] font-bold text-slate-500">
+                                    <span class="flex items-center gap-1">⭐ Puntos: <strong class="text-indigo-700">${p.score}</strong></span>
+                                    <span class="text-amber-700 font-extrabold text-[9px]">${p.score % 300}/300 pts</span>
+                                </div>
+                                <div class="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden border border-slate-200">
+                                    <div class="h-full bg-gradient-to-r from-amber-400 to-amber-500 rounded-full transition-all duration-300" style="width: ${Math.min(100, ((p.score % 300) / 300) * 100)}%"></div>
+                                </div>
+                            </div>
                             <p class="text-xs font-black ${isActive ? 'text-blue-600' : 'text-blue-500/90'} mt-0.5">
                                 ${p.badges.size} / 5 Insignias maestras
                             </p>
@@ -1139,6 +1156,27 @@ class CarreraDelSaberApp {
             this.onlineManager.updatePlayerPosition(player.id, player.position);
         }
 
+        // Si es casillero Comodín, permitir elegir materia
+        if (tile.cat === 'comodin') {
+            const turnPill = document.getElementById('turnPill');
+            if (turnPill) {
+                turnPill.innerHTML = `<span class="w-2.5 h-2.5 rounded-full bg-purple-500 animate-pulse"></span> ¡${player.name} cayó en <strong class="text-purple-600 font-black text-sm ml-1">COMODÍN</strong> (Casilla #${tile.id})!`;
+            }
+            const helperMsg = document.getElementById('helperMessage');
+            if (helperMsg) {
+                helperMsg.textContent = `¡Casillero Comodín! ${player.name} elige sobre qué materia responder.`;
+            }
+            if (this.isOnline && this.onlineManager) {
+                this.onlineManager.sendComodinActive(tile, player);
+            }
+            if (!this.isOnline || (this.onlineManager && player.id === this.onlineManager.myPlayerId)) {
+                setTimeout(() => {
+                    this.openComodinModal(player);
+                }, 650);
+            }
+            return;
+        }
+
         const turnPill = document.getElementById('turnPill');
         if (turnPill) {
             turnPill.innerHTML = `<span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span> ¡${player.name} cayó en <strong class="text-blue-600 font-black text-sm ml-1">${tile.label}</strong> (Casilla #${tile.id})!`;
@@ -1338,7 +1376,15 @@ class CarreraDelSaberApp {
             let wonMedal = false;
             if (isCorrect) {
                 this.audio.playCorrect();
+                const prevScore = player.score;
                 player.score += 100;
+
+                // Verificar si alcanzó múltiplo de 300 puntos y aún le faltan medallas
+                const prevThreshold = Math.floor(prevScore / 300);
+                const newThreshold = Math.floor(player.score / 300);
+                if (newThreshold > prevThreshold && player.badges.size < 5) {
+                    player.pendingMedalRedeem = true;
+                }
 
                 let extraMsg = '';
                 if (tile.star && !player.badges.has(tile.cat)) {
@@ -1389,6 +1435,15 @@ class CarreraDelSaberApp {
     nextTurn() {
         const modal = document.getElementById('question-modal');
         if (modal) modal.classList.add('hidden'), modal.classList.remove('flex');
+
+        const player = this.players[this.currentPlayerIndex];
+        // Si el jugador sumó 300 puntos y tiene pendiente canjear su medalla (Opción A)
+        if (player && player.pendingMedalRedeem) {
+            if (!this.isOnline || (this.onlineManager && player.id === this.onlineManager.myPlayerId)) {
+                this.openPointsRedeemModal(player);
+                return;
+            }
+        }
 
         if (this.isOnline && this.onlineManager) {
             this.onlineManager.advanceTurn();
@@ -1622,6 +1677,109 @@ class CarreraDelSaberApp {
         }
     }
 
+
+    // =========================================================================
+    // MODAL DE COMODÍN Y CANJE DE PUNTOS (OPCIÓN A)
+    // =========================================================================
+    openComodinModal(player) {
+        const modal = document.getElementById('comodin-modal');
+        if (!modal) return;
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+
+        const buttons = modal.querySelectorAll('.comodin-subject-btn');
+        buttons.forEach(btn => {
+            btn.onclick = () => {
+                const category = btn.dataset.category;
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+                
+                const theme = SUBJECT_THEME[category];
+                const chosenTile = {
+                    id: this.currentTile ? this.currentTile.id : 5,
+                    cat: category,
+                    label: theme ? theme.name : 'Materia',
+                    icon: theme ? theme.icon : '📚',
+                    star: false
+                };
+                this.currentTile = chosenTile;
+                this.openQuestionModal(chosenTile);
+            };
+        });
+    }
+
+    openPointsRedeemModal(player) {
+        const modal = document.getElementById('points-redeem-modal');
+        if (!modal) return;
+
+        const nameEl = document.getElementById('redeem-modal-player-name');
+        if (nameEl) nameEl.textContent = `¡Felicitaciones ${player.name}! Sumaste ${player.score} puntos`;
+
+        const list = document.getElementById('redeem-badges-list');
+        if (list) {
+            list.innerHTML = '';
+            const allCats = [
+                { cat: 'matematica', name: 'Matemática', icon: '📐', bg: 'bg-blue-50 border-blue-300 text-blue-800' },
+                { cat: 'lengua', name: 'Lengua', icon: '📖', bg: 'bg-red-50 border-red-300 text-red-800' },
+                { cat: 'naturales', name: 'Ciencias Naturales', icon: '🌿', bg: 'bg-emerald-50 border-emerald-300 text-emerald-800' },
+                { cat: 'sociales', name: 'Ciencias Sociales', icon: '🌍', bg: 'bg-orange-50 border-orange-300 text-orange-800' },
+                { cat: 'ingenio', name: 'Ingenio y Cultura', icon: '💡', bg: 'bg-purple-50 border-purple-300 text-purple-800' }
+            ];
+
+            const available = allCats.filter(c => !player.badges.has(c.cat));
+
+            available.forEach(item => {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = `p-3.5 rounded-2xl border-2 ${item.bg} flex items-center gap-3 font-black text-sm text-left hover:scale-[1.02] active:scale-95 transition-all cursor-pointer shadow-xs`;
+                btn.innerHTML = `
+                    <span class="w-10 h-10 rounded-xl bg-white shadow-xs flex items-center justify-center text-2xl border border-slate-200 shrink-0">${item.icon}</span>
+                    <div class="flex flex-col">
+                        <span class="text-sm font-black">${item.name}</span>
+                        <span class="text-[10px] font-bold opacity-80">Sumar medalla ⭐</span>
+                    </div>
+                `;
+                btn.onclick = () => {
+                    modal.classList.add('hidden');
+                    modal.classList.remove('flex');
+                    player.badges.add(item.cat);
+                    player.pendingMedalRedeem = false;
+
+                    this.audio.playBadgeWon();
+                    this.confetti.fire();
+
+                    this.renderScoreboard();
+
+                    if (this.isOnline && this.onlineManager) {
+                        this.onlineManager.sendMedalRedeemed(item.cat, item.name, player.position, Array.from(player.badges), player.score);
+                    } else {
+                        // Comprobar victoria o avanzar
+                        const requiredBadges = this.winGoal === 'fast' ? 2 : 4;
+                        if (player.badges.size >= requiredBadges) {
+                            setTimeout(() => this.triggerVictory(player), 1200);
+                        } else {
+                            setTimeout(() => {
+                                this.currentPlayerIndex = (this.currentPlayerIndex + 1) % this.players.length;
+                                if (this.currentPlayerIndex === 0) this.round++;
+                                this.updateTurnDisplay();
+                                this.updatePawnPositions();
+                                const rollBtn = document.getElementById('rollDiceBtn');
+                                if (rollBtn) {
+                                    rollBtn.disabled = false;
+                                    rollBtn.classList.remove('opacity-80', 'cursor-not-allowed', 'translate-y-1');
+                                    rollBtn.classList.add('shadow-3d-btn');
+                                }
+                            }, 1000);
+                        }
+                    }
+                };
+                list.appendChild(btn);
+            });
+        }
+
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+    }
 }
 
 // Inicialización cuando carga la ventana
