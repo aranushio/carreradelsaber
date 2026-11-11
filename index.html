@@ -367,34 +367,24 @@
     <!-- PANTALLA 1: SETUP / LOBBY (CONFIGURACIÓN INICIAL TÁCTIL) -->
     <!-- ========================================================================= -->
     <section id="setup-screen" class="max-w-4xl w-full mx-auto flex-1 flex flex-col justify-center items-center py-4">
-        <div class="w-full bg-white rounded-3xl p-6 md:p-10 shadow-game-card border border-slate-200/90 flex flex-col gap-8">
+        <div class="w-full bg-white rounded-3xl p-6 md:p-10 shadow-game-card border border-slate-200/90 flex flex-col gap-8 relative overflow-hidden">
             
-            <!-- Hero Setup Title with Mascot Nelo -->
-            <div class="text-center flex flex-col items-center relative">
-                <!-- Mascot (Desktop Floating on the right of the card with animated video loop) -->
-                <div class="hidden lg:flex flex-col items-center absolute -right-6 xl:-right-32 top-0 pointer-events-none select-none z-10">
-                    <!-- Globo de Diálogo -->
-                    <div class="relative bg-white text-indigo-900 font-black text-xs px-3.5 py-1.5 rounded-2xl shadow-md border-2 border-indigo-100 mb-2.5 whitespace-nowrap animate-bubble-float">
-                        <span>¡Preparate para correr! 🏃‍♂️💨</span>
-                        <div class="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-3 h-3 bg-white border-b-2 border-r-2 border-indigo-100 rotate-45"></div>
-                    </div>
-                    
-                    <!-- Mascota Nelo Video Loop Animado -->
-                    <div class="relative flex flex-col items-center">
-                        <div class="relative rounded-2xl md:rounded-3xl overflow-hidden border-2 border-indigo-200/90 shadow-xl bg-white/95">
-                            <video src="assets/mascot_animated.mp4" poster="assets/mascot.png" autoplay loop muted playsinline class="w-32 lg:w-40 max-h-[140px] object-cover pointer-events-none select-none"></video>
-                        </div>
-                        <!-- Sombra suave bajo el video -->
-                        <div class="w-24 lg:w-32 h-2.5 bg-indigo-950/20 rounded-full blur-[2px] -mt-1"></div>
-                    </div>
+            <!-- Hero Setup Title with Mascot Nelo (Cleanly contained inside the card) -->
+            <!-- Mascota Nelo Video Loop Animado (Dentro del formulario, arriba a la derecha, sin poster estático ni speech bubble) -->
+            <div class="hidden md:flex flex-col items-center absolute right-6 top-6 pointer-events-none select-none z-10">
+                <div class="relative rounded-2xl md:rounded-3xl overflow-hidden border-2 border-indigo-200/90 shadow-lg bg-white/95">
+                    <video src="assets/mascot_animated.mp4" autoplay loop muted playsinline preload="auto" class="w-40 md:w-48 lg:w-56 max-h-[160px] md:max-h-[175px] object-cover pointer-events-none select-none"></video>
                 </div>
+                <div class="w-28 md:w-36 lg:w-44 h-2 bg-indigo-950/20 rounded-full blur-[2px] -mt-1"></div>
+            </div>
 
-                <!-- Mascot (Mobile / Tablet compact badge above title) -->
-                <div class="flex lg:hidden items-center gap-2 mb-2 bg-gradient-to-r from-amber-50 to-indigo-50 border border-indigo-100 px-3.5 py-1.5 rounded-full shadow-2xs">
-                    <div class="w-8 h-8 rounded-full overflow-hidden border border-indigo-200 shrink-0">
-                        <video src="assets/mascot_animated.mp4" poster="assets/mascot.png" autoplay loop muted playsinline class="w-full h-full object-cover"></video>
+            <div class="text-center flex flex-col items-center relative">
+                <!-- Mascot (Mobile compact badge above title) -->
+                <div class="flex md:hidden items-center gap-2 mb-2 bg-gradient-to-r from-amber-50 to-indigo-50 border border-indigo-100 px-3.5 py-1.5 rounded-full shadow-2xs">
+                    <div class="w-9 h-9 rounded-full overflow-hidden border border-indigo-200 shrink-0">
+                        <video src="assets/mascot_animated.mp4" autoplay loop muted playsinline preload="auto" class="w-full h-full object-cover"></video>
                     </div>
-                    <span class="text-xs font-black text-indigo-800">Nelo dice: "¡Listo para el desafío!" 🏃‍♂️💨</span>
+                    <span class="text-xs font-black text-indigo-800">Nelo: ¡Listo para la carrera! 🏃‍♂️</span>
                 </div>
 
                 <span class="inline-flex items-center gap-1.5 px-4 py-1 rounded-full bg-amber-100 text-amber-800 text-xs font-black uppercase tracking-wider mb-2">
@@ -2148,6 +2138,27 @@
 </div>
 <!-- ================= BOARD CENTER: INTERACTIVE ARENA ================= -->
 <div class="col-span-6 row-span-6 col-start-2 row-start-2 bg-gradient-to-b from-[#F0F7FF] via-[#F8FAFC] to-[#EEF2FF] rounded-3xl m-0.5 sm:m-1 border border-slate-200/90 flex flex-col items-center justify-center p-2 sm:p-4 md:p-6 text-center relative shadow-inner overflow-hidden" data-purpose="board-center-interactive-area">
+  
+  <!-- SPECTATOR LIVE HUD (Visible en tiempo real cuando la otra jugadora tira o responde online) -->
+  <div id="spectator-hud" class="hidden w-full max-w-sm sm:max-w-md bg-white/95 backdrop-blur-md rounded-2xl p-3.5 sm:p-4 border-2 border-indigo-200 shadow-xl flex-col gap-2 text-left mb-2 transition-all z-20 animate-in fade-in">
+    <div class="flex items-center justify-between border-b border-slate-100 pb-1.5">
+      <div class="flex items-center gap-2">
+        <span class="w-2.5 h-2.5 rounded-full bg-amber-500 animate-ping"></span>
+        <span class="text-xs font-black uppercase text-indigo-700 tracking-wide" id="spectator-hud-title">EN VIVO · TURNO DE OTRA JUGADORA</span>
+      </div>
+      <span class="text-[11px] font-extrabold px-2.5 py-0.5 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-100" id="spectator-hud-category">Materia</span>
+    </div>
+    <p class="text-xs sm:text-sm font-extrabold text-slate-800 leading-snug" id="spectator-hud-question">Esperando pregunta...</p>
+    <div class="flex items-center justify-between gap-2 text-xs font-bold text-slate-600 bg-slate-50 px-3 py-1.5 rounded-xl border border-slate-100" id="spectator-hud-status">
+      <span class="flex items-center gap-1.5"><span class="animate-spin text-indigo-600">⏳</span> <span>Pensando respuesta...</span></span>
+    </div>
+  </div>
+
+  <!-- Floating Result Toast for Dice Roll -->
+  <div id="resultFloatingToast" class="opacity-0 scale-90 transition-all duration-300 pointer-events-none absolute top-3 sm:top-5 z-20 bg-indigo-900 text-white font-black text-xs sm:text-sm px-4 py-2 rounded-2xl shadow-xl flex items-center gap-2">
+    <span>🎲</span>
+    <span id="toastValue">¡Sacaste un 5!</span>
+  </div>
   <!-- Active turn headline notification -->
   <div class="inline-flex items-center gap-2 bg-white px-5 py-2 rounded-full shadow-md border border-slate-200/80 text-xs sm:text-sm font-black text-slate-800 mb-2 sm:mb-4 transition-all select-none" data-purpose="turn-indicator-pill" id="turnPill">
     <span class="w-3 h-3 rounded-full bg-emerald-500 animate-pulse"></span>
@@ -2186,7 +2197,7 @@
       <span id="btnText">¡TIRAR DADO!</span>
     </button>
     <p class="text-xs md:text-sm font-bold text-slate-500 mt-2.5 flex items-center gap-1.5">
-      <span>🎯</span> <span>Turno de Ger. ¡Tirá el dado para avanzar por el tablero!</span>
+      <span id="helperIcon">🎯</span> <span id="helperMessage">Turno de Ger. ¡Tirá el dado para avanzar por el tablero!</span>
     </p>
   </div>
 </div>

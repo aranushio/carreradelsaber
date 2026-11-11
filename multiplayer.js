@@ -16,6 +16,9 @@ class MultiplayerManager {
         this.playersInRoom = [];
         this.roomRef = null;
         this.isOnlineGameActive = false;
+        this.lastHandledRollTimestamp = 0;
+        this.lastHandledQuestionTimestamp = 0;
+        this.lastHandledAnswerTimestamp = 0;
 
         this.initDOM();
         this.bindEvents();
@@ -516,6 +519,24 @@ class MultiplayerManager {
             if (room.players) {
                 this.playersInRoom = Object.values(room.players);
                 if (room.targetPlayers) this.roomTargetPlayers = room.targetPlayers;
+
+                // Sincronizar jugadores de window.game en tiempo real durante la partida
+                if (this.isOnlineGameActive && window.game && window.game.players) {
+                    Object.values(room.players).forEach(rp => {
+                        const localP = window.game.players.find(p => p.id === rp.id);
+                        if (localP) {
+                            if (rp.score !== undefined) localP.score = rp.score;
+                            if (Array.isArray(rp.badges)) localP.badges = new Set(rp.badges);
+                            if (rp.position !== undefined && !window.game.isMoving) {
+                                localP.position = rp.position;
+                            }
+                        }
+                    });
+                    window.game.renderScoreboard();
+                    if (!window.game.isMoving) {
+                        window.game.updatePawnPositions();
+                    }
+                }
             } else {
                 this.playersInRoom = [];
             }
@@ -528,7 +549,7 @@ class MultiplayerManager {
                 this.launchOnlineGame(room);
             }
 
-            // 3. Si la partida está activa, sincronizar eventos
+            // 3. Si la partida está activa, sincronizar eventos en tiempo real
             if (this.isOnlineGameActive && room.gameState) {
                 this.syncOnlineGameState(room.gameState);
             }
@@ -664,42 +685,113 @@ class MultiplayerManager {
     }
 
     // =========================================================================
-    // ACCIONES SINCRONIZADAS CON FIREBASE
+    // ACCIONES SINCRONIZADAS CON FIREBASE (ONLINE REAL-TIME SYNC)
     // =========================================================================
     sendDiceRoll(diceValue) {
-        if (this.roomRef) {
-            this.roomRef.child('gameState').update({
-                diceValue: diceValue,
-                isRolling: true,
-                rollTimestamp: firebase.database.ServerValue.TIMESTAMP
-            });
-        }
+        if (!this.roomRef) return;
+        const roller = window.game ? window.game.players[window.game.currentPlayerIndex] : null;
+        this.roomRef.child('gameState').update({
+            action: 'diceRoll',
+            diceValue: diceValue,
+            rollerId: roller ? roller.id : this.myPlayerId,
+            rollerName: roller ? roller.name : this.playerName,
+            rollTimestamp: firebase.database.ServerValue.TIMESTAMP
+        });
     }
 
-    sendAnswer(isCorrect, newPosition, badgesArray) {
-        if (this.roomRef) {
-            const nextTurnIndex = (window.game.currentPlayerIndex + 1) % window.game.players.length;
-            
-            // Actualizar jugador
-            this.roomRef.child(`players/${this.myPlayerId}`).update({
-                position: newPosition,
-                badges: badgesArray
-            });
+    sendQuestionOpened(tile, question) {
+        if (!this.roomRef) return;
+        const player = window.game ? window.game.players[window.game.currentPlayerIndex] : null;
+        this.roomRef.child('gameState').update({
+            action: 'questionActive',
+            activeQuestion: {
+                playerId: this.myPlayerId,
+                playerName: player ? player.name : this.playerName,
+                playerAvatar: player ? player.avatar : this.playerAvatar,
+                category: tile.cat,
+                categoryLabel: tile.label,
+                categoryIcon: tile.icon,
+                questionText: question.question,
+                star: !!tile.star,
+                status: 'answering',
+                questionTimestamp: firebase.database.ServerValue.TIMESTAMP
+            }
+        });
+    }
 
-            // Pasar turno
-            this.roomRef.child('gameState').update({
-                currentTurnIndex: nextTurnIndex,
-                isRolling: false,
-                lastAction: isCorrect ? '¡Respuesta correcta!' : 'Turno terminado'
-            });
-        }
+    sendAnswer(isCorrect, newPosition, badgesArray, score, categoryLabel, wonMedal, explanation) {
+        if (!this.roomRef) return;
+        
+        // 1. Actualizar el jugador en la base de datos
+        this.roomRef.child(`players/${this.myPlayerId}`).update({
+            position: newPosition,
+            badges: badgesArray,
+            score: score
+        });
+
+        // 2. Notificar a todas las pantallas el resultado para el modo espectador
+        this.roomRef.child('gameState').update({
+            action: 'questionAnswered',
+            lastResult: {
+                playerId: this.myPlayerId,
+                playerName: this.playerName,
+                isCorrect: isCorrect,
+                categoryLabel: categoryLabel || '',
+                wonMedal: !!wonMedal,
+                score: score,
+                explanation: explanation || '',
+                answerTimestamp: firebase.database.ServerValue.TIMESTAMP
+            }
+        });
+    }
+
+    advanceTurn() {
+        if (!this.roomRef) return;
+        const nextTurnIndex = (window.game.currentPlayerIndex + 1) % window.game.players.length;
+        this.roomRef.child('gameState').update({
+            action: 'turnAdvance',
+            activeQuestion: null,
+            lastResult: null,
+            currentTurnIndex: nextTurnIndex,
+            isRolling: false,
+            turnTimestamp: firebase.database.ServerValue.TIMESTAMP
+        });
     }
 
     syncOnlineGameState(gameState) {
         if (!window.game) return;
 
+        // 1. EVENTO: Tirada remota de dado
+        if (gameState.action === 'diceRoll' && gameState.rollTimestamp && gameState.rollTimestamp !== this.lastHandledRollTimestamp) {
+            this.lastHandledRollTimestamp = gameState.rollTimestamp;
+            if (gameState.rollerId !== this.myPlayerId) {
+                console.log(`Jugadora remota (${gameState.rollerName}) tiró el dado: ${gameState.diceValue}`);
+                window.game.showRemoteRoll(gameState.rollerId, gameState.diceValue);
+            }
+        }
+
+        // 2. EVENTO: Pregunta abierta (Modo Espectador en vivo)
+        if (gameState.action === 'questionActive' && gameState.activeQuestion) {
+            if (gameState.activeQuestion.playerId !== this.myPlayerId && gameState.activeQuestion.questionTimestamp !== this.lastHandledQuestionTimestamp) {
+                this.lastHandledQuestionTimestamp = gameState.activeQuestion.questionTimestamp;
+                console.log("Modo Espectador activado: otra jugadora respondiendo pregunta");
+                window.game.showSpectatorQuestion(gameState.activeQuestion);
+            }
+        }
+
+        // 3. EVENTO: Pregunta respondida (Resultado en Modo Espectador)
+        if (gameState.action === 'questionAnswered' && gameState.lastResult) {
+            if (gameState.lastResult.playerId !== this.myPlayerId && gameState.lastResult.answerTimestamp !== this.lastHandledAnswerTimestamp) {
+                this.lastHandledAnswerTimestamp = gameState.lastResult.answerTimestamp;
+                console.log("Resultado de pregunta recibido:", gameState.lastResult);
+                window.game.showSpectatorResult(gameState.lastResult);
+            }
+        }
+
+        // 4. EVENTO: Cambio de turno
         if (gameState.currentTurnIndex !== undefined && gameState.currentTurnIndex !== window.game.currentPlayerIndex) {
             window.game.currentPlayerIndex = gameState.currentTurnIndex;
+            window.game.hideSpectatorHUD();
             window.game.updateTurnDisplay();
             window.game.updatePawnPositions();
             this.applyTurnPermissions();

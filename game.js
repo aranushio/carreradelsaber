@@ -1260,6 +1260,10 @@ class CarreraDelSaberApp {
             modal.classList.add('flex');
         }
 
+        if (this.isOnline && this.onlineManager) {
+            this.onlineManager.sendQuestionOpened(tile, question);
+        }
+
         this.startQuestionTimer();
     }
 
@@ -1328,6 +1332,7 @@ class CarreraDelSaberApp {
         if (feedbackBox) {
             feedbackBox.classList.remove('hidden');
 
+            let wonMedal = false;
             if (isCorrect) {
                 this.audio.playCorrect();
                 player.score += 100;
@@ -1335,6 +1340,7 @@ class CarreraDelSaberApp {
                 let extraMsg = '';
                 if (tile.star && !player.badges.has(tile.cat)) {
                     player.badges.add(tile.cat);
+                    wonMedal = true;
                     extraMsg = ` ¡Ganaste la medalla de ${tile.label}! 🎖️`;
                     this.audio.playBadgeWon();
                     this.confetti.fire();
@@ -1356,7 +1362,15 @@ class CarreraDelSaberApp {
         this.renderScoreboard();
 
         if (this.isOnline && this.onlineManager) {
-            this.onlineManager.sendAnswer(isCorrect, player.position, Array.from(player.badges));
+            this.onlineManager.sendAnswer(
+                isCorrect,
+                player.position,
+                Array.from(player.badges),
+                player.score,
+                tile.label,
+                wonMedal,
+                this.currentQuestion.explanation
+            );
         }
 
         const requiredBadges = this.winGoal === 'fast' ? 2 : 4;
@@ -1372,6 +1386,11 @@ class CarreraDelSaberApp {
     nextTurn() {
         const modal = document.getElementById('question-modal');
         if (modal) modal.classList.add('hidden'), modal.classList.remove('flex');
+
+        if (this.isOnline && this.onlineManager) {
+            this.onlineManager.advanceTurn();
+            return;
+        }
 
         this.currentPlayerIndex = (this.currentPlayerIndex + 1) % this.players.length;
         if (this.currentPlayerIndex === 0) {
@@ -1436,9 +1455,175 @@ class CarreraDelSaberApp {
             victoryModal.classList.add('flex');
         }
     }
+
+    // =========================================================================
+    // MODO ESPECTADOR EN VIVO (ONLINE MULTIPLAYER REAL-TIME)
+    // =========================================================================
+    showRemoteRoll(rollerId, diceValue) {
+        const roller = this.players.find(p => p.id === rollerId) || this.players[this.currentPlayerIndex];
+        const diceCube = document.getElementById('diceCubeFace');
+        const diceShadow = document.getElementById('diceShadow');
+        const turnPill = document.getElementById('turnPill');
+        const helperMsg = document.getElementById('helperMessage');
+        const helperIcon = document.getElementById('helperIcon');
+        const resultToast = document.getElementById('resultFloatingToast');
+        const toastValue = document.getElementById('toastValue');
+
+        if (turnPill) {
+            turnPill.innerHTML = `<span class="w-2.5 h-2.5 rounded-full bg-amber-400 animate-ping"></span> ${roller.name} está rodando el dado...`;
+        }
+        if (helperIcon) helperIcon.textContent = '🎲';
+        if (helperMsg) helperMsg.textContent = `${roller.name} tiró el dado. ¡Veamos qué saca!`;
+
+        if (diceCube) {
+            diceCube.classList.remove('dice-rolling');
+            void diceCube.offsetWidth;
+            diceCube.classList.add('dice-rolling');
+        }
+        if (diceShadow) {
+            diceShadow.classList.remove('shadow-rolling');
+            void diceShadow.offsetWidth;
+            diceShadow.classList.add('shadow-rolling');
+        }
+
+        let rollStep = 0;
+        const totalSteps = 10;
+        const shuffleInterval = setInterval(() => {
+            rollStep++;
+            const randomFace = Math.floor(Math.random() * 6) + 1;
+            this.renderDiceFace(randomFace);
+            this.audio.playClack(300 + rollStep * 20, 0.035);
+
+            if (rollStep >= totalSteps) {
+                clearInterval(shuffleInterval);
+            }
+        }, 85);
+
+        setTimeout(() => {
+            this.renderDiceFace(diceValue);
+            this.audio.playDingSuccess();
+            this.createBurst();
+
+            if (toastValue) {
+                toastValue.textContent = `¡${roller.name} sacó un ${diceValue}! Avanza ${diceValue} casillas`;
+            }
+            if (resultToast) {
+                resultToast.classList.remove('opacity-0', 'scale-90');
+                resultToast.classList.add('opacity-100', 'scale-100');
+                setTimeout(() => {
+                    resultToast.classList.remove('opacity-100', 'scale-100');
+                    resultToast.classList.add('opacity-0', 'scale-90');
+                }, 2400);
+            }
+
+            setTimeout(() => {
+                this.remoteMovePlayer(roller, diceValue);
+            }, 600);
+        }, 1100);
+    }
+
+    remoteMovePlayer(player, steps) {
+        this.isMoving = true;
+        let remainingSteps = steps;
+
+        const helperMsg = document.getElementById('helperMessage');
+        const helperIcon = document.getElementById('helperIcon');
+        if (helperMsg) {
+            helperMsg.textContent = `${player.name} avanza ${steps} casilleros por la pista...`;
+        }
+        if (helperIcon) helperIcon.textContent = '🏃';
+
+        const stepInterval = setInterval(() => {
+            player.position = (player.position + 1) % 28;
+            this.updatePawnPositions();
+            this.audio.playPawnHop();
+            remainingSteps--;
+
+            const tag = document.getElementById(`player-tile-tag-${player.id}`);
+            if (tag) tag.textContent = `Casillero #${player.position + 1}`;
+
+            if (remainingSteps <= 0) {
+                clearInterval(stepInterval);
+                this.isMoving = false;
+                const tile = TILES_METADATA[player.position];
+                const turnPill = document.getElementById('turnPill');
+                if (turnPill) {
+                    turnPill.innerHTML = `<span class="w-2.5 h-2.5 rounded-full bg-indigo-500"></span> ¡${player.name} cayó en <strong>${tile.label}</strong> (Casilla #${tile.id})!`;
+                }
+                if (helperMsg) {
+                    helperMsg.textContent = `${player.name} cayó en ${tile.label}. Esperando que responda su pregunta...`;
+                }
+            }
+        }, 220);
+    }
+
+    showSpectatorQuestion(qData) {
+        const hud = document.getElementById('spectator-hud');
+        if (!hud) return;
+        hud.classList.remove('hidden');
+        hud.classList.add('flex');
+
+        const title = document.getElementById('spectator-hud-title');
+        const cat = document.getElementById('spectator-hud-category');
+        const qText = document.getElementById('spectator-hud-question');
+        const status = document.getElementById('spectator-hud-status');
+
+        if (title) title.textContent = `EN VIVO · TURNO DE ${qData.playerName.toUpperCase()}`;
+        if (cat) cat.textContent = `${qData.categoryIcon || '📚'} ${qData.categoryLabel}`;
+        if (qText) qText.textContent = `"${qData.questionText}"`;
+        if (status) {
+            status.innerHTML = `<span class="flex items-center gap-1.5"><span class="animate-spin text-indigo-600">⏳</span> <span>${qData.playerName} está pensando la respuesta...</span></span>`;
+        }
+
+        const helperMsg = document.getElementById('helperMessage');
+        if (helperMsg) helperMsg.textContent = `Observando la jugada de ${qData.playerName}...`;
+    }
+
+    showSpectatorResult(resData) {
+        const hud = document.getElementById('spectator-hud');
+        if (hud) {
+            hud.classList.remove('hidden');
+            hud.classList.add('flex');
+        }
+
+        const status = document.getElementById('spectator-hud-status');
+        if (resData.isCorrect) {
+            this.audio.playCorrect();
+            if (resData.wonMedal) {
+                this.audio.playBadgeWon();
+                this.confetti.fire();
+            }
+            if (status) {
+                status.innerHTML = `<span class="text-emerald-700 font-black flex items-center gap-1.5 text-xs sm:text-sm"><span>🎉</span> <span>¡${resData.playerName} acertó! (+100 pts)${resData.wonMedal ? ' 🎖️ ¡Ganó medalla!' : ''}</span></span>`;
+            }
+        } else {
+            this.audio.playWrong();
+            if (status) {
+                status.innerHTML = `<span class="text-rose-600 font-black flex items-center gap-1.5 text-xs sm:text-sm"><span>❌</span> <span>${resData.playerName} no acertó. ¡Ahora es tu turno!</span></span>`;
+            }
+        }
+
+        const qText = document.getElementById('spectator-hud-question');
+        if (qText && resData.explanation) {
+            qText.textContent = resData.explanation;
+        }
+
+        this.renderScoreboard();
+    }
+
+    hideSpectatorHUD() {
+        const hud = document.getElementById('spectator-hud');
+        if (hud) {
+            hud.classList.add('hidden');
+            hud.classList.remove('flex');
+        }
+    }
+
 }
 
 // Inicialización cuando carga la ventana
 window.addEventListener('DOMContentLoaded', () => {
     window.game = new CarreraDelSaberApp();
+
+
 });
