@@ -258,26 +258,24 @@ const TILES_METADATA = [
     { id: 6, cat: 'matematica', label: 'Matemática', icon: '📐', star: false },
     { id: 7, cat: 'lengua', label: 'Lengua', icon: '📖', star: false },
     { id: 8, cat: 'naturales', label: 'Ciencias Naturales', icon: '🌿', star: false },
-    { id: 9, cat: 'lengua', label: 'Lengua', icon: '📖', star: true },
-    { id: 10, cat: 'ingenio', label: 'Ingenio y Cultura', icon: '💡', star: false },
+    { id: 9, cat: 'lengua', label: 'Lengua', icon: '👑', star: true },
+    { id: 10, cat: 'lengua', label: 'Lengua', icon: '📖', star: false },
     { id: 11, cat: 'matematica', label: 'Matemática', icon: '📐', star: false },
-    { id: 12, cat: 'lengua', label: 'Lengua', icon: '📖', star: false },
+    { id: 12, cat: 'ingenio', label: 'Ingenio y Cultura', icon: '💡', star: false },
     { id: 13, cat: 'naturales', label: 'Ciencias Naturales', icon: '🌿', star: false },
-    { id: 14, cat: 'sociales', label: 'Ciencias Sociales', icon: '🌍', star: false },
-    { id: 15, cat: 'naturales', label: 'Ciencias Naturales', icon: '🌿', star: true },
-    { id: 16, cat: 'matematica', label: 'Matemática', icon: '📐', star: false },
-    { id: 17, cat: 'lengua', label: 'Lengua', icon: '📖', star: false },
+    { id: 14, cat: 'naturales', label: 'Ciencias Naturales', icon: '🌿', star: false },
+    { id: 15, cat: 'matematica', label: 'Matemática', icon: '📐', star: false },
+    { id: 16, cat: 'sociales', label: 'Ciencias Sociales', icon: '🌍', star: false },
+    { id: 17, cat: 'matematica', label: 'Matemática', icon: '📐', star: true },
     { id: 18, cat: 'naturales', label: 'Ciencias Naturales', icon: '🌿', star: false },
-    { id: 19, cat: 'sociales', label: 'Ciencias Sociales', icon: '🌍', star: false },
+    { id: 19, cat: 'lengua', label: 'Lengua', icon: '📖', star: false },
     { id: 20, cat: 'ingenio', label: 'Ingenio y Cultura', icon: '💡', star: false },
-    { id: 21, cat: 'sociales', label: 'Ciencias Sociales', icon: '🌍', star: true },
+    { id: 21, cat: 'ingenio', label: 'Ingenio y Cultura', icon: '💡', star: false },
     { id: 22, cat: 'lengua', label: 'Lengua', icon: '📖', star: false },
-    { id: 23, cat: 'naturales', label: 'Ciencias Naturales', icon: '🌿', star: false },
-    { id: 24, cat: 'sociales', label: 'Ciencias Sociales', icon: '🌍', star: false },
-    { id: 25, cat: 'ingenio', label: 'Ingenio y Cultura', icon: '💡', star: false },
-    { id: 26, cat: 'matematica', label: 'Matemática', icon: '📐', star: false },
-    { id: 27, cat: 'ingenio', label: 'Ingenio y Cultura', icon: '💡', star: true },
-    { id: 28, cat: 'naturales', label: 'Ciencias Naturales', icon: '🌿', star: false }
+    { id: 23, cat: 'sociales', label: 'Ciencias Sociales', icon: '🌍', star: false },
+    { id: 24, cat: 'matematica', label: 'Matemática', icon: '📐', star: false },
+    { id: 25, cat: 'ingenio', label: 'Ingenio y Cultura', icon: '👑', star: true },
+    { id: 26, cat: 'sociales', label: 'Ciencias Sociales', icon: '🌍', star: false }
 ];
 
 // Metadatos temáticos para materias y medallas
@@ -974,7 +972,7 @@ class CarreraDelSaberApp {
 
     updatePawnPositions() {
         // Limpiar todas las ranuras de fichas en los 28 casilleros
-        for (let i = 1; i <= 28; i++) {
+        for (let i = 1; i <= 26; i++) {
             const slot = document.getElementById(`pawns-tile-${i}`);
             if (slot) slot.innerHTML = '';
             const t = document.getElementById(`tile-${i}`);
@@ -1115,7 +1113,7 @@ class CarreraDelSaberApp {
         if (helperIcon) helperIcon.textContent = '🏃';
 
         const stepInterval = setInterval(() => {
-            player.position = (player.position + 1) % 28;
+            player.position = (player.position + 1) % 26;
             this.updatePawnPositions();
             this.audio.playPawnHop();
             remainingSteps--;
@@ -1539,7 +1537,7 @@ class CarreraDelSaberApp {
         if (helperIcon) helperIcon.textContent = '🏃';
 
         const stepInterval = setInterval(() => {
-            player.position = (player.position + 1) % 28;
+            player.position = (player.position + 1) % 26;
             this.updatePawnPositions();
             this.audio.playPawnHop();
             remainingSteps--;

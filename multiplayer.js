@@ -695,7 +695,7 @@ class MultiplayerManager {
     sendDiceRoll(diceValue) {
         if (!this.roomRef) return;
         const roller = window.game ? window.game.players[window.game.currentPlayerIndex] : null;
-        const targetPos = roller ? (roller.position + diceValue) % 28 : 0;
+        const targetPos = roller ? (roller.position + diceValue) % 26 : 0;
 
         // 1. Persistir inmediatamente la nueva casilla en Firebase para que no se reinicie a 0
         if (roller && roller.id === this.myPlayerId) {

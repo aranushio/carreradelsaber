@@ -78,7 +78,7 @@
       .board-grid {
         display: grid;
         grid-template-columns: repeat(8, minmax(0, 1fr));
-        grid-template-rows: repeat(8, minmax(0, 1fr));
+        grid-template-rows: repeat(7, minmax(0, 1fr));
         gap: 0.25rem;
       }
       @media (min-width: 768px) {
@@ -181,7 +181,7 @@
       .board-grid {
         display: grid;
         grid-template-columns: repeat(8, minmax(0, 1fr));
-        grid-template-rows: repeat(8, minmax(0, 1fr));
+        grid-template-rows: repeat(7, minmax(0, 1fr));
         gap: 0.35rem;
       }
       @media (min-width: 768px) {
@@ -876,7 +876,7 @@
 
                 <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-xs text-slate-600 font-bold">
                     <span class="flex items-center gap-1.5"><span class="text-amber-500 text-base">👑</span> Casillero de Corona / Medalla</span>
-                    <span class="font-black text-slate-500 bg-slate-100 px-2 py-0.5 rounded-md text-[11px]">28 casillas</span>
+                    <span class="font-black text-slate-500 bg-slate-100 px-2 py-0.5 rounded-md text-[11px]">26 casillas</span>
                 </div>
             </section>
         </aside>
@@ -885,7 +885,7 @@
         <!-- BEGIN: MainGameBoardArea -->
         <section class="lg:col-span-9 bg-white rounded-3xl p-2 sm:p-4 md:p-6 shadow-game-card border border-slate-200/90 relative overflow-hidden" data-purpose="board-canvas-wrapper">
             <!-- Outer Board Track (28 Tiles along the perimeter: 8x8 grid) -->
-            <div class="board-grid w-full aspect-square max-h-[820px] mx-auto select-none">
+            <div class="board-grid w-auto max-w-full aspect-[8/7] max-h-[calc(100vh-145px)] md:max-h-[calc(100vh-160px)] mx-auto select-none">
 <!-- Tile 1: Matemática -->
 <div class="col-start-1 row-start-1 bg-gradient-to-b from-[#38BDF8] via-[#2563EB] to-[#1D4ED8] border border-[#93C5FD]/60 shadow-[0_6px_0_#1E40AF,0_10px_15px_rgba(30,64,175,0.25)] rounded-2xl md:rounded-3xl p-1 sm:p-1.5 md:p-2 flex flex-col justify-between items-center transition-all duration-150 hover:-translate-y-1 hover:shadow-xl relative select-none cursor-pointer group" id="tile-1">
   <div class="absolute -top-1.5 -left-1.5 z-20 bg-[#1D4ED8] text-white font-black text-[10px] sm:text-xs rounded-full w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center border-2 border-white shadow-md select-none">
@@ -1391,47 +1391,10 @@
   <span class="hidden md:block text-[10px] sm:text-[11px] font-black text-white text-center leading-none tracking-tight drop-shadow-sm mb-1">Matemática</span>
   <div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-11"></div>
 </div>
-<!-- Tile 12: Lengua -->
-<div class="col-start-8 row-start-5 bg-gradient-to-b from-[#FB7185] via-[#F43F5E] to-[#E11D48] border border-[#FDA4AF]/60 shadow-[0_6px_0_#9F1239,0_10px_15px_rgba(225,29,72,0.25)] rounded-2xl md:rounded-3xl p-1 sm:p-1.5 md:p-2 flex flex-col justify-between items-center transition-all duration-150 hover:-translate-y-1 hover:shadow-xl relative select-none cursor-pointer group" id="tile-12">
-  <div class="absolute -top-1.5 -left-1.5 z-20 bg-[#E11D48] text-white font-black text-[10px] sm:text-xs rounded-full w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center border-2 border-white shadow-md select-none">
-  <span>12</span>
-</div>
-  
-  <div class="flex-1 flex items-center justify-center w-full my-auto mt-1 sm:mt-1.5 group-hover:scale-105 transition-transform">
-    <svg class="w-7 h-7 sm:w-9 sm:h-9 md:w-12 md:h-12 drop-shadow-md" viewBox="0 0 64 64" fill="none">
-  <!-- 3D Open Book -->
-  <!-- Hardcover base/edges -->
-  <path d="M6 44 C 18 40, 28 42, 32 46 C 36 42, 46 40, 58 44 L 58 48 C 46 44, 36 46, 32 50 C 28 46, 18 44, 6 48 Z" fill="#991B1B"/>
-  <path d="M6 42 C 18 38, 28 40, 32 44 C 36 40, 46 38, 58 42 L 58 45 C 46 41, 36 43, 32 47 C 28 43, 18 41, 6 45 Z" fill="#EF4444"/>
-  <!-- Left Pages Stack -->
-  <path d="M8 20 C 18 16, 27 18, 31 22 L 31 43 C 27 39, 18 37, 8 41 Z" fill="url(#pageGradLeft)" stroke="#E2E8F0" stroke-width="1"/>
-  <!-- Right Pages Stack -->
-  <path d="M56 20 C 46 16, 37 18, 33 22 L 33 43 C 37 39, 46 37, 56 41 Z" fill="url(#pageGradRight)" stroke="#E2E8F0" stroke-width="1"/>
-  <!-- Book spine center -->
-  <path d="M31 22 C 32 21, 32 21, 33 22 L 33 44 C 32 43, 32 43, 31 44 Z" fill="#CBD5E1"/>
-  <!-- Bookmark ribbon -->
-  <path d="M31 22 L 31 35 L 32 33 L 33 35 L 33 22 Z" fill="#F59E0B"/>
-  <defs>
-    <linearGradient id="pageGradLeft" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#F1F5F9"/>
-      <stop offset="80%" stop-color="#FFFFFF"/>
-      <stop offset="100%" stop-color="#E2E8F0"/>
-    </linearGradient>
-    <linearGradient id="pageGradRight" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#E2E8F0"/>
-      <stop offset="20%" stop-color="#FFFFFF"/>
-      <stop offset="100%" stop-color="#F1F5F9"/>
-    </linearGradient>
-  </defs>
-</svg>
-  </div>
-  <span class="hidden md:block text-[10px] sm:text-[11px] font-black text-white text-center leading-none tracking-tight drop-shadow-sm mb-1">Lengua</span>
-  <div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-12"></div>
-</div>
-<!-- Tile 13: Ingenio -->
-<div class="col-start-8 row-start-6 bg-gradient-to-b from-[#C084FC] via-[#9333EA] to-[#7E22CE] border border-[#E9D5FF]/60 shadow-[0_6px_0_#581C87,0_10px_15px_rgba(126,34,206,0.25)] rounded-2xl md:rounded-3xl p-1 sm:p-1.5 md:p-2 flex flex-col justify-between items-center transition-all duration-150 hover:-translate-y-1 hover:shadow-xl relative select-none cursor-pointer group" id="tile-13">
+<!-- Tile 12: Ingenio -->
+<div class="col-start-8 row-start-5 bg-gradient-to-b from-[#C084FC] via-[#9333EA] to-[#7E22CE] border border-[#E9D5FF]/60 shadow-[0_6px_0_#581C87,0_10px_15px_rgba(126,34,206,0.25)] rounded-2xl md:rounded-3xl p-1 sm:p-1.5 md:p-2 flex flex-col justify-between items-center transition-all duration-150 hover:-translate-y-1 hover:shadow-xl relative select-none cursor-pointer group" id="tile-12">
   <div class="absolute -top-1.5 -left-1.5 z-20 bg-[#7E22CE] text-white font-black text-[10px] sm:text-xs rounded-full w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center border-2 border-white shadow-md select-none">
-  <span>13</span>
+  <span>12</span>
 </div>
   
   <div class="flex-1 flex items-center justify-center w-full my-auto mt-1 sm:mt-1.5 group-hover:scale-105 transition-transform">
@@ -1464,14 +1427,57 @@
 </svg>
   </div>
   <span class="hidden md:block text-[10px] sm:text-[11px] font-black text-white text-center leading-none tracking-tight drop-shadow-sm mb-1">Ingenio</span>
+  <div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-12"></div>
+</div>
+<!-- Tile 13: C. Naturales -->
+<div class="col-start-8 row-start-6 bg-gradient-to-b from-[#34D399] via-[#10B981] to-[#059669] border border-[#A7F3D0]/60 shadow-[0_6px_0_#065F46,0_10px_15px_rgba(5,150,105,0.25)] rounded-2xl md:rounded-3xl p-1 sm:p-1.5 md:p-2 flex flex-col justify-between items-center transition-all duration-150 hover:-translate-y-1 hover:shadow-xl relative select-none cursor-pointer group" id="tile-13">
+  <div class="absolute -top-1.5 -left-1.5 z-20 bg-[#059669] text-white font-black text-[10px] sm:text-xs rounded-full w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center border-2 border-white shadow-md select-none">
+  <span>13</span>
+</div>
+  
+  <div class="flex-1 flex items-center justify-center w-full my-auto mt-1 sm:mt-1.5 group-hover:scale-105 transition-transform">
+    <svg class="w-7 h-7 sm:w-9 sm:h-9 md:w-12 md:h-12 drop-shadow-md" viewBox="0 0 64 64" fill="none">
+  <!-- 3D Potion Flask with Green Liquid and Leaves -->
+  <!-- Flask Body (Glass) -->
+  <path d="M26 14 L38 14 L38 24 L48 42 C 51 47, 47 54, 41 54 L23 54 C 17 54, 13 47, 16 42 L26 24 Z" fill="url(#glassGrad)" stroke="#A7F3D0" stroke-width="1.8"/>
+  <!-- Cork Stopper -->
+  <rect x="27" y="10" width="10" height="5" rx="1.5" fill="#B45309" stroke="#78350F" stroke-width="1"/>
+  <!-- Green Liquid Inside -->
+  <path d="M18 43 C 20 40, 24 44, 32 41 C 40 44, 44 40, 46 43 L 47 45 C 49 49, 46 53, 41 53 L 23 53 C 18 53, 15 49, 17 45 Z" fill="url(#liquidGrad)"/>
+  <!-- Liquid Bubbles -->
+  <circle cx="26" cy="48" r="2" fill="#DCFCE7" opacity="0.8"/>
+  <circle cx="36" cy="46" r="1.5" fill="#DCFCE7" opacity="0.8"/>
+  <circle cx="31" cy="49" r="1.2" fill="#DCFCE7" opacity="0.7"/>
+  <!-- Sprouting Leaves on Flask -->
+  <g transform="translate(32, 46)">
+    <path d="M0 0 C -6 -6, -8 -1, 0 4 C 8 -1, 6 -6, 0 0 Z" fill="#22C55E" stroke="#15803D" stroke-width="0.8"/>
+    <path d="M0 4 C -1 1, 0 -3, 0 -3" stroke="#15803D" stroke-width="0.8"/>
+  </g>
+  <!-- Glass Shine Highlight -->
+  <path d="M20 42 L28 26 L29 27 L22 43 Z" fill="#FFFFFF" opacity="0.45"/>
+  <defs>
+    <linearGradient id="glassGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.8"/>
+      <stop offset="50%" stop-color="#E6FFFA" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#A7F3D0" stop-opacity="0.6"/>
+    </linearGradient>
+    <linearGradient id="liquidGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#4ADE80"/>
+      <stop offset="50%" stop-color="#22C55E"/>
+      <stop offset="100%" stop-color="#16A34A"/>
+    </linearGradient>
+  </defs>
+</svg>
+  </div>
+  <span class="hidden md:block text-[10px] sm:text-[11px] font-black text-white text-center leading-none tracking-tight drop-shadow-sm mb-1">C. Naturales</span>
   <div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-13"></div>
 </div>
 <!-- Tile 14: C. Naturales -->
-<div class="col-start-8 row-start-7 bg-gradient-to-b from-[#34D399] via-[#10B981] to-[#059669] border border-[#A7F3D0]/60 shadow-[0_6px_0_#065F46,0_10px_15px_rgba(5,150,105,0.25)] rounded-2xl md:rounded-3xl p-1 sm:p-1.5 md:p-2 flex flex-col justify-between items-center transition-all duration-150 hover:-translate-y-1 hover:shadow-xl relative select-none cursor-pointer group" id="tile-14">
+<div class="col-start-8 row-start-7 bg-gradient-to-b from-[#34D399] via-[#10B981] to-[#059669] border-4 border-[#FBBF24] ring-2 ring-[#FDE68A] shadow-[0_6px_0_#92400E,0_12px_20px_rgba(217,119,6,0.35)] rounded-2xl md:rounded-3xl p-1 sm:p-1.5 md:p-2 flex flex-col justify-between items-center transition-all duration-150 hover:-translate-y-1 hover:shadow-xl relative select-none cursor-pointer group" id="tile-14">
   <div class="absolute -top-1.5 -left-1.5 z-20 bg-[#059669] text-white font-black text-[10px] sm:text-xs rounded-full w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center border-2 border-white shadow-md select-none">
   <span>14</span>
 </div>
-  
+  <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 z-20 pointer-events-none filter drop-shadow-md text-xl sm:text-2xl animate-bounce-subtle">👑</div>
   <div class="flex-1 flex items-center justify-center w-full my-auto mt-1 sm:mt-1.5 group-hover:scale-105 transition-transform">
     <svg class="w-7 h-7 sm:w-9 sm:h-9 md:w-12 md:h-12 drop-shadow-md" viewBox="0 0 64 64" fill="none">
   <!-- 3D Potion Flask with Green Liquid and Leaves -->
@@ -1509,53 +1515,10 @@
   <span class="hidden md:block text-[10px] sm:text-[11px] font-black text-white text-center leading-none tracking-tight drop-shadow-sm mb-1">C. Naturales</span>
   <div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-14"></div>
 </div>
-<!-- Tile 15: C. Naturales -->
-<div class="col-start-8 row-start-8 bg-gradient-to-b from-[#34D399] via-[#10B981] to-[#059669] border-4 border-[#FBBF24] ring-2 ring-[#FDE68A] shadow-[0_6px_0_#92400E,0_12px_20px_rgba(217,119,6,0.35)] rounded-2xl md:rounded-3xl p-1 sm:p-1.5 md:p-2 flex flex-col justify-between items-center transition-all duration-150 hover:-translate-y-1 hover:shadow-xl relative select-none cursor-pointer group" id="tile-15">
-  <div class="absolute -top-1.5 -left-1.5 z-20 bg-[#059669] text-white font-black text-[10px] sm:text-xs rounded-full w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center border-2 border-white shadow-md select-none">
-  <span>15</span>
-</div>
-  <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 z-20 pointer-events-none filter drop-shadow-md text-xl sm:text-2xl animate-bounce-subtle">👑</div>
-  <div class="flex-1 flex items-center justify-center w-full my-auto mt-1 sm:mt-1.5 group-hover:scale-105 transition-transform">
-    <svg class="w-7 h-7 sm:w-9 sm:h-9 md:w-12 md:h-12 drop-shadow-md" viewBox="0 0 64 64" fill="none">
-  <!-- 3D Potion Flask with Green Liquid and Leaves -->
-  <!-- Flask Body (Glass) -->
-  <path d="M26 14 L38 14 L38 24 L48 42 C 51 47, 47 54, 41 54 L23 54 C 17 54, 13 47, 16 42 L26 24 Z" fill="url(#glassGrad)" stroke="#A7F3D0" stroke-width="1.8"/>
-  <!-- Cork Stopper -->
-  <rect x="27" y="10" width="10" height="5" rx="1.5" fill="#B45309" stroke="#78350F" stroke-width="1"/>
-  <!-- Green Liquid Inside -->
-  <path d="M18 43 C 20 40, 24 44, 32 41 C 40 44, 44 40, 46 43 L 47 45 C 49 49, 46 53, 41 53 L 23 53 C 18 53, 15 49, 17 45 Z" fill="url(#liquidGrad)"/>
-  <!-- Liquid Bubbles -->
-  <circle cx="26" cy="48" r="2" fill="#DCFCE7" opacity="0.8"/>
-  <circle cx="36" cy="46" r="1.5" fill="#DCFCE7" opacity="0.8"/>
-  <circle cx="31" cy="49" r="1.2" fill="#DCFCE7" opacity="0.7"/>
-  <!-- Sprouting Leaves on Flask -->
-  <g transform="translate(32, 46)">
-    <path d="M0 0 C -6 -6, -8 -1, 0 4 C 8 -1, 6 -6, 0 0 Z" fill="#22C55E" stroke="#15803D" stroke-width="0.8"/>
-    <path d="M0 4 C -1 1, 0 -3, 0 -3" stroke="#15803D" stroke-width="0.8"/>
-  </g>
-  <!-- Glass Shine Highlight -->
-  <path d="M20 42 L28 26 L29 27 L22 43 Z" fill="#FFFFFF" opacity="0.45"/>
-  <defs>
-    <linearGradient id="glassGrad" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.8"/>
-      <stop offset="50%" stop-color="#E6FFFA" stop-opacity="0.3"/>
-      <stop offset="100%" stop-color="#A7F3D0" stop-opacity="0.6"/>
-    </linearGradient>
-    <linearGradient id="liquidGrad" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#4ADE80"/>
-      <stop offset="50%" stop-color="#22C55E"/>
-      <stop offset="100%" stop-color="#16A34A"/>
-    </linearGradient>
-  </defs>
-</svg>
-  </div>
-  <span class="hidden md:block text-[10px] sm:text-[11px] font-black text-white text-center leading-none tracking-tight drop-shadow-sm mb-1">C. Naturales</span>
-  <div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-15"></div>
-</div>
-<!-- Tile 16: Matemática -->
-<div class="col-start-7 row-start-8 bg-gradient-to-b from-[#38BDF8] via-[#2563EB] to-[#1D4ED8] border border-[#93C5FD]/60 shadow-[0_6px_0_#1E40AF,0_10px_15px_rgba(30,64,175,0.25)] rounded-2xl md:rounded-3xl p-1 sm:p-1.5 md:p-2 flex flex-col justify-between items-center transition-all duration-150 hover:-translate-y-1 hover:shadow-xl relative select-none cursor-pointer group" id="tile-16">
+<!-- Tile 15: Matemática -->
+<div class="col-start-7 row-start-7 bg-gradient-to-b from-[#38BDF8] via-[#2563EB] to-[#1D4ED8] border border-[#93C5FD]/60 shadow-[0_6px_0_#1E40AF,0_10px_15px_rgba(30,64,175,0.25)] rounded-2xl md:rounded-3xl p-1 sm:p-1.5 md:p-2 flex flex-col justify-between items-center transition-all duration-150 hover:-translate-y-1 hover:shadow-xl relative select-none cursor-pointer group" id="tile-15">
   <div class="absolute -top-1.5 -left-1.5 z-20 bg-[#1D4ED8] text-white font-black text-[10px] sm:text-xs rounded-full w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center border-2 border-white shadow-md select-none">
-  <span>16</span>
+  <span>15</span>
 </div>
   
   <div class="flex-1 flex items-center justify-center w-full my-auto mt-1 sm:mt-1.5 group-hover:scale-105 transition-transform">
@@ -1606,12 +1569,12 @@
 </svg>
   </div>
   <span class="hidden md:block text-[10px] sm:text-[11px] font-black text-white text-center leading-none tracking-tight drop-shadow-sm mb-1">Matemática</span>
-  <div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-16"></div>
+  <div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-15"></div>
 </div>
-<!-- Tile 17: C. Sociales -->
-<div class="col-start-6 row-start-8 bg-gradient-to-b from-[#FBBF24] via-[#F59E0B] to-[#D97706] border border-[#FDE68A]/60 shadow-[0_6px_0_#92400E,0_10px_15px_rgba(217,119,6,0.25)] rounded-2xl md:rounded-3xl p-1 sm:p-1.5 md:p-2 flex flex-col justify-between items-center transition-all duration-150 hover:-translate-y-1 hover:shadow-xl relative select-none cursor-pointer group" id="tile-17">
+<!-- Tile 16: C. Sociales -->
+<div class="col-start-6 row-start-7 bg-gradient-to-b from-[#FBBF24] via-[#F59E0B] to-[#D97706] border border-[#FDE68A]/60 shadow-[0_6px_0_#92400E,0_10px_15px_rgba(217,119,6,0.25)] rounded-2xl md:rounded-3xl p-1 sm:p-1.5 md:p-2 flex flex-col justify-between items-center transition-all duration-150 hover:-translate-y-1 hover:shadow-xl relative select-none cursor-pointer group" id="tile-16">
   <div class="absolute -top-1.5 -left-1.5 z-20 bg-[#D97706] text-white font-black text-[10px] sm:text-xs rounded-full w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center border-2 border-white shadow-md select-none">
-  <span>17</span>
+  <span>16</span>
 </div>
   
   <div class="flex-1 flex items-center justify-center w-full my-auto mt-1 sm:mt-1.5 group-hover:scale-105 transition-transform">
@@ -1653,12 +1616,12 @@
 </svg>
   </div>
   <span class="hidden md:block text-[10px] sm:text-[11px] font-black text-white text-center leading-none tracking-tight drop-shadow-sm mb-1">C. Sociales</span>
-  <div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-17"></div>
+  <div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-16"></div>
 </div>
-<!-- Tile 18: Matemática -->
-<div class="col-start-5 row-start-8 bg-gradient-to-b from-[#38BDF8] via-[#2563EB] to-[#1D4ED8] border-4 border-[#FBBF24] ring-2 ring-[#FDE68A] shadow-[0_6px_0_#92400E,0_12px_20px_rgba(217,119,6,0.35)] rounded-2xl md:rounded-3xl p-1 sm:p-1.5 md:p-2 flex flex-col justify-between items-center transition-all duration-150 hover:-translate-y-1 hover:shadow-xl relative select-none cursor-pointer group" id="tile-18">
+<!-- Tile 17: Matemática -->
+<div class="col-start-5 row-start-7 bg-gradient-to-b from-[#38BDF8] via-[#2563EB] to-[#1D4ED8] border-4 border-[#FBBF24] ring-2 ring-[#FDE68A] shadow-[0_6px_0_#92400E,0_12px_20px_rgba(217,119,6,0.35)] rounded-2xl md:rounded-3xl p-1 sm:p-1.5 md:p-2 flex flex-col justify-between items-center transition-all duration-150 hover:-translate-y-1 hover:shadow-xl relative select-none cursor-pointer group" id="tile-17">
   <div class="absolute -top-1.5 -left-1.5 z-20 bg-[#1D4ED8] text-white font-black text-[10px] sm:text-xs rounded-full w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center border-2 border-white shadow-md select-none">
-  <span>18</span>
+  <span>17</span>
 </div>
   <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 z-20 pointer-events-none filter drop-shadow-md text-xl sm:text-2xl animate-bounce-subtle">👑</div>
   <div class="flex-1 flex items-center justify-center w-full my-auto mt-1 sm:mt-1.5 group-hover:scale-105 transition-transform">
@@ -1709,12 +1672,12 @@
 </svg>
   </div>
   <span class="hidden md:block text-[10px] sm:text-[11px] font-black text-white text-center leading-none tracking-tight drop-shadow-sm mb-1">Matemática</span>
-  <div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-18"></div>
+  <div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-17"></div>
 </div>
-<!-- Tile 19: C. Naturales -->
-<div class="col-start-4 row-start-8 bg-gradient-to-b from-[#34D399] via-[#10B981] to-[#059669] border border-[#A7F3D0]/60 shadow-[0_6px_0_#065F46,0_10px_15px_rgba(5,150,105,0.25)] rounded-2xl md:rounded-3xl p-1 sm:p-1.5 md:p-2 flex flex-col justify-between items-center transition-all duration-150 hover:-translate-y-1 hover:shadow-xl relative select-none cursor-pointer group" id="tile-19">
+<!-- Tile 18: C. Naturales -->
+<div class="col-start-4 row-start-7 bg-gradient-to-b from-[#34D399] via-[#10B981] to-[#059669] border border-[#A7F3D0]/60 shadow-[0_6px_0_#065F46,0_10px_15px_rgba(5,150,105,0.25)] rounded-2xl md:rounded-3xl p-1 sm:p-1.5 md:p-2 flex flex-col justify-between items-center transition-all duration-150 hover:-translate-y-1 hover:shadow-xl relative select-none cursor-pointer group" id="tile-18">
   <div class="absolute -top-1.5 -left-1.5 z-20 bg-[#059669] text-white font-black text-[10px] sm:text-xs rounded-full w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center border-2 border-white shadow-md select-none">
-  <span>19</span>
+  <span>18</span>
 </div>
   
   <div class="flex-1 flex items-center justify-center w-full my-auto mt-1 sm:mt-1.5 group-hover:scale-105 transition-transform">
@@ -1752,12 +1715,12 @@
 </svg>
   </div>
   <span class="hidden md:block text-[10px] sm:text-[11px] font-black text-white text-center leading-none tracking-tight drop-shadow-sm mb-1">C. Naturales</span>
-  <div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-19"></div>
+  <div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-18"></div>
 </div>
-<!-- Tile 20: Lengua -->
-<div class="col-start-3 row-start-8 bg-gradient-to-b from-[#FB7185] via-[#F43F5E] to-[#E11D48] border border-[#FDA4AF]/60 shadow-[0_6px_0_#9F1239,0_10px_15px_rgba(225,29,72,0.25)] rounded-2xl md:rounded-3xl p-1 sm:p-1.5 md:p-2 flex flex-col justify-between items-center transition-all duration-150 hover:-translate-y-1 hover:shadow-xl relative select-none cursor-pointer group" id="tile-20">
+<!-- Tile 19: Lengua -->
+<div class="col-start-3 row-start-7 bg-gradient-to-b from-[#FB7185] via-[#F43F5E] to-[#E11D48] border border-[#FDA4AF]/60 shadow-[0_6px_0_#9F1239,0_10px_15px_rgba(225,29,72,0.25)] rounded-2xl md:rounded-3xl p-1 sm:p-1.5 md:p-2 flex flex-col justify-between items-center transition-all duration-150 hover:-translate-y-1 hover:shadow-xl relative select-none cursor-pointer group" id="tile-19">
   <div class="absolute -top-1.5 -left-1.5 z-20 bg-[#E11D48] text-white font-black text-[10px] sm:text-xs rounded-full w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center border-2 border-white shadow-md select-none">
-  <span>20</span>
+  <span>19</span>
 </div>
   
   <div class="flex-1 flex items-center justify-center w-full my-auto mt-1 sm:mt-1.5 group-hover:scale-105 transition-transform">
@@ -1789,10 +1752,48 @@
 </svg>
   </div>
   <span class="hidden md:block text-[10px] sm:text-[11px] font-black text-white text-center leading-none tracking-tight drop-shadow-sm mb-1">Lengua</span>
+  <div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-19"></div>
+</div>
+<!-- Tile 20: Ingenio -->
+<div class="col-start-2 row-start-7 bg-gradient-to-b from-[#C084FC] via-[#9333EA] to-[#7E22CE] border border-[#E9D5FF]/60 shadow-[0_6px_0_#581C87,0_10px_15px_rgba(126,34,206,0.25)] rounded-2xl md:rounded-3xl p-1 sm:p-1.5 md:p-2 flex flex-col justify-between items-center transition-all duration-150 hover:-translate-y-1 hover:shadow-xl relative select-none cursor-pointer group" id="tile-20">
+  <div class="absolute -top-1.5 -left-1.5 z-20 bg-[#7E22CE] text-white font-black text-[10px] sm:text-xs rounded-full w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center border-2 border-white shadow-md select-none">
+  <span>20</span>
+</div>
+  
+  <div class="flex-1 flex items-center justify-center w-full my-auto mt-1 sm:mt-1.5 group-hover:scale-105 transition-transform">
+    <svg class="w-7 h-7 sm:w-9 sm:h-9 md:w-12 md:h-12 drop-shadow-md" viewBox="0 0 64 64" fill="none">
+  <!-- 3D Glowing Lightbulb -->
+  <!-- Rays of Light -->
+  <line x1="32" y1="6" x2="32" y2="11" stroke="#FDE047" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="16" y1="12" x2="20" y2="16" stroke="#FDE047" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="48" y1="12" x2="44" y2="16" stroke="#FDE047" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="10" y1="26" x2="15" y2="26" stroke="#FDE047" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="54" y1="26" x2="49" y2="26" stroke="#FDE047" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- Glow Halo -->
+  <circle cx="32" cy="27" r="18" fill="#FEF08A" opacity="0.25"/>
+  <!-- Bulb Glass -->
+  <path d="M32 12 C 22 12, 18 19, 18 26 C 18 32, 23 36, 24 41 L 40 41 C 41 36, 46 32, 46 26 C 46 19, 42 12, 32 12 Z" fill="url(#bulbGrad)" stroke="#EAB308" stroke-width="1.5"/>
+  <!-- Filament (Golden Glowing Loop) -->
+  <path d="M28 32 L 28 24 C 28 21, 30 20, 32 20 C 34 20, 36 21, 36 24 L 36 32" stroke="#B45309" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+  <!-- Metallic Screw Base -->
+  <rect x="25" y="42" width="14" height="3" rx="1" fill="#94A3B8" stroke="#475569" stroke-width="1"/>
+  <rect x="26" y="46" width="12" height="3" rx="1" fill="#64748B" stroke="#475569" stroke-width="1"/>
+  <path d="M28 50 L 36 50 L 34 53 L 30 53 Z" fill="#334155"/>
+  <defs>
+    <radialGradient id="bulbGrad" cx="35%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="35%" stop-color="#FEF08A"/>
+      <stop offset="70%" stop-color="#FACC15"/>
+      <stop offset="100%" stop-color="#EAB308"/>
+    </radialGradient>
+  </defs>
+</svg>
+  </div>
+  <span class="hidden md:block text-[10px] sm:text-[11px] font-black text-white text-center leading-none tracking-tight drop-shadow-sm mb-1">Ingenio</span>
   <div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-20"></div>
 </div>
 <!-- Tile 21: Ingenio -->
-<div class="col-start-2 row-start-8 bg-gradient-to-b from-[#C084FC] via-[#9333EA] to-[#7E22CE] border border-[#E9D5FF]/60 shadow-[0_6px_0_#581C87,0_10px_15px_rgba(126,34,206,0.25)] rounded-2xl md:rounded-3xl p-1 sm:p-1.5 md:p-2 flex flex-col justify-between items-center transition-all duration-150 hover:-translate-y-1 hover:shadow-xl relative select-none cursor-pointer group" id="tile-21">
+<div class="col-start-1 row-start-7 bg-gradient-to-b from-[#C084FC] via-[#9333EA] to-[#7E22CE] border border-[#E9D5FF]/60 shadow-[0_6px_0_#581C87,0_10px_15px_rgba(126,34,206,0.25)] rounded-2xl md:rounded-3xl p-1 sm:p-1.5 md:p-2 flex flex-col justify-between items-center transition-all duration-150 hover:-translate-y-1 hover:shadow-xl relative select-none cursor-pointer group" id="tile-21">
   <div class="absolute -top-1.5 -left-1.5 z-20 bg-[#7E22CE] text-white font-black text-[10px] sm:text-xs rounded-full w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center border-2 border-white shadow-md select-none">
   <span>21</span>
 </div>
@@ -1829,48 +1830,10 @@
   <span class="hidden md:block text-[10px] sm:text-[11px] font-black text-white text-center leading-none tracking-tight drop-shadow-sm mb-1">Ingenio</span>
   <div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-21"></div>
 </div>
-<!-- Tile 22: Ingenio -->
-<div class="col-start-1 row-start-8 bg-gradient-to-b from-[#C084FC] via-[#9333EA] to-[#7E22CE] border border-[#E9D5FF]/60 shadow-[0_6px_0_#581C87,0_10px_15px_rgba(126,34,206,0.25)] rounded-2xl md:rounded-3xl p-1 sm:p-1.5 md:p-2 flex flex-col justify-between items-center transition-all duration-150 hover:-translate-y-1 hover:shadow-xl relative select-none cursor-pointer group" id="tile-22">
-  <div class="absolute -top-1.5 -left-1.5 z-20 bg-[#7E22CE] text-white font-black text-[10px] sm:text-xs rounded-full w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center border-2 border-white shadow-md select-none">
-  <span>22</span>
-</div>
-  
-  <div class="flex-1 flex items-center justify-center w-full my-auto mt-1 sm:mt-1.5 group-hover:scale-105 transition-transform">
-    <svg class="w-7 h-7 sm:w-9 sm:h-9 md:w-12 md:h-12 drop-shadow-md" viewBox="0 0 64 64" fill="none">
-  <!-- 3D Glowing Lightbulb -->
-  <!-- Rays of Light -->
-  <line x1="32" y1="6" x2="32" y2="11" stroke="#FDE047" stroke-width="2.5" stroke-linecap="round"/>
-  <line x1="16" y1="12" x2="20" y2="16" stroke="#FDE047" stroke-width="2.5" stroke-linecap="round"/>
-  <line x1="48" y1="12" x2="44" y2="16" stroke="#FDE047" stroke-width="2.5" stroke-linecap="round"/>
-  <line x1="10" y1="26" x2="15" y2="26" stroke="#FDE047" stroke-width="2.5" stroke-linecap="round"/>
-  <line x1="54" y1="26" x2="49" y2="26" stroke="#FDE047" stroke-width="2.5" stroke-linecap="round"/>
-  <!-- Glow Halo -->
-  <circle cx="32" cy="27" r="18" fill="#FEF08A" opacity="0.25"/>
-  <!-- Bulb Glass -->
-  <path d="M32 12 C 22 12, 18 19, 18 26 C 18 32, 23 36, 24 41 L 40 41 C 41 36, 46 32, 46 26 C 46 19, 42 12, 32 12 Z" fill="url(#bulbGrad)" stroke="#EAB308" stroke-width="1.5"/>
-  <!-- Filament (Golden Glowing Loop) -->
-  <path d="M28 32 L 28 24 C 28 21, 30 20, 32 20 C 34 20, 36 21, 36 24 L 36 32" stroke="#B45309" stroke-width="1.8" stroke-linecap="round" fill="none"/>
-  <!-- Metallic Screw Base -->
-  <rect x="25" y="42" width="14" height="3" rx="1" fill="#94A3B8" stroke="#475569" stroke-width="1"/>
-  <rect x="26" y="46" width="12" height="3" rx="1" fill="#64748B" stroke="#475569" stroke-width="1"/>
-  <path d="M28 50 L 36 50 L 34 53 L 30 53 Z" fill="#334155"/>
-  <defs>
-    <radialGradient id="bulbGrad" cx="35%" cy="30%" r="70%">
-      <stop offset="0%" stop-color="#FFFFFF"/>
-      <stop offset="35%" stop-color="#FEF08A"/>
-      <stop offset="70%" stop-color="#FACC15"/>
-      <stop offset="100%" stop-color="#EAB308"/>
-    </radialGradient>
-  </defs>
-</svg>
-  </div>
-  <span class="hidden md:block text-[10px] sm:text-[11px] font-black text-white text-center leading-none tracking-tight drop-shadow-sm mb-1">Ingenio</span>
-  <div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-22"></div>
-</div>
-<!-- Tile 23: Lengua -->
-<div class="col-start-1 row-start-7 bg-gradient-to-b from-[#FB7185] via-[#F43F5E] to-[#E11D48] border border-[#FDA4AF]/60 shadow-[0_6px_0_#9F1239,0_10px_15px_rgba(225,29,72,0.25)] rounded-2xl md:rounded-3xl p-1 sm:p-1.5 md:p-2 flex flex-col justify-between items-center transition-all duration-150 hover:-translate-y-1 hover:shadow-xl relative select-none cursor-pointer group" id="tile-23">
+<!-- Tile 22: Lengua -->
+<div class="col-start-1 row-start-6 bg-gradient-to-b from-[#FB7185] via-[#F43F5E] to-[#E11D48] border border-[#FDA4AF]/60 shadow-[0_6px_0_#9F1239,0_10px_15px_rgba(225,29,72,0.25)] rounded-2xl md:rounded-3xl p-1 sm:p-1.5 md:p-2 flex flex-col justify-between items-center transition-all duration-150 hover:-translate-y-1 hover:shadow-xl relative select-none cursor-pointer group" id="tile-22">
   <div class="absolute -top-1.5 -left-1.5 z-20 bg-[#E11D48] text-white font-black text-[10px] sm:text-xs rounded-full w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center border-2 border-white shadow-md select-none">
-  <span>23</span>
+  <span>22</span>
 </div>
   
   <div class="flex-1 flex items-center justify-center w-full my-auto mt-1 sm:mt-1.5 group-hover:scale-105 transition-transform">
@@ -1902,12 +1865,12 @@
 </svg>
   </div>
   <span class="hidden md:block text-[10px] sm:text-[11px] font-black text-white text-center leading-none tracking-tight drop-shadow-sm mb-1">Lengua</span>
-  <div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-23"></div>
+  <div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-22"></div>
 </div>
-<!-- Tile 24: C. Sociales -->
-<div class="col-start-1 row-start-6 bg-gradient-to-b from-[#FBBF24] via-[#F59E0B] to-[#D97706] border border-[#FDE68A]/60 shadow-[0_6px_0_#92400E,0_10px_15px_rgba(217,119,6,0.25)] rounded-2xl md:rounded-3xl p-1 sm:p-1.5 md:p-2 flex flex-col justify-between items-center transition-all duration-150 hover:-translate-y-1 hover:shadow-xl relative select-none cursor-pointer group" id="tile-24">
+<!-- Tile 23: C. Sociales -->
+<div class="col-start-1 row-start-5 bg-gradient-to-b from-[#FBBF24] via-[#F59E0B] to-[#D97706] border border-[#FDE68A]/60 shadow-[0_6px_0_#92400E,0_10px_15px_rgba(217,119,6,0.25)] rounded-2xl md:rounded-3xl p-1 sm:p-1.5 md:p-2 flex flex-col justify-between items-center transition-all duration-150 hover:-translate-y-1 hover:shadow-xl relative select-none cursor-pointer group" id="tile-23">
   <div class="absolute -top-1.5 -left-1.5 z-20 bg-[#D97706] text-white font-black text-[10px] sm:text-xs rounded-full w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center border-2 border-white shadow-md select-none">
-  <span>24</span>
+  <span>23</span>
 </div>
   
   <div class="flex-1 flex items-center justify-center w-full my-auto mt-1 sm:mt-1.5 group-hover:scale-105 transition-transform">
@@ -1949,12 +1912,12 @@
 </svg>
   </div>
   <span class="hidden md:block text-[10px] sm:text-[11px] font-black text-white text-center leading-none tracking-tight drop-shadow-sm mb-1">C. Sociales</span>
-  <div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-24"></div>
+  <div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-23"></div>
 </div>
-<!-- Tile 25: Matemática -->
-<div class="col-start-1 row-start-5 bg-gradient-to-b from-[#38BDF8] via-[#2563EB] to-[#1D4ED8] border border-[#93C5FD]/60 shadow-[0_6px_0_#1E40AF,0_10px_15px_rgba(30,64,175,0.25)] rounded-2xl md:rounded-3xl p-1 sm:p-1.5 md:p-2 flex flex-col justify-between items-center transition-all duration-150 hover:-translate-y-1 hover:shadow-xl relative select-none cursor-pointer group" id="tile-25">
+<!-- Tile 24: Matemática -->
+<div class="col-start-1 row-start-4 bg-gradient-to-b from-[#38BDF8] via-[#2563EB] to-[#1D4ED8] border border-[#93C5FD]/60 shadow-[0_6px_0_#1E40AF,0_10px_15px_rgba(30,64,175,0.25)] rounded-2xl md:rounded-3xl p-1 sm:p-1.5 md:p-2 flex flex-col justify-between items-center transition-all duration-150 hover:-translate-y-1 hover:shadow-xl relative select-none cursor-pointer group" id="tile-24">
   <div class="absolute -top-1.5 -left-1.5 z-20 bg-[#1D4ED8] text-white font-black text-[10px] sm:text-xs rounded-full w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center border-2 border-white shadow-md select-none">
-  <span>25</span>
+  <span>24</span>
 </div>
   
   <div class="flex-1 flex items-center justify-center w-full my-auto mt-1 sm:mt-1.5 group-hover:scale-105 transition-transform">
@@ -2005,10 +1968,52 @@
 </svg>
   </div>
   <span class="hidden md:block text-[10px] sm:text-[11px] font-black text-white text-center leading-none tracking-tight drop-shadow-sm mb-1">Matemática</span>
+  <div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-24"></div>
+</div>
+<!-- Tile 25: Corona -->
+<div class="col-start-1 row-start-3 bg-gradient-to-b from-[#A855F7] via-[#7E22CE] to-[#581C87] border-4 border-[#FBBF24] ring-2 ring-[#FDE68A] shadow-[0_6px_0_#92400E,0_12px_20px_rgba(217,119,6,0.35)] rounded-2xl md:rounded-3xl p-1 sm:p-1.5 md:p-2 flex flex-col justify-between items-center transition-all duration-150 hover:-translate-y-1 hover:shadow-xl relative select-none cursor-pointer group" id="tile-25">
+  <div class="absolute -top-1.5 -left-1.5 z-20 bg-[#7E22CE] text-white font-black text-[10px] sm:text-xs rounded-full w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center border-2 border-white shadow-md select-none">
+  <span>25</span>
+</div>
+  
+  <div class="flex-1 flex items-center justify-center w-full my-auto mt-1 sm:mt-1.5 group-hover:scale-105 transition-transform">
+    <svg class="w-8 h-8 sm:w-11 sm:h-11 md:w-14 md:h-14 drop-shadow-lg" viewBox="0 0 64 64" fill="none">
+  <!-- 3D Golden Crown with Jewels -->
+  <!-- Crown Base Band -->
+  <path d="M10 46 C 24 49, 40 49, 54 46 L 52 52 C 38 55, 26 55, 12 52 Z" fill="#B45309"/>
+  <path d="M10 44 C 24 47, 40 47, 54 44 L 54 48 C 40 51, 24 51, 10 48 Z" fill="url(#goldBand)"/>
+  <!-- Crown Peaks -->
+  <path d="M10 44 L 14 26 L 24 35 L 32 16 L 40 35 L 50 26 L 54 44 C 40 47, 24 47, 10 44 Z" fill="url(#crownGold)" stroke="#D97706" stroke-width="1.5"/>
+  <!-- Crown Peak Pearls / Orbs -->
+  <circle cx="14" cy="25" r="3" fill="#FDE047" stroke="#B45309" stroke-width="1"/>
+  <circle cx="24" cy="34" r="2.5" fill="#FDE047" stroke="#B45309" stroke-width="1"/>
+  <circle cx="32" cy="15" r="4" fill="#FEF08A" stroke="#B45309" stroke-width="1.2"/>
+  <circle cx="40" cy="34" r="2.5" fill="#FDE047" stroke="#B45309" stroke-width="1"/>
+  <circle cx="50" cy="25" r="3" fill="#FDE047" stroke="#B45309" stroke-width="1"/>
+  <!-- Jewels on the Crown Band -->
+  <circle cx="20" cy="46" r="2.5" fill="#EF4444" stroke="#991B1B" stroke-width="0.8"/>
+  <circle cx="32" cy="47" r="3" fill="#3B82F6" stroke="#1D4ED8" stroke-width="0.8"/>
+  <circle cx="44" cy="46" r="2.5" fill="#10B981" stroke="#047857" stroke-width="0.8"/>
+  <defs>
+    <linearGradient id="crownGold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#FEF08A"/>
+      <stop offset="30%" stop-color="#FBBF24"/>
+      <stop offset="70%" stop-color="#F59E0B"/>
+      <stop offset="100%" stop-color="#D97706"/>
+    </linearGradient>
+    <linearGradient id="goldBand" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#F59E0B"/>
+      <stop offset="50%" stop-color="#FEF08A"/>
+      <stop offset="100%" stop-color="#F59E0B"/>
+    </linearGradient>
+  </defs>
+</svg>
+  </div>
+  <span class="hidden md:block text-[10px] sm:text-[11px] font-black text-white text-center leading-none tracking-tight drop-shadow-sm mb-1">Corona</span>
   <div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-25"></div>
 </div>
 <!-- Tile 26: C. Sociales -->
-<div class="col-start-1 row-start-4 bg-gradient-to-b from-[#FBBF24] via-[#F59E0B] to-[#D97706] border border-[#FDE68A]/60 shadow-[0_6px_0_#92400E,0_10px_15px_rgba(217,119,6,0.25)] rounded-2xl md:rounded-3xl p-1 sm:p-1.5 md:p-2 flex flex-col justify-between items-center transition-all duration-150 hover:-translate-y-1 hover:shadow-xl relative select-none cursor-pointer group" id="tile-26">
+<div class="col-start-1 row-start-2 bg-gradient-to-b from-[#FBBF24] via-[#F59E0B] to-[#D97706] border border-[#FDE68A]/60 shadow-[0_6px_0_#92400E,0_10px_15px_rgba(217,119,6,0.25)] rounded-2xl md:rounded-3xl p-1 sm:p-1.5 md:p-2 flex flex-col justify-between items-center transition-all duration-150 hover:-translate-y-1 hover:shadow-xl relative select-none cursor-pointer group" id="tile-26">
   <div class="absolute -top-1.5 -left-1.5 z-20 bg-[#D97706] text-white font-black text-[10px] sm:text-xs rounded-full w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center border-2 border-white shadow-md select-none">
   <span>26</span>
 </div>
@@ -2054,93 +2059,8 @@
   <span class="hidden md:block text-[10px] sm:text-[11px] font-black text-white text-center leading-none tracking-tight drop-shadow-sm mb-1">C. Sociales</span>
   <div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-26"></div>
 </div>
-<!-- Tile 27: Corona -->
-<div class="col-start-1 row-start-3 bg-gradient-to-b from-[#A855F7] via-[#7E22CE] to-[#581C87] border-4 border-[#FBBF24] ring-2 ring-[#FDE68A] shadow-[0_6px_0_#92400E,0_12px_20px_rgba(217,119,6,0.35)] rounded-2xl md:rounded-3xl p-1 sm:p-1.5 md:p-2 flex flex-col justify-between items-center transition-all duration-150 hover:-translate-y-1 hover:shadow-xl relative select-none cursor-pointer group" id="tile-27">
-  <div class="absolute -top-1.5 -left-1.5 z-20 bg-[#7E22CE] text-white font-black text-[10px] sm:text-xs rounded-full w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center border-2 border-white shadow-md select-none">
-  <span>27</span>
-</div>
-  
-  <div class="flex-1 flex items-center justify-center w-full my-auto mt-1 sm:mt-1.5 group-hover:scale-105 transition-transform">
-    <svg class="w-8 h-8 sm:w-11 sm:h-11 md:w-14 md:h-14 drop-shadow-lg" viewBox="0 0 64 64" fill="none">
-  <!-- 3D Golden Crown with Jewels -->
-  <!-- Crown Base Band -->
-  <path d="M10 46 C 24 49, 40 49, 54 46 L 52 52 C 38 55, 26 55, 12 52 Z" fill="#B45309"/>
-  <path d="M10 44 C 24 47, 40 47, 54 44 L 54 48 C 40 51, 24 51, 10 48 Z" fill="url(#goldBand)"/>
-  <!-- Crown Peaks -->
-  <path d="M10 44 L 14 26 L 24 35 L 32 16 L 40 35 L 50 26 L 54 44 C 40 47, 24 47, 10 44 Z" fill="url(#crownGold)" stroke="#D97706" stroke-width="1.5"/>
-  <!-- Crown Peak Pearls / Orbs -->
-  <circle cx="14" cy="25" r="3" fill="#FDE047" stroke="#B45309" stroke-width="1"/>
-  <circle cx="24" cy="34" r="2.5" fill="#FDE047" stroke="#B45309" stroke-width="1"/>
-  <circle cx="32" cy="15" r="4" fill="#FEF08A" stroke="#B45309" stroke-width="1.2"/>
-  <circle cx="40" cy="34" r="2.5" fill="#FDE047" stroke="#B45309" stroke-width="1"/>
-  <circle cx="50" cy="25" r="3" fill="#FDE047" stroke="#B45309" stroke-width="1"/>
-  <!-- Jewels on the Crown Band -->
-  <circle cx="20" cy="46" r="2.5" fill="#EF4444" stroke="#991B1B" stroke-width="0.8"/>
-  <circle cx="32" cy="47" r="3" fill="#3B82F6" stroke="#1D4ED8" stroke-width="0.8"/>
-  <circle cx="44" cy="46" r="2.5" fill="#10B981" stroke="#047857" stroke-width="0.8"/>
-  <defs>
-    <linearGradient id="crownGold" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#FEF08A"/>
-      <stop offset="30%" stop-color="#FBBF24"/>
-      <stop offset="70%" stop-color="#F59E0B"/>
-      <stop offset="100%" stop-color="#D97706"/>
-    </linearGradient>
-    <linearGradient id="goldBand" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#F59E0B"/>
-      <stop offset="50%" stop-color="#FEF08A"/>
-      <stop offset="100%" stop-color="#F59E0B"/>
-    </linearGradient>
-  </defs>
-</svg>
-  </div>
-  <span class="hidden md:block text-[10px] sm:text-[11px] font-black text-white text-center leading-none tracking-tight drop-shadow-sm mb-1">Corona</span>
-  <div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-27"></div>
-</div>
-<!-- Tile 28: C. Naturales -->
-<div class="col-start-1 row-start-2 bg-gradient-to-b from-[#34D399] via-[#10B981] to-[#059669] border border-[#A7F3D0]/60 shadow-[0_6px_0_#065F46,0_10px_15px_rgba(5,150,105,0.25)] rounded-2xl md:rounded-3xl p-1 sm:p-1.5 md:p-2 flex flex-col justify-between items-center transition-all duration-150 hover:-translate-y-1 hover:shadow-xl relative select-none cursor-pointer group" id="tile-28">
-  <div class="absolute -top-1.5 -left-1.5 z-20 bg-[#059669] text-white font-black text-[10px] sm:text-xs rounded-full w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center border-2 border-white shadow-md select-none">
-  <span>28</span>
-</div>
-  
-  <div class="flex-1 flex items-center justify-center w-full my-auto mt-1 sm:mt-1.5 group-hover:scale-105 transition-transform">
-    <svg class="w-7 h-7 sm:w-9 sm:h-9 md:w-12 md:h-12 drop-shadow-md" viewBox="0 0 64 64" fill="none">
-  <!-- 3D Potion Flask with Green Liquid and Leaves -->
-  <!-- Flask Body (Glass) -->
-  <path d="M26 14 L38 14 L38 24 L48 42 C 51 47, 47 54, 41 54 L23 54 C 17 54, 13 47, 16 42 L26 24 Z" fill="url(#glassGrad)" stroke="#A7F3D0" stroke-width="1.8"/>
-  <!-- Cork Stopper -->
-  <rect x="27" y="10" width="10" height="5" rx="1.5" fill="#B45309" stroke="#78350F" stroke-width="1"/>
-  <!-- Green Liquid Inside -->
-  <path d="M18 43 C 20 40, 24 44, 32 41 C 40 44, 44 40, 46 43 L 47 45 C 49 49, 46 53, 41 53 L 23 53 C 18 53, 15 49, 17 45 Z" fill="url(#liquidGrad)"/>
-  <!-- Liquid Bubbles -->
-  <circle cx="26" cy="48" r="2" fill="#DCFCE7" opacity="0.8"/>
-  <circle cx="36" cy="46" r="1.5" fill="#DCFCE7" opacity="0.8"/>
-  <circle cx="31" cy="49" r="1.2" fill="#DCFCE7" opacity="0.7"/>
-  <!-- Sprouting Leaves on Flask -->
-  <g transform="translate(32, 46)">
-    <path d="M0 0 C -6 -6, -8 -1, 0 4 C 8 -1, 6 -6, 0 0 Z" fill="#22C55E" stroke="#15803D" stroke-width="0.8"/>
-    <path d="M0 4 C -1 1, 0 -3, 0 -3" stroke="#15803D" stroke-width="0.8"/>
-  </g>
-  <!-- Glass Shine Highlight -->
-  <path d="M20 42 L28 26 L29 27 L22 43 Z" fill="#FFFFFF" opacity="0.45"/>
-  <defs>
-    <linearGradient id="glassGrad" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.8"/>
-      <stop offset="50%" stop-color="#E6FFFA" stop-opacity="0.3"/>
-      <stop offset="100%" stop-color="#A7F3D0" stop-opacity="0.6"/>
-    </linearGradient>
-    <linearGradient id="liquidGrad" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#4ADE80"/>
-      <stop offset="50%" stop-color="#22C55E"/>
-      <stop offset="100%" stop-color="#16A34A"/>
-    </linearGradient>
-  </defs>
-</svg>
-  </div>
-  <span class="hidden md:block text-[10px] sm:text-[11px] font-black text-white text-center leading-none tracking-tight drop-shadow-sm mb-1">C. Naturales</span>
-  <div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-28"></div>
-</div>
 <!-- ================= BOARD CENTER: INTERACTIVE ARENA ================= -->
-<div class="col-span-6 row-span-6 col-start-2 row-start-2 bg-gradient-to-b from-[#F0F7FF] via-[#F8FAFC] to-[#EEF2FF] rounded-3xl m-0.5 sm:m-1 border border-slate-200/90 flex flex-col items-center justify-center p-2 sm:p-4 md:p-6 text-center relative shadow-inner overflow-hidden" data-purpose="board-center-interactive-area">
+<div class="col-span-6 row-span-5 col-start-2 row-start-2 bg-gradient-to-b from-[#F0F7FF] via-[#F8FAFC] to-[#EEF2FF] rounded-3xl m-0.5 sm:m-1 border border-slate-200/90 flex flex-col items-center justify-center p-2 sm:p-4 md:p-6 text-center relative shadow-inner overflow-hidden" data-purpose="board-center-interactive-area">
   
   <!-- SPECTATOR LIVE HUD (Visible en tiempo real cuando la otra jugadora tira o responde online) -->
   <div id="spectator-hud" class="hidden w-full max-w-sm sm:max-w-md bg-white/95 backdrop-blur-md rounded-2xl p-3.5 sm:p-4 border-2 border-indigo-200 shadow-xl flex-col gap-2 text-left mb-2 transition-all z-20 animate-in fade-in">
