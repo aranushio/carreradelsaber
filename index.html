@@ -1,372 +1,228 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="utf-8"/>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>Carrera del Saber - Olimpíada Escolar</title>
-    
-    <!-- Google Fonts: Nunito -->
-    <link href="https://fonts.googleapis.com" rel="preconnect"/>
-    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
-    
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <script>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Carrera del Saber - 6.° Grado</title>
+  <!-- Google Fonts: Plus Jakarta Sans for playful rounded aesthetic -->
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800;900&display=swap" rel="stylesheet"/>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script id="tailwind-config">
     tailwind.config = {
       theme: {
         extend: {
           fontFamily: {
-            sans: ['Nunito', 'sans-serif'],
-          },
-          colors: {
-            math: {
-              light: '#EBF4FF',
-              border: '#BFDBFE',
-              accent: '#3B82F6',
-              text: '#1D4ED8'
-            },
-            lengua: {
-              light: '#FEE2E2',
-              border: '#FECACA',
-              accent: '#EF4444',
-              text: '#B91C1C'
-            },
-            sociales: {
-              light: '#FFEDD5',
-              border: '#FED7AA',
-              accent: '#F97316',
-              text: '#C2410C'
-            },
-            naturales: {
-              light: '#DCFCE7',
-              border: '#BBF7D0',
-              accent: '#22C55E',
-              text: '#15803D'
-            },
-            ingenio: {
-              light: '#F3E8FF',
-              border: '#E9D5FF',
-              accent: '#A855F7',
-              text: '#7E22CE'
-            },
-            boardBg: '#F8FAFD'
-          },
-          boxShadow: {
-            'game-card': '0 10px 25px -5px rgba(50, 80, 150, 0.08), 0 8px 10px -6px rgba(50, 80, 150, 0.04)',
-            'token': '0 8px 16px -2px rgba(0, 0, 0, 0.25)',
-            '3d-btn': '0 6px 0px #1E40AF, 0 10px 15px rgba(30, 64, 175, 0.35)',
-            '3d-btn-active': '0 2px 0px #1E40AF, 0 4px 6px rgba(30, 64, 175, 0.35)',
-            'glow-star': '0 0 14px rgba(245, 158, 11, 0.65)'
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
           }
         }
       }
     }
-    </script>
+  </script>
+  <!-- Custom Styles for 3D Soft Toy Clay Elements and Dice Animation -->
+  <style>
+    /* Claymorphic 3D Tiles */
+    .tile-3d {
+      border-radius: 1.25rem;
+      box-shadow: 0 8px 0 rgba(0,0,0,0.18), 0 14px 20px -3px rgba(0,0,0,0.14), inset 0 2px 2px rgba(255,255,255,0.45);
+      transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.15s ease;
+    }
+    .tile-3d:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 0 rgba(0,0,0,0.18), 0 18px 24px -2px rgba(0,0,0,0.18), inset 0 2px 3px rgba(255,255,255,0.6);
+    }
+    
+    /* Golden Crown Casilleros */
+    .crown-border {
+      border: 3.5px solid #FFD84D;
+      box-shadow: 0 8px 0 #9E5600, 0 14px 22px rgba(180, 100, 0, 0.28), inset 0 2px 4px rgba(255,255,255,0.6);
+    }
 
-    <!-- Custom Micro-Styles (Stitch) -->
-    <style data-purpose="custom-decorations">
-      .dice-dot {
-        width: 14px;
-        height: 14px;
-        border-radius: 9999px;
-        background: radial-gradient(circle at 35% 35%, #38BDF8, #1D4ED8 65%, #172554 100%);
-        box-shadow: inset 1px 1px 2px rgba(255,255,255,0.6), 0 2px 3px rgba(0,0,0,0.35);
-        display: inline-block;
-        transition: opacity 0.1s ease;
-      }
-      .board-grid {
-        display: grid;
-        grid-template-columns: repeat(8, minmax(0, 1fr));
-        grid-template-rows: repeat(7, minmax(0, 1fr));
-        gap: 0.25rem;
-      }
-      @media (min-width: 768px) {
-        .board-grid {
-          gap: 0.6rem;
-        }
-      }
-      @keyframes pulse-subtle {
-        0%, 100% { transform: scale(1); }
-        50% { transform: scale(1.05); }
-      }
-      .turn-glow {
-        animation: pulse-subtle 2s infinite ease-in-out;
-      }
+    /* Active Highlighted Target Tile */
+    .tile-active-target {
+      transform: translateY(-4px) scale(1.04);
+      box-shadow: 0 0 0 4px #FACC15, 0 14px 24px rgba(250, 204, 21, 0.45), inset 0 2px 4px rgba(255,255,255,0.7) !important;
+      z-index: 30;
+    }
 
-      /* 3D Dice Rolling Animation Effects */
-      .dice-container-perspective {
-        perspective: 800px;
-      }
-      
-      @keyframes rolling3D {
-        0% {
-          transform: translateY(0) rotateX(0deg) rotateY(0deg) rotateZ(0deg) scale(1);
-        }
-        20% {
-          transform: translateY(-40px) rotateX(240deg) rotateY(180deg) rotateZ(45deg) scale(1.18);
-        }
-        40% {
-          transform: translateY(-55px) rotateX(540deg) rotateY(420deg) rotateZ(180deg) scale(1.22);
-        }
-        65% {
-          transform: translateY(-25px) rotateX(860deg) rotateY(740deg) rotateZ(320deg) scale(1.1);
-        }
-        85% {
-          transform: translateY(10px) rotateX(1060deg) rotateY(1060deg) rotateZ(710deg) scale(0.92);
-        }
-        94% {
-          transform: translateY(-6px) rotateX(1085deg) rotateY(1080deg) rotateZ(725deg) scale(1.04);
-        }
-        100% {
-          transform: translateY(0) rotateX(1080deg) rotateY(1080deg) rotateZ(720deg) scale(1);
-        }
-      }
+    /* Giant Playful Action Button */
+    .btn-action-3d {
+      background: linear-gradient(180deg, #3B82F6 0%, #1D4ED8 100%);
+      box-shadow: 0 9px 0 #1E3A8A, 0 18px 25px -4px rgba(29, 78, 216, 0.45), inset 0 2px 3px rgba(255,255,255,0.5);
+      transition: all 0.1s ease-in-out;
+    }
+    .btn-action-3d:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 11px 0 #1E3A8A, 0 22px 28px -4px rgba(29, 78, 216, 0.5), inset 0 2px 3px rgba(255,255,255,0.6);
+    }
+    .btn-action-3d:active {
+      transform: translateY(7px);
+      box-shadow: 0 2px 0 #1E3A8A, 0 6px 10px rgba(29, 78, 216, 0.3), inset 0 1px 2px rgba(255,255,255,0.3);
+    }
 
-      .dice-rolling {
-        animation: rolling3D 1.15s cubic-bezier(0.25, 1, 0.35, 1) forwards;
-      }
+    /* Soft panel surfaces */
+    .clay-card {
+      background: #FFFFFF;
+      box-shadow: 0 12px 32px -4px rgba(71, 95, 142, 0.08), 0 2px 8px rgba(71, 95, 142, 0.04);
+      border: 1.5px solid rgba(226, 232, 240, 0.85);
+    }
 
-      @keyframes shadowRoll {
-        0%, 100% { transform: translateX(-50%) scale(1); opacity: 0.25; }
-        40% { transform: translateX(-50%) scale(0.6); opacity: 0.1; }
-        85% { transform: translateX(-50%) scale(1.25); opacity: 0.4; }
-      }
+    /* Badge numbers in corner of tiles */
+    .num-badge {
+      box-shadow: 0 2px 5px rgba(0,0,0,0.22), inset 0 1px 1px rgba(255,255,255,0.4);
+    }
 
-      .shadow-rolling {
-        animation: shadowRoll 1.15s cubic-bezier(0.25, 1, 0.35, 1) forwards;
-      }
+    /* Isometric 3D Dice styling - Clean, distinct realistic design */
+    .dice-container {
+      perspective: 900px;
+    }
+    .dice-cube {
+      width: 90px;
+      height: 90px;
+      position: relative;
+      transform-style: preserve-3d;
+      transform: rotateX(0deg) rotateY(180deg);
+      transition: transform 0.85s cubic-bezier(0.18, 0.9, 0.28, 1.25);
+    }
+    .dice-face {
+      position: absolute;
+      width: 90px;
+      height: 90px;
+      background: #FFFFFF;
+      border-radius: 20px;
+      border: 2px solid #D6E0F0;
+      box-shadow: inset 0 0 10px rgba(203, 213, 225, 0.5), 0 8px 16px -2px rgba(30, 58, 138, 0.15);
+      display: grid;
+      place-items: center;
+      padding: 12px;
+      box-sizing: border-box;
+      backface-visibility: hidden;
+    }
+    .dice-front  { transform: translateZ(45px); }
+    .dice-back   { transform: rotateY(180deg) translateZ(45px); }
+    .dice-right  { transform: rotateY(90deg) translateZ(45px); }
+    .dice-left   { transform: rotateY(-90deg) translateZ(45px); }
+    .dice-top    { transform: rotateX(90deg) translateZ(45px); }
+    .dice-bottom { transform: rotateX(-90deg) translateZ(45px); }
 
-      /* Particle burst styling */
-      .burst-particle {
-        position: absolute;
-        pointer-events: none;
-        animation: popOut 0.85s cubic-bezier(0.12, 0.8, 0.32, 1) forwards;
-        z-index: 30;
-      }
+    /* Crisp solid blue dots / pips */
+    .dot {
+      width: 14px;
+      height: 14px;
+      background: radial-gradient(circle at 35% 35%, #2563EB 0%, #1D4ED8 100%);
+      border-radius: 50%;
+      box-shadow: inset 0 1.5px 3px rgba(0, 0, 0, 0.35), 0 1px 1px rgba(255, 255, 255, 0.9);
+    }
 
-      @keyframes popOut {
-        0% {
-          opacity: 1;
-          transform: translate(0, 0) scale(0.3) rotate(0deg);
-        }
-        70% {
-          opacity: 0.9;
-        }
-        100% {
-          opacity: 0;
-          transform: translate(var(--dx), var(--dy)) scale(1.3) rotate(var(--rot));
-        }
-      }
+    /* Dice Rolling Jitter Animation */
+    @keyframes rollingJitter {
+      0% { transform: scale(1) translateY(0) rotateX(0deg) rotateY(0deg); }
+      25% { transform: scale(1.15) translateY(-25px) rotateX(240deg) rotateY(180deg); }
+      50% { transform: scale(1.2) translateY(-35px) rotateX(540deg) rotateY(420deg); }
+      75% { transform: scale(1.1) translateY(-15px) rotateX(720deg) rotateY(640deg); }
+      100% { transform: scale(1) translateY(0) rotateX(1080deg) rotateY(900deg); }
+    }
+    .dice-rolling {
+      animation: rollingJitter 0.95s cubic-bezier(0.25, 1, 0.5, 1) infinite;
+    }
 
-      @keyframes shockwavePulse {
-        0% { transform: scale(0.7); opacity: 0.9; }
-        100% { transform: scale(1.9); opacity: 0; }
-      }
+    /* Player Token Bounce on active tile */
+    @keyframes tokenBounce {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-6px) scale(1.08); }
+    }
+    .token-bouncing {
+      animation: tokenBounce 1.8s ease-in-out infinite;
+    }
 
-      .shockwave-effect {
-        animation: shockwavePulse 0.65s cubic-bezier(0, 0, 0.2, 1) forwards;
-      }
+    /* Result Toast Pop Animation */
+    @keyframes popIn {
+      0% { opacity: 0; transform: translateY(-10px) scale(0.92); }
+      70% { transform: translateY(2px) scale(1.03); }
+      100% { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .pop-in-toast {
+      animation: popIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
 
-      #confetti-canvas {
-        position: fixed;
-        inset: 0;
-        pointer-events: none;
-        z-index: 9999;
-      }
-      ::-webkit-scrollbar { display: none; }
-      body, button, input, select, textarea, .font-sans {
-        font-family: 'Fredoka', 'Nunito', system-ui, -apple-system, sans-serif !important;
-      }
-      .board-grid {
-        display: grid;
-        grid-template-columns: repeat(8, minmax(0, 1fr));
-        grid-template-rows: repeat(7, minmax(0, 1fr));
-        gap: 0.35rem;
-      }
-      @media (min-width: 768px) {
-        .board-grid {
-          gap: 0.65rem;
-        }
-      }
-      @keyframes neloCheer {
-        0%, 100% {
-          transform: scaleX(-1) translateY(0px) rotate(0deg);
-        }
-        50% {
-          transform: scaleX(-1) translateY(-6px) rotate(-2deg);
-        }
-      }
-      .animate-nelo-cheer {
-        animation: neloCheer 2.4s ease-in-out infinite;
-      }
-
-      /* Micro-animación de Nelo Atleta Corriendo en el lugar (Trote atlético continuo) */
-      @keyframes neloRunningInPlace {
-        0% {
-          transform: translateY(0px) rotate(-6deg) scale(1.06, 0.93);
-        }
-        25% {
-          transform: translateY(-18px) rotate(3deg) scale(0.95, 1.06);
-        }
-        50% {
-          transform: translateY(0px) rotate(-4deg) scale(1.05, 0.94);
-        }
-        75% {
-          transform: translateY(-14px) rotate(2deg) scale(0.96, 1.05);
-        }
-        100% {
-          transform: translateY(0px) rotate(-6deg) scale(1.06, 0.93);
-        }
-      }
-
-      @keyframes shadowRunningInPlace {
-        0%, 50%, 100% {
-          transform: scale(1.2, 1.1);
-          opacity: 0.38;
-          filter: blur(1.5px);
-        }
-        25%, 75% {
-          transform: scale(0.65, 0.55);
-          opacity: 0.12;
-          filter: blur(4px);
-        }
-      }
-
-      @keyframes bubbleFloat {
-        0%, 100% {
-          transform: translateY(0px);
-        }
-        50% {
-          transform: translateY(-6px);
-        }
-      }
-
-      @keyframes speedDash1 {
-        0% {
-          transform: translateX(12px) scaleX(0.2);
-          opacity: 0;
-        }
-        40% {
-          opacity: 0.85;
-        }
-        100% {
-          transform: translateX(-42px) scaleX(1.4);
-          opacity: 0;
-        }
-      }
-
-      @keyframes speedDash2 {
-        0% {
-          transform: translateX(15px) scaleX(0.2);
-          opacity: 0;
-        }
-        50% {
-          opacity: 0.95;
-        }
-        100% {
-          transform: translateX(-52px) scaleX(1.6);
-          opacity: 0;
-        }
-      }
-
-      @keyframes avatarTrot {
-        0%, 100% {
-          transform: translateY(0px) rotate(-3deg) scale(1.02, 0.97);
-        }
-        25% {
-          transform: translateY(-3.5px) rotate(3deg) scale(0.97, 1.03);
-        }
-        50% {
-          transform: translateY(0px) rotate(-2deg) scale(1.02, 0.98);
-        }
-        75% {
-          transform: translateY(-2.5px) rotate(2deg) scale(0.98, 1.02);
-        }
-      }
-
-      .animate-nelo-running {
-        animation: neloRunningInPlace 0.52s cubic-bezier(0.42, 0.08, 0.58, 0.96) infinite;
-        transform-origin: 50% 92%;
-        will-change: transform;
-      }
-      .animate-nelo-shadow {
-        animation: shadowRunningInPlace 0.52s cubic-bezier(0.42, 0.08, 0.58, 0.96) infinite;
-        will-change: transform, opacity;
-      }
-      .animate-bubble-float {
-        animation: bubbleFloat 2.4s ease-in-out infinite;
-      }
-      .animate-avatar-trot {
-        animation: avatarTrot 0.58s ease-in-out infinite;
-        transform-origin: 50% 90%;
-      }
-      .speed-line-1 {
-        animation: speedDash1 0.62s ease-out infinite;
-      }
-      .speed-line-2 {
-        animation: speedDash2 0.62s ease-out 0.28s infinite;
-      }
-    </style>
+    /* Mascot Trot Animation */
+    @keyframes avatarTrot {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      25% { transform: translateY(-2px) rotate(-3deg); }
+      75% { transform: translateY(-1px) rotate(3deg); }
+    }
+    .animate-avatar-trot {
+      animation: avatarTrot 1.4s ease-in-out infinite;
+    }
+  </style>
 </head>
-<body class="min-h-screen font-sans text-slate-800 flex flex-col p-3 md:p-5 select-none antialiased" style="background: linear-gradient(135deg, #DEECFB 0%, #D2E4F9 50%, #E6F0FC 100%);">
+<body class="bg-[#F0F4FC] text-slate-800 font-sans min-h-screen p-3 md:p-5 flex flex-col justify-between select-none">
 
-    <!-- BEGIN: TopHeader (Google Stitch) -->
-    <header class="max-w-[1540px] w-full mx-auto mb-4 bg-white/90 backdrop-blur-md rounded-2xl px-6 py-3 shadow-sm border border-slate-200/70 flex items-center justify-between" data-purpose="top-navigation">
-        <div class="flex items-center space-x-3">
-            <a href="#" id="header-brand-link" class="flex items-center space-x-3 cursor-pointer group">
-                <div class="w-10 h-10 md:w-11 md:h-11 rounded-full bg-gradient-to-tr from-amber-100 via-rose-50 to-indigo-100 border-2 border-indigo-200/80 shadow-xs flex items-center justify-center overflow-hidden shrink-0 group-hover:scale-105 transition-transform">
-                    <img src="assets/mascot.png" alt="Nelo - Mascota Oficial" class="w-full h-full object-contain p-0.5 animate-avatar-trot">
-                </div>
-                <div>
-                    <h1 class="text-xl md:text-2xl font-black text-slate-800 tracking-tight flex items-center gap-2">
-                        Carrera del Saber
-                        <span id="header-grade-pill" class="text-xs bg-indigo-100 text-indigo-700 font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">6.° Grado</span>
-                    </h1>
-                    <p class="text-xs text-slate-500 font-semibold">Desafío interactivo de preguntas y respuestas</p>
-                </div>
-            </a>
+<!-- BEGIN: MainHeader -->
+<header class="w-full max-w-[1720px] mx-auto flex flex-wrap items-center justify-between gap-4 mb-4" data-purpose="header-section">
+  <!-- Left: Title with cute mini brain & Subtitle -->
+  <div class="flex flex-col">
+    <div class="flex items-center gap-3">
+      <a href="#" id="header-brand-link" class="flex items-center gap-3 cursor-pointer group">
+        <div class="w-10 h-10 rounded-2xl bg-rose-100 flex items-center justify-center text-xl shadow-xs border border-rose-200 overflow-hidden shrink-0">
+          <img src="assets/mascot.png" alt="Nelo" class="w-8 h-8 object-contain animate-avatar-trot" onerror="this.outerHTML='🧠'">
         </div>
-
-        <!-- Match Stats -->
-        <div class="flex items-center gap-3 sm:gap-5">
-            <div class="hidden md:flex items-center bg-slate-100 px-4 py-1.5 rounded-xl border border-slate-200/80 gap-3">
-                <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Ronda</span>
-                <span id="round-indicator" class="text-sm font-extrabold text-indigo-600 bg-white px-2.5 py-0.5 rounded-md shadow-xs">1 / 10</span>
-            </div>
-            <div class="hidden sm:flex items-center gap-2 bg-emerald-50 text-emerald-700 font-bold text-xs px-3 py-1.5 rounded-xl border border-emerald-200">
-                <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping"></span>
-                <span>Partida en Vivo</span>
-            </div>
-            
-            <!-- Action buttons -->
-            <div class="flex items-center gap-2">
-                <span id="firebase-status-badge" class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-100 text-slate-700 text-[11px] font-black cursor-pointer hover:bg-slate-200 transition-colors" title="Estado de conexión en tiempo real">
-                    <span class="w-2 h-2 rounded-full bg-slate-400"></span> Servidor Online
-                </span>
-                <button id="soundToggleBtn" aria-label="Sonido activado" class="w-9 h-9 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center transition-colors text-base cursor-pointer" title="Alternar Sonido">
-                    🔊
-                </button>
-                <button id="rulesToggleBtn" aria-label="Reglas del juego" class="w-9 h-9 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 font-extrabold flex items-center justify-center transition-colors text-base cursor-pointer" title="Reglas y ayuda">
-                    ❓
-                </button>
-                <button id="btn-restart-setup" aria-label="Cambiar configuración" class="w-9 h-9 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold hidden items-center justify-center transition-colors text-base cursor-pointer" title="Cambiar grado o participantes">
-                    🔄
-                </button>
-                <!-- Botón visible Salir de Partida -->
-                <button id="btn-exit-game" type="button" aria-label="Salir de la partida" class="hidden px-3.5 py-1.5 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 font-extrabold text-xs md:text-sm border border-rose-200 shadow-2xs items-center gap-1.5 transition-all cursor-pointer group" title="Salir de la partida y volver al menú">
-                    <span class="group-hover:-translate-x-0.5 transition-transform text-sm">🚪</span>
-                    <span class="font-black">Salir</span>
-                </button>
-            </div>
+        <div class="flex items-center gap-2">
+          <h1 class="text-2xl lg:text-3xl font-black tracking-tight text-[#162758]">Carrera del Saber</h1>
+          <span id="header-grade-pill" class="bg-[#4361EE] text-white text-xs lg:text-sm font-black px-3.5 py-1 rounded-full uppercase tracking-wider shadow-sm">
+            6.° GRADO
+          </span>
         </div>
-    </header>
-    <!-- END: TopHeader -->
+      </a>
+    </div>
+    <p class="text-slate-500 font-semibold text-xs sm:text-sm mt-0.5 ml-12">
+      Desafío interactivo de preguntas y respuestas
+    </p>
+  </div>
 
-    <!-- ========================================================================= -->
-    <!-- PANTALLA 1: SETUP / LOBBY (CONFIGURACIÓN INICIAL TÁCTIL) -->
-    <!-- ========================================================================= -->
-    <section id="setup-screen" class="max-w-4xl w-full mx-auto flex-1 flex flex-col justify-center items-center py-4">
+  <!-- Right: Status, Round & Controls -->
+  <div class="flex items-center gap-2.5 sm:gap-3.5 text-xs sm:text-sm font-bold flex-wrap">
+    <!-- Round Badge -->
+    <div class="bg-white/90 text-[#36519E] border border-blue-100 rounded-full px-4 py-2 flex items-center gap-2 shadow-sm font-extrabold" id="round-indicator">
+      <span class="text-blue-500 tracking-wider">RONDA</span>
+      <span class="text-slate-900 text-base">1 / 10</span>
+    </div>
+    <!-- Live Match Status -->
+    <div class="bg-[#E6F8EE] text-[#0A7B3E] px-4 py-2 rounded-full flex items-center gap-2 shadow-sm border border-emerald-200">
+      <span class="w-2.5 h-2.5 rounded-full bg-[#10B981] animate-pulse"></span>
+      <span>Partida en Vivo</span>
+    </div>
+    <!-- Firebase Connectivity Indicator -->
+    <div id="firebase-status-badge" class="hidden md:flex bg-[#EAF2FE] text-[#1E56B6] px-4 py-2 rounded-full items-center gap-2 shadow-sm border border-blue-200 cursor-pointer">
+      <span class="w-2.5 h-2.5 rounded-full bg-[#3B82F6]"></span>
+      <span>Servidor Firebase: Conectado</span>
+    </div>
+    <!-- Rules Button -->
+    <button id="rulesToggleBtn" aria-label="Reglas" class="w-10 h-10 rounded-full bg-white border border-slate-200 text-slate-600 flex items-center justify-center hover:bg-slate-50 hover:text-blue-600 transition shadow-sm cursor-pointer" title="Reglas y ayuda">
+      <span class="font-extrabold text-base">❓</span>
+    </button>
+    <!-- Sound Toggle Button -->
+    <button id="soundToggleBtn" aria-label="Sonido" class="w-10 h-10 rounded-full bg-white border border-slate-200 text-slate-600 flex items-center justify-center hover:bg-slate-50 hover:text-blue-600 transition shadow-sm cursor-pointer" title="Alternar Sonido">
+      🔊
+    </button>
+    <!-- Restart / Config Button -->
+    <button id="btn-restart-setup" aria-label="Reiniciar" class="w-10 h-10 rounded-full bg-white border border-slate-200 text-slate-600 hidden items-center justify-center hover:bg-slate-50 hover:text-blue-600 transition shadow-sm cursor-pointer" title="Cambiar configuración">
+      🔄
+    </button>
+    <!-- Exit Button -->
+    <button id="btn-exit-game" aria-label="Salir de la partida" class="hidden w-10 h-10 rounded-full bg-rose-50 border border-rose-200 text-rose-600 items-center justify-center hover:bg-rose-100 transition shadow-sm cursor-pointer" title="Salir de la partida">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+      </svg>
+    </button>
+  </div>
+</header>
+<!-- END: MainHeader -->
+
+<!-- BEGIN: SetupScreen -->
+<section id="setup-screen" class="max-w-4xl w-full mx-auto flex-1 flex flex-col justify-center items-center py-4">
         <div class="w-full bg-white rounded-3xl p-6 md:p-10 shadow-game-card border border-slate-200/90 flex flex-col gap-8 relative overflow-hidden">
             
             <!-- Hero Setup Title with Mascot Nelo (A la izquierda del título como en la imagen de referencia) -->
@@ -825,1281 +681,475 @@
     <!-- ========================================================================= -->
     <!-- PANTALLA 2: ARENA DE JUEGO (REDISEÑO EXACTO STITCH code.html) -->
     <!-- ========================================================================= -->
-    <main id="game-screen" class="hidden max-w-[1540px] w-full mx-auto flex-1 grid grid-cols-1 lg:grid-cols-12 gap-5 items-start" data-purpose="game-main-content">
+<!-- END: SetupScreen -->
+
+<!-- BEGIN: GameWorkspaceGrid -->
+<main id="game-screen" class="hidden w-full max-w-[1720px] mx-auto grid grid-cols-1 xl:grid-cols-12 gap-5 flex-grow items-start select-none" data-purpose="game-main-content">
+
+  <!-- Mobile HUD for Small Screens -->
+  <div id="mobile-players-hud" class="xl:hidden w-full max-w-md mx-auto grid grid-cols-2 gap-2 shrink-0 mb-3 col-span-12"></div>
+
+  <!-- BEGIN: BoardPerimeterCircuit (26 Casilleros, 8 columnas x 7 filas) -->
+  <section class="xl:col-span-9 bg-white/70 backdrop-blur-md rounded-3xl p-3 sm:p-5 border border-white shadow-xl flex flex-col justify-between order-1" data-purpose="game-board-canvas">
+    <div class="grid grid-cols-8 grid-rows-7 gap-2 sm:gap-2.5 md:gap-3 w-full aspect-[8/7] max-h-[calc(100vh-145px)]" data-purpose="perimeter-circuit-grid" id="circuitGrid">
+      <!-- Casilla 1: Matemática -->
+<div class="col-start-1 row-start-1 relative bg-gradient-to-b from-[#2563EB] to-[#1D4ED8] rounded-2xl p-1 sm:p-2 flex flex-col items-center justify-center text-white tile-3d cursor-pointer group" data-casilla="1" id="tile-1">
+  
+  <span class="absolute top-1 left-1.5 w-5 h-5 bg-white/95 text-[#1D4ED8] rounded-full text-[10px] sm:text-xs font-black flex items-center justify-center num-badge">1</span>
+  <svg class="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 my-0.5 filter drop-shadow" fill="none" viewBox="0 0 24 24"><path d="M12 2v3m-5 17l4-15 4 15m-7-6h6" stroke="#FEF08A" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.3"></path><circle cx="12" cy="5" fill="#FFFFFF" r="2" stroke="#F59E0B" stroke-width="1.5"></circle></svg>
+  <span class="text-[9px] sm:text-[11px] font-black text-white text-center leading-tight">Matemática</span>
+  <!-- Ranura para fichas de jugadores -->
+  <div id="pawns-tile-1" class="absolute -bottom-1 -right-1 sm:bottom-0.5 sm:right-0.5 flex flex-wrap gap-0.5 z-20 pointer-events-none"></div>
+</div>
+<!-- Casilla 2: Lengua -->
+<div class="col-start-2 row-start-1 relative bg-gradient-to-b from-[#F87171] to-[#EF4444] rounded-2xl p-1 sm:p-2 flex flex-col items-center justify-center text-white tile-3d cursor-pointer group" data-casilla="2" id="tile-2">
+  
+  <span class="absolute top-1 left-1.5 w-5 h-5 bg-white/95 text-[#DC2626] rounded-full text-[10px] sm:text-xs font-black flex items-center justify-center num-badge">2</span>
+  <svg class="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 my-0.5 filter drop-shadow" fill="none" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M4 19.5A2.5 2.5 0 0 0 6.5 22H20V4H6.5A2.5 2.5 0 0 0 4 6.5v13z" fill="#FFFFFF" stroke="#B91C1C" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path><path d="M12 4v13" stroke="#FCA5A5" stroke-linecap="round" stroke-width="1.8"></path></svg>
+  <span class="text-[9px] sm:text-[11px] font-black text-white text-center leading-tight">Lengua</span>
+  <!-- Ranura para fichas de jugadores -->
+  <div id="pawns-tile-2" class="absolute -bottom-1 -right-1 sm:bottom-0.5 sm:right-0.5 flex flex-wrap gap-0.5 z-20 pointer-events-none"></div>
+</div>
+<!-- Casilla 3: Matemática -->
+<div class="col-start-3 row-start-1 relative bg-gradient-to-b from-[#2563EB] to-[#1D4ED8] rounded-2xl p-1 sm:p-2 flex flex-col items-center justify-center text-white tile-3d crown-border cursor-pointer group" data-casilla="3" id="tile-3">
+  <div class="absolute -top-3.5 left-1/2 transform -translate-x-1/2 text-lg sm:text-xl drop-shadow-md">👑</div>
+  <span class="absolute top-1 left-1.5 w-5 h-5 bg-white/95 text-[#1D4ED8] rounded-full text-[10px] sm:text-xs font-black flex items-center justify-center num-badge">3</span>
+  <svg class="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 my-0.5 filter drop-shadow" fill="none" viewBox="0 0 24 24"><path d="M12 2v3m-5 17l4-15 4 15m-7-6h6" stroke="#FEF08A" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.3"></path><circle cx="12" cy="5" fill="#FFFFFF" r="2" stroke="#F59E0B" stroke-width="1.5"></circle></svg>
+  <span class="text-[9px] sm:text-[11px] font-black text-white text-center leading-tight">Matemática</span>
+  <!-- Ranura para fichas de jugadores -->
+  <div id="pawns-tile-3" class="absolute -bottom-1 -right-1 sm:bottom-0.5 sm:right-0.5 flex flex-wrap gap-0.5 z-20 pointer-events-none"></div>
+</div>
+<!-- Casilla 4: C. Sociales -->
+<div class="col-start-4 row-start-1 relative bg-gradient-to-b from-[#FB923C] to-[#EA580C] rounded-2xl p-1 sm:p-2 flex flex-col items-center justify-center text-white tile-3d cursor-pointer group" data-casilla="4" id="tile-4">
+  
+  <span class="absolute top-1 left-1.5 w-5 h-5 bg-white/95 text-[#EA580C] rounded-full text-[10px] sm:text-xs font-black flex items-center justify-center num-badge">4</span>
+  <svg class="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 my-0.5 filter drop-shadow" fill="none" viewBox="0 0 24 24"><circle cx="12" cy="11" fill="#38BDF8" r="7" stroke="#FFFFFF" stroke-width="1.8"></circle><path d="M9 10c1 0 2-2 3-1s1.5 2.5 3 2" stroke="#4ADE80" stroke-linecap="round" stroke-width="2.2"></path><path d="M12 18v3m-4 0h8" stroke="#FFFFFF" stroke-linecap="round" stroke-width="2"></path></svg>
+  <span class="text-[9px] sm:text-[11px] font-black text-white text-center leading-tight">C. Sociales</span>
+  <!-- Ranura para fichas de jugadores -->
+  <div id="pawns-tile-4" class="absolute -bottom-1 -right-1 sm:bottom-0.5 sm:right-0.5 flex flex-wrap gap-0.5 z-20 pointer-events-none"></div>
+</div>
+<!-- Casilla 5: Comodín -->
+<div class="col-start-5 row-start-1 relative bg-gradient-to-b from-[#A855F7] to-[#6366F1] rounded-2xl p-1 sm:p-2 flex flex-col items-center justify-center text-white tile-3d cursor-pointer group" data-casilla="5" id="tile-5">
+  
+  <span class="absolute top-1 left-1.5 w-5 h-5 bg-white/95 text-[#6366F1] rounded-full text-[10px] sm:text-xs font-black flex items-center justify-center num-badge">5</span>
+  <div class="text-2xl sm:text-3xl my-0.5 filter drop-shadow animate-pulse">🃏</div>
+  <span class="text-[9px] sm:text-[11px] font-black text-white text-center leading-tight">Comodín</span>
+  <!-- Ranura para fichas de jugadores -->
+  <div id="pawns-tile-5" class="absolute -bottom-1 -right-1 sm:bottom-0.5 sm:right-0.5 flex flex-wrap gap-0.5 z-20 pointer-events-none"></div>
+</div>
+<!-- Casilla 6: Matemática -->
+<div class="col-start-6 row-start-1 relative bg-gradient-to-b from-[#2563EB] to-[#1D4ED8] rounded-2xl p-1 sm:p-2 flex flex-col items-center justify-center text-white tile-3d cursor-pointer group" data-casilla="6" id="tile-6">
+  
+  <span class="absolute top-1 left-1.5 w-5 h-5 bg-white/95 text-[#1D4ED8] rounded-full text-[10px] sm:text-xs font-black flex items-center justify-center num-badge">6</span>
+  <svg class="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 my-0.5 filter drop-shadow" fill="none" viewBox="0 0 24 24"><path d="M12 2v3m-5 17l4-15 4 15m-7-6h6" stroke="#FEF08A" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.3"></path><circle cx="12" cy="5" fill="#FFFFFF" r="2" stroke="#F59E0B" stroke-width="1.5"></circle></svg>
+  <span class="text-[9px] sm:text-[11px] font-black text-white text-center leading-tight">Matemática</span>
+  <!-- Ranura para fichas de jugadores -->
+  <div id="pawns-tile-6" class="absolute -bottom-1 -right-1 sm:bottom-0.5 sm:right-0.5 flex flex-wrap gap-0.5 z-20 pointer-events-none"></div>
+</div>
+<!-- Casilla 7: Lengua -->
+<div class="col-start-7 row-start-1 relative bg-gradient-to-b from-[#F87171] to-[#EF4444] rounded-2xl p-1 sm:p-2 flex flex-col items-center justify-center text-white tile-3d cursor-pointer group" data-casilla="7" id="tile-7">
+  
+  <span class="absolute top-1 left-1.5 w-5 h-5 bg-white/95 text-[#DC2626] rounded-full text-[10px] sm:text-xs font-black flex items-center justify-center num-badge">7</span>
+  <svg class="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 my-0.5 filter drop-shadow" fill="none" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M4 19.5A2.5 2.5 0 0 0 6.5 22H20V4H6.5A2.5 2.5 0 0 0 4 6.5v13z" fill="#FFFFFF" stroke="#B91C1C" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path><path d="M12 4v13" stroke="#FCA5A5" stroke-linecap="round" stroke-width="1.8"></path></svg>
+  <span class="text-[9px] sm:text-[11px] font-black text-white text-center leading-tight">Lengua</span>
+  <!-- Ranura para fichas de jugadores -->
+  <div id="pawns-tile-7" class="absolute -bottom-1 -right-1 sm:bottom-0.5 sm:right-0.5 flex flex-wrap gap-0.5 z-20 pointer-events-none"></div>
+</div>
+<!-- Casilla 8: C. Naturales -->
+<div class="col-start-8 row-start-1 relative bg-gradient-to-b from-[#4ADE80] to-[#16A34A] rounded-2xl p-1 sm:p-2 flex flex-col items-center justify-center text-white tile-3d cursor-pointer group" data-casilla="8" id="tile-8">
+  
+  <span class="absolute top-1 left-1.5 w-5 h-5 bg-white/95 text-[#16A34A] rounded-full text-[10px] sm:text-xs font-black flex items-center justify-center num-badge">8</span>
+  <svg class="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 my-0.5 filter drop-shadow" fill="none" viewBox="0 0 24 24"><path d="M10 2h4m-3 0v6l-5 9.5A2 2 0 0 0 7.7 21h8.6a2 2 0 0 0 1.7-3.5L13 8V2" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path><path d="M8 15c2 0 3-1.5 5 0s3 0 3 0" stroke="#BBF7D0" stroke-linecap="round" stroke-width="2"></path></svg>
+  <span class="text-[9px] sm:text-[11px] font-black text-white text-center leading-tight">C. Naturales</span>
+  <!-- Ranura para fichas de jugadores -->
+  <div id="pawns-tile-8" class="absolute -bottom-1 -right-1 sm:bottom-0.5 sm:right-0.5 flex flex-wrap gap-0.5 z-20 pointer-events-none"></div>
+</div>
+<!-- Casilla 9: Corona -->
+<div class="col-start-8 row-start-2 relative bg-gradient-to-b from-[#F59E0B] to-[#D97706] rounded-2xl p-1 sm:p-2 flex flex-col items-center justify-center text-white tile-3d crown-border cursor-pointer group" data-casilla="9" id="tile-9">
+  
+  <span class="absolute top-1 left-1.5 w-5 h-5 bg-white/95 text-[#D97706] rounded-full text-[10px] sm:text-xs font-black flex items-center justify-center num-badge">9</span>
+  <div class="text-2xl sm:text-3xl my-0.5 filter drop-shadow">👑</div>
+  <span class="text-[9px] sm:text-[11px] font-black text-white text-center leading-tight">Corona</span>
+  <!-- Ranura para fichas de jugadores -->
+  <div id="pawns-tile-9" class="absolute -bottom-1 -right-1 sm:bottom-0.5 sm:right-0.5 flex flex-wrap gap-0.5 z-20 pointer-events-none"></div>
+</div>
+<!-- Casilla 10: Lengua -->
+<div class="col-start-8 row-start-3 relative bg-gradient-to-b from-[#F87171] to-[#EF4444] rounded-2xl p-1 sm:p-2 flex flex-col items-center justify-center text-white tile-3d cursor-pointer group" data-casilla="10" id="tile-10">
+  
+  <span class="absolute top-1 left-1.5 w-5 h-5 bg-white/95 text-[#DC2626] rounded-full text-[10px] sm:text-xs font-black flex items-center justify-center num-badge">10</span>
+  <svg class="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 my-0.5 filter drop-shadow" fill="none" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M4 19.5A2.5 2.5 0 0 0 6.5 22H20V4H6.5A2.5 2.5 0 0 0 4 6.5v13z" fill="#FFFFFF" stroke="#B91C1C" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path><path d="M12 4v13" stroke="#FCA5A5" stroke-linecap="round" stroke-width="1.8"></path></svg>
+  <span class="text-[9px] sm:text-[11px] font-black text-white text-center leading-tight">Lengua</span>
+  <!-- Ranura para fichas de jugadores -->
+  <div id="pawns-tile-10" class="absolute -bottom-1 -right-1 sm:bottom-0.5 sm:right-0.5 flex flex-wrap gap-0.5 z-20 pointer-events-none"></div>
+</div>
+<!-- Casilla 11: Matemática -->
+<div class="col-start-8 row-start-4 relative bg-gradient-to-b from-[#2563EB] to-[#1D4ED8] rounded-2xl p-1 sm:p-2 flex flex-col items-center justify-center text-white tile-3d cursor-pointer group" data-casilla="11" id="tile-11">
+  
+  <span class="absolute top-1 left-1.5 w-5 h-5 bg-white/95 text-[#1D4ED8] rounded-full text-[10px] sm:text-xs font-black flex items-center justify-center num-badge">11</span>
+  <svg class="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 my-0.5 filter drop-shadow" fill="none" viewBox="0 0 24 24"><path d="M12 2v3m-5 17l4-15 4 15m-7-6h6" stroke="#FEF08A" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.3"></path><circle cx="12" cy="5" fill="#FFFFFF" r="2" stroke="#F59E0B" stroke-width="1.5"></circle></svg>
+  <span class="text-[9px] sm:text-[11px] font-black text-white text-center leading-tight">Matemática</span>
+  <!-- Ranura para fichas de jugadores -->
+  <div id="pawns-tile-11" class="absolute -bottom-1 -right-1 sm:bottom-0.5 sm:right-0.5 flex flex-wrap gap-0.5 z-20 pointer-events-none"></div>
+</div>
+<!-- Casilla 12: Ingenio -->
+<div class="col-start-8 row-start-5 relative bg-gradient-to-b from-[#A855F7] to-[#7E22CE] rounded-2xl p-1 sm:p-2 flex flex-col items-center justify-center text-white tile-3d cursor-pointer group" data-casilla="12" id="tile-12">
+  
+  <span class="absolute top-1 left-1.5 w-5 h-5 bg-white/95 text-[#7E22CE] rounded-full text-[10px] sm:text-xs font-black flex items-center justify-center num-badge">12</span>
+  <svg class="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 my-0.5 filter drop-shadow" fill="none" viewBox="0 0 24 24"><path d="M9 18h6m-4 3h2m-4-10a5 5 0 1 1 8 4c-.7.6-1.5 1.5-1.5 3h-5c0-1.5-.8-2.4-1.5-3a4.98 4.98 0 0 1 0-4z" fill="#FEF08A" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path></svg>
+  <span class="text-[9px] sm:text-[11px] font-black text-white text-center leading-tight">Ingenio</span>
+  <!-- Ranura para fichas de jugadores -->
+  <div id="pawns-tile-12" class="absolute -bottom-1 -right-1 sm:bottom-0.5 sm:right-0.5 flex flex-wrap gap-0.5 z-20 pointer-events-none"></div>
+</div>
+<!-- Casilla 13: C. Naturales -->
+<div class="col-start-8 row-start-6 relative bg-gradient-to-b from-[#4ADE80] to-[#16A34A] rounded-2xl p-1 sm:p-2 flex flex-col items-center justify-center text-white tile-3d cursor-pointer group" data-casilla="13" id="tile-13">
+  
+  <span class="absolute top-1 left-1.5 w-5 h-5 bg-white/95 text-[#16A34A] rounded-full text-[10px] sm:text-xs font-black flex items-center justify-center num-badge">13</span>
+  <svg class="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 my-0.5 filter drop-shadow" fill="none" viewBox="0 0 24 24"><path d="M10 2h4m-3 0v6l-5 9.5A2 2 0 0 0 7.7 21h8.6a2 2 0 0 0 1.7-3.5L13 8V2" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path><path d="M8 15c2 0 3-1.5 5 0s3 0 3 0" stroke="#BBF7D0" stroke-linecap="round" stroke-width="2"></path></svg>
+  <span class="text-[9px] sm:text-[11px] font-black text-white text-center leading-tight">C. Naturales</span>
+  <!-- Ranura para fichas de jugadores -->
+  <div id="pawns-tile-13" class="absolute -bottom-1 -right-1 sm:bottom-0.5 sm:right-0.5 flex flex-wrap gap-0.5 z-20 pointer-events-none"></div>
+</div>
+<!-- Casilla 14: C. Naturales -->
+<div class="col-start-8 row-start-7 relative bg-gradient-to-b from-[#4ADE80] to-[#16A34A] rounded-2xl p-1 sm:p-2 flex flex-col items-center justify-center text-white tile-3d cursor-pointer group" data-casilla="14" id="tile-14">
+  
+  <span class="absolute top-1 right-1.5 w-5 h-5 bg-white/95 text-[#16A34A] rounded-full text-[10px] sm:text-xs font-black flex items-center justify-center num-badge">14</span>
+  <svg class="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 my-0.5 filter drop-shadow" fill="none" viewBox="0 0 24 24"><path d="M10 2h4m-3 0v6l-5 9.5A2 2 0 0 0 7.7 21h8.6a2 2 0 0 0 1.7-3.5L13 8V2" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path><path d="M8 15c2 0 3-1.5 5 0s3 0 3 0" stroke="#BBF7D0" stroke-linecap="round" stroke-width="2"></path></svg>
+  <span class="text-[9px] sm:text-[11px] font-black text-white text-center leading-tight">C. Naturales</span>
+  <!-- Ranura para fichas de jugadores -->
+  <div id="pawns-tile-14" class="absolute -bottom-1 -right-1 sm:bottom-0.5 sm:right-0.5 flex flex-wrap gap-0.5 z-20 pointer-events-none"></div>
+</div>
+<!-- Casilla 15: Matemática -->
+<div class="col-start-7 row-start-7 relative bg-gradient-to-b from-[#2563EB] to-[#1D4ED8] rounded-2xl p-1 sm:p-2 flex flex-col items-center justify-center text-white tile-3d cursor-pointer group" data-casilla="15" id="tile-15">
+  
+  <span class="absolute top-1 right-1.5 w-5 h-5 bg-white/95 text-[#1D4ED8] rounded-full text-[10px] sm:text-xs font-black flex items-center justify-center num-badge">15</span>
+  <svg class="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 my-0.5 filter drop-shadow" fill="none" viewBox="0 0 24 24"><path d="M12 2v3m-5 17l4-15 4 15m-7-6h6" stroke="#FEF08A" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.3"></path><circle cx="12" cy="5" fill="#FFFFFF" r="2" stroke="#F59E0B" stroke-width="1.5"></circle></svg>
+  <span class="text-[9px] sm:text-[11px] font-black text-white text-center leading-tight">Matemática</span>
+  <!-- Ranura para fichas de jugadores -->
+  <div id="pawns-tile-15" class="absolute -bottom-1 -right-1 sm:bottom-0.5 sm:right-0.5 flex flex-wrap gap-0.5 z-20 pointer-events-none"></div>
+</div>
+<!-- Casilla 16: C. Sociales -->
+<div class="col-start-6 row-start-7 relative bg-gradient-to-b from-[#FB923C] to-[#EA580C] rounded-2xl p-1 sm:p-2 flex flex-col items-center justify-center text-white tile-3d cursor-pointer group" data-casilla="16" id="tile-16">
+  
+  <span class="absolute top-1 right-1.5 w-5 h-5 bg-white/95 text-[#EA580C] rounded-full text-[10px] sm:text-xs font-black flex items-center justify-center num-badge">16</span>
+  <svg class="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 my-0.5 filter drop-shadow" fill="none" viewBox="0 0 24 24"><circle cx="12" cy="11" fill="#38BDF8" r="7" stroke="#FFFFFF" stroke-width="1.8"></circle><path d="M9 10c1 0 2-2 3-1s1.5 2.5 3 2" stroke="#4ADE80" stroke-linecap="round" stroke-width="2.2"></path><path d="M12 18v3m-4 0h8" stroke="#FFFFFF" stroke-linecap="round" stroke-width="2"></path></svg>
+  <span class="text-[9px] sm:text-[11px] font-black text-white text-center leading-tight">C. Sociales</span>
+  <!-- Ranura para fichas de jugadores -->
+  <div id="pawns-tile-16" class="absolute -bottom-1 -right-1 sm:bottom-0.5 sm:right-0.5 flex flex-wrap gap-0.5 z-20 pointer-events-none"></div>
+</div>
+<!-- Casilla 17: Matemática -->
+<div class="col-start-5 row-start-7 relative bg-gradient-to-b from-[#2563EB] to-[#1D4ED8] rounded-2xl p-1 sm:p-2 flex flex-col items-center justify-center text-white tile-3d crown-border cursor-pointer group" data-casilla="17" id="tile-17">
+  <div class="absolute -top-3.5 left-1/2 transform -translate-x-1/2 text-lg sm:text-xl drop-shadow-md">👑</div>
+  <span class="absolute top-1 right-1.5 w-5 h-5 bg-white/95 text-[#1D4ED8] rounded-full text-[10px] sm:text-xs font-black flex items-center justify-center num-badge">17</span>
+  <svg class="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 my-0.5 filter drop-shadow" fill="none" viewBox="0 0 24 24"><path d="M12 2v3m-5 17l4-15 4 15m-7-6h6" stroke="#FEF08A" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.3"></path><circle cx="12" cy="5" fill="#FFFFFF" r="2" stroke="#F59E0B" stroke-width="1.5"></circle></svg>
+  <span class="text-[9px] sm:text-[11px] font-black text-white text-center leading-tight">Matemática</span>
+  <!-- Ranura para fichas de jugadores -->
+  <div id="pawns-tile-17" class="absolute -bottom-1 -right-1 sm:bottom-0.5 sm:right-0.5 flex flex-wrap gap-0.5 z-20 pointer-events-none"></div>
+</div>
+<!-- Casilla 18: Comodín -->
+<div class="col-start-4 row-start-7 relative bg-gradient-to-b from-[#A855F7] to-[#6366F1] rounded-2xl p-1 sm:p-2 flex flex-col items-center justify-center text-white tile-3d cursor-pointer group" data-casilla="18" id="tile-18">
+  
+  <span class="absolute top-1 right-1.5 w-5 h-5 bg-white/95 text-[#6366F1] rounded-full text-[10px] sm:text-xs font-black flex items-center justify-center num-badge">18</span>
+  <div class="text-2xl sm:text-3xl my-0.5 filter drop-shadow animate-pulse">🃏</div>
+  <span class="text-[9px] sm:text-[11px] font-black text-white text-center leading-tight">Comodín</span>
+  <!-- Ranura para fichas de jugadores -->
+  <div id="pawns-tile-18" class="absolute -bottom-1 -right-1 sm:bottom-0.5 sm:right-0.5 flex flex-wrap gap-0.5 z-20 pointer-events-none"></div>
+</div>
+<!-- Casilla 19: Lengua -->
+<div class="col-start-3 row-start-7 relative bg-gradient-to-b from-[#F87171] to-[#EF4444] rounded-2xl p-1 sm:p-2 flex flex-col items-center justify-center text-white tile-3d cursor-pointer group" data-casilla="19" id="tile-19">
+  
+  <span class="absolute top-1 right-1.5 w-5 h-5 bg-white/95 text-[#DC2626] rounded-full text-[10px] sm:text-xs font-black flex items-center justify-center num-badge">19</span>
+  <svg class="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 my-0.5 filter drop-shadow" fill="none" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M4 19.5A2.5 2.5 0 0 0 6.5 22H20V4H6.5A2.5 2.5 0 0 0 4 6.5v13z" fill="#FFFFFF" stroke="#B91C1C" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path><path d="M12 4v13" stroke="#FCA5A5" stroke-linecap="round" stroke-width="1.8"></path></svg>
+  <span class="text-[9px] sm:text-[11px] font-black text-white text-center leading-tight">Lengua</span>
+  <!-- Ranura para fichas de jugadores -->
+  <div id="pawns-tile-19" class="absolute -bottom-1 -right-1 sm:bottom-0.5 sm:right-0.5 flex flex-wrap gap-0.5 z-20 pointer-events-none"></div>
+</div>
+<!-- Casilla 20: Ingenio -->
+<div class="col-start-2 row-start-7 relative bg-gradient-to-b from-[#A855F7] to-[#7E22CE] rounded-2xl p-1 sm:p-2 flex flex-col items-center justify-center text-white tile-3d cursor-pointer group" data-casilla="20" id="tile-20">
+  
+  <span class="absolute top-1 right-1.5 w-5 h-5 bg-white/95 text-[#7E22CE] rounded-full text-[10px] sm:text-xs font-black flex items-center justify-center num-badge">20</span>
+  <svg class="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 my-0.5 filter drop-shadow" fill="none" viewBox="0 0 24 24"><path d="M9 18h6m-4 3h2m-4-10a5 5 0 1 1 8 4c-.7.6-1.5 1.5-1.5 3h-5c0-1.5-.8-2.4-1.5-3a4.98 4.98 0 0 1 0-4z" fill="#FEF08A" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path></svg>
+  <span class="text-[9px] sm:text-[11px] font-black text-white text-center leading-tight">Ingenio</span>
+  <!-- Ranura para fichas de jugadores -->
+  <div id="pawns-tile-20" class="absolute -bottom-1 -right-1 sm:bottom-0.5 sm:right-0.5 flex flex-wrap gap-0.5 z-20 pointer-events-none"></div>
+</div>
+<!-- Casilla 21: Ingenio -->
+<div class="col-start-1 row-start-7 relative bg-gradient-to-b from-[#A855F7] to-[#7E22CE] rounded-2xl p-1 sm:p-2 flex flex-col items-center justify-center text-white tile-3d cursor-pointer group" data-casilla="21" id="tile-21">
+  
+  <span class="absolute top-1 right-1.5 w-5 h-5 bg-white/95 text-[#7E22CE] rounded-full text-[10px] sm:text-xs font-black flex items-center justify-center num-badge">21</span>
+  <svg class="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 my-0.5 filter drop-shadow" fill="none" viewBox="0 0 24 24"><path d="M9 18h6m-4 3h2m-4-10a5 5 0 1 1 8 4c-.7.6-1.5 1.5-1.5 3h-5c0-1.5-.8-2.4-1.5-3a4.98 4.98 0 0 1 0-4z" fill="#FEF08A" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path></svg>
+  <span class="text-[9px] sm:text-[11px] font-black text-white text-center leading-tight">Ingenio</span>
+  <!-- Ranura para fichas de jugadores -->
+  <div id="pawns-tile-21" class="absolute -bottom-1 -right-1 sm:bottom-0.5 sm:right-0.5 flex flex-wrap gap-0.5 z-20 pointer-events-none"></div>
+</div>
+<!-- Casilla 22: Lengua -->
+<div class="col-start-1 row-start-6 relative bg-gradient-to-b from-[#F87171] to-[#EF4444] rounded-2xl p-1 sm:p-2 flex flex-col items-center justify-center text-white tile-3d cursor-pointer group" data-casilla="22" id="tile-22">
+  
+  <span class="absolute top-1 left-1.5 w-5 h-5 bg-white/95 text-[#DC2626] rounded-full text-[10px] sm:text-xs font-black flex items-center justify-center num-badge">22</span>
+  <svg class="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 my-0.5 filter drop-shadow" fill="none" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M4 19.5A2.5 2.5 0 0 0 6.5 22H20V4H6.5A2.5 2.5 0 0 0 4 6.5v13z" fill="#FFFFFF" stroke="#B91C1C" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path><path d="M12 4v13" stroke="#FCA5A5" stroke-linecap="round" stroke-width="1.8"></path></svg>
+  <span class="text-[9px] sm:text-[11px] font-black text-white text-center leading-tight">Lengua</span>
+  <!-- Ranura para fichas de jugadores -->
+  <div id="pawns-tile-22" class="absolute -bottom-1 -right-1 sm:bottom-0.5 sm:right-0.5 flex flex-wrap gap-0.5 z-20 pointer-events-none"></div>
+</div>
+<!-- Casilla 23: C. Sociales -->
+<div class="col-start-1 row-start-5 relative bg-gradient-to-b from-[#FB923C] to-[#EA580C] rounded-2xl p-1 sm:p-2 flex flex-col items-center justify-center text-white tile-3d cursor-pointer group" data-casilla="23" id="tile-23">
+  
+  <span class="absolute top-1 left-1.5 w-5 h-5 bg-white/95 text-[#EA580C] rounded-full text-[10px] sm:text-xs font-black flex items-center justify-center num-badge">23</span>
+  <svg class="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 my-0.5 filter drop-shadow" fill="none" viewBox="0 0 24 24"><circle cx="12" cy="11" fill="#38BDF8" r="7" stroke="#FFFFFF" stroke-width="1.8"></circle><path d="M9 10c1 0 2-2 3-1s1.5 2.5 3 2" stroke="#4ADE80" stroke-linecap="round" stroke-width="2.2"></path><path d="M12 18v3m-4 0h8" stroke="#FFFFFF" stroke-linecap="round" stroke-width="2"></path></svg>
+  <span class="text-[9px] sm:text-[11px] font-black text-white text-center leading-tight">C. Sociales</span>
+  <!-- Ranura para fichas de jugadores -->
+  <div id="pawns-tile-23" class="absolute -bottom-1 -right-1 sm:bottom-0.5 sm:right-0.5 flex flex-wrap gap-0.5 z-20 pointer-events-none"></div>
+</div>
+<!-- Casilla 24: Matemática -->
+<div class="col-start-1 row-start-4 relative bg-gradient-to-b from-[#2563EB] to-[#1D4ED8] rounded-2xl p-1 sm:p-2 flex flex-col items-center justify-center text-white tile-3d cursor-pointer group" data-casilla="24" id="tile-24">
+  
+  <span class="absolute top-1 left-1.5 w-5 h-5 bg-white/95 text-[#1D4ED8] rounded-full text-[10px] sm:text-xs font-black flex items-center justify-center num-badge">24</span>
+  <svg class="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 my-0.5 filter drop-shadow" fill="none" viewBox="0 0 24 24"><path d="M12 2v3m-5 17l4-15 4 15m-7-6h6" stroke="#FEF08A" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.3"></path><circle cx="12" cy="5" fill="#FFFFFF" r="2" stroke="#F59E0B" stroke-width="1.5"></circle></svg>
+  <span class="text-[9px] sm:text-[11px] font-black text-white text-center leading-tight">Matemática</span>
+  <!-- Ranura para fichas de jugadores -->
+  <div id="pawns-tile-24" class="absolute -bottom-1 -right-1 sm:bottom-0.5 sm:right-0.5 flex flex-wrap gap-0.5 z-20 pointer-events-none"></div>
+</div>
+<!-- Casilla 25: Corona -->
+<div class="col-start-1 row-start-3 relative bg-gradient-to-b from-[#8B5CF6] to-[#6D28D9] rounded-2xl p-1 sm:p-2 flex flex-col items-center justify-center text-white tile-3d crown-border cursor-pointer group" data-casilla="25" id="tile-25">
+  
+  <span class="absolute top-1 left-1.5 w-5 h-5 bg-white/95 text-[#6D28D9] rounded-full text-[10px] sm:text-xs font-black flex items-center justify-center num-badge">25</span>
+  <div class="text-2xl sm:text-3xl my-0.5 filter drop-shadow">👑</div>
+  <span class="text-[9px] sm:text-[11px] font-black text-white text-center leading-tight">Corona</span>
+  <!-- Ranura para fichas de jugadores -->
+  <div id="pawns-tile-25" class="absolute -bottom-1 -right-1 sm:bottom-0.5 sm:right-0.5 flex flex-wrap gap-0.5 z-20 pointer-events-none"></div>
+</div>
+<!-- Casilla 26: C. Sociales -->
+<div class="col-start-1 row-start-2 relative bg-gradient-to-b from-[#FB923C] to-[#EA580C] rounded-2xl p-1 sm:p-2 flex flex-col items-center justify-center text-white tile-3d cursor-pointer group" data-casilla="26" id="tile-26">
+  
+  <span class="absolute top-1 left-1.5 w-5 h-5 bg-white/95 text-[#EA580C] rounded-full text-[10px] sm:text-xs font-black flex items-center justify-center num-badge">26</span>
+  <svg class="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 my-0.5 filter drop-shadow" fill="none" viewBox="0 0 24 24"><circle cx="12" cy="11" fill="#38BDF8" r="7" stroke="#FFFFFF" stroke-width="1.8"></circle><path d="M9 10c1 0 2-2 3-1s1.5 2.5 3 2" stroke="#4ADE80" stroke-linecap="round" stroke-width="2.2"></path><path d="M12 18v3m-4 0h8" stroke="#FFFFFF" stroke-linecap="round" stroke-width="2"></path></svg>
+  <span class="text-[9px] sm:text-[11px] font-black text-white text-center leading-tight">C. Sociales</span>
+  <!-- Ranura para fichas de jugadores -->
+  <div id="pawns-tile-26" class="absolute -bottom-1 -right-1 sm:bottom-0.5 sm:right-0.5 flex flex-wrap gap-0.5 z-20 pointer-events-none"></div>
+</div>
+
+      <!-- ================= CENTER ACTION CANVAS (Cols 2 to 7, Rows 2 to 6) ================= -->
+      <div class="col-start-2 col-span-6 row-start-2 row-span-5 flex flex-col items-center justify-center p-2 sm:p-3 relative" data-purpose="center-game-stage">
         
-        <!-- BEGIN: LeftSidebar -->
-        <aside class="lg:col-span-3 flex flex-col gap-4" data-purpose="leaderboard-sidebar">
-            <!-- Player Scores & Badges Card -->
-            <section class="bg-white rounded-3xl p-5 shadow-game-card border border-slate-200/80" data-purpose="player-rankings">
-                <div class="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
-                    <div class="flex items-center gap-2">
-                        <span class="text-xl">🏆</span>
-                        <h2 class="text-base font-extrabold text-slate-800 tracking-tight">Posiciones y Medallas</h2>
-                    </div>
-                    <span class="text-[11px] font-bold text-slate-400 bg-slate-100 px-2 py-0.5 rounded-md" id="sidebar-players-count">2 Jugadores</span>
-                </div>
-                <div class="space-y-4" id="scoreboard-list">
-                    <!-- Dynamic Player Cards rendered by game.js -->
-                </div>
-            </section>
+        <!-- Turn Indicator Pill -->
+        <div class="flex items-center gap-2 bg-white/95 backdrop-blur-sm border border-slate-200/90 py-1.5 sm:py-2 px-4 sm:px-6 rounded-full shadow-sm mb-2 sm:mb-3 transition-transform hover:scale-105" id="turnPill" data-purpose="turn-indicator">
+          <span class="w-3.5 h-3.5 rounded-full bg-[#10B981] shadow-xs animate-pulse"></span>
+          <span class="text-xs sm:text-base lg:text-lg font-extrabold text-slate-800">
+            Es el turno de <span class="text-blue-600 font-black" id="activePlayerName">Ger</span>
+          </span>
+          <span class="text-base sm:text-lg" id="activePlayerAvatar">🐻</span>
+        </div>
 
-            <!-- Subject Color Reference Legend (Pixar / Nintendo Vibrant Theme) -->
-            <section class="bg-white rounded-3xl p-5 shadow-sm border border-slate-200/90" data-purpose="subject-legend">
-                <div class="flex items-center gap-2 mb-3">
-                    <span class="text-base">📐</span>
-                    <h3 class="text-xs font-black uppercase tracking-wider text-slate-700" id="legend-grade-title">
-                        MATERIAS DE <span id="legend-grade-label">6.° GRADO</span>
-                    </h3>
-                </div>
+        <!-- FLOATING RESULT BANNER / TOAST -->
+        <div class="pop-in-toast w-full max-w-md bg-gradient-to-r from-[#172554] via-[#1E3A8A] to-[#1E293B] text-white rounded-2xl py-2.5 px-4 shadow-xl border-2 border-indigo-400/50 mb-3 text-center relative z-20" id="resultFloatingToast">
+          <div class="flex items-center justify-center gap-2 font-black text-sm sm:text-base tracking-wide text-amber-300">
+            <span class="text-lg">🎲</span>
+            <span id="toastValue">¡Sacaste un 6! Avanzas 6 casillas</span>
+          </div>
+          <div class="flex items-center justify-center gap-2 mt-0.5 text-xs sm:text-sm font-bold text-slate-100">
+            <span class="w-2.5 h-2.5 rounded-full bg-[#10B981] animate-ping inline-block"></span>
+            <span id="lastRollLog">¡Ger cayó en <strong class="text-rose-300 font-extrabold">Lengua (Casilla #7)</strong>!</span>
+          </div>
+        </div>
 
-                <!-- 2x2 Grid + Full width pill as in Image 3 -->
-                <div class="grid grid-cols-2 gap-2 text-xs font-black mb-2">
-                    <div class="flex items-center gap-2 px-3 py-2.5 rounded-xl bg-[#E0F2FE] text-[#0369A1] shadow-2xs">
-                        <span class="text-base">📐</span> Matemática
-                    </div>
-                    <div class="flex items-center gap-2 px-3 py-2.5 rounded-xl bg-[#FFE4E6] text-[#BE123C] shadow-2xs">
-                        <span class="text-base">📖</span> Lengua
-                    </div>
-                    <div class="flex items-center gap-2 px-3 py-2.5 rounded-xl bg-[#DCFCE7] text-[#15803D] shadow-2xs">
-                        <span class="text-base">🧪</span> C. Naturales
-                    </div>
-                    <div class="flex items-center gap-2 px-3 py-2.5 rounded-xl bg-[#FEF3C7] text-[#B45309] shadow-2xs">
-                        <span class="text-base">🌍</span> C. Sociales
-                    </div>
+        <!-- Realistic 3D Dice -->
+        <div class="flex items-center justify-center my-2 sm:my-3">
+          <div class="dice-container p-2 cursor-pointer filter drop-shadow-xl" id="diceClickArea" title="¡Haz click para tirar el dado!">
+            <div class="dice-cube" id="diceCubeFace">
+              <!-- Face Front (Value 1: Centered Pip) -->
+              <div class="dice-face dice-front">
+                <div class="dot w-4 h-4"></div>
+              </div>
+              <!-- Face Back (Value 6: Two clean columns of 3 pips) -->
+              <div class="dice-face dice-back">
+                <div class="flex justify-between w-full h-full p-1.5">
+                  <div class="flex flex-col justify-between items-center h-full">
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                  </div>
+                  <div class="flex flex-col justify-between items-center h-full">
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                  </div>
                 </div>
-
-                <div class="mb-3">
-                    <div class="flex items-center gap-2 px-3 py-2.5 rounded-xl bg-[#F3E8FF] text-[#7E22CE] text-xs font-black shadow-2xs w-full">
-                        <span class="text-base">💡</span> Ingenio y Cultura
-                    </div>
+              </div>
+              <!-- Face Right (Value 3: Diagonal 3 pips) -->
+              <div class="dice-face dice-right">
+                <div class="w-full h-full flex flex-col justify-between items-center p-1.5">
+                  <div class="dot self-start"></div>
+                  <div class="dot self-center"></div>
+                  <div class="dot self-end"></div>
                 </div>
-
-                <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-xs text-slate-600 font-bold">
-                    <span class="flex items-center gap-1.5"><span class="text-amber-500 text-base">👑</span> Casillero de Corona / Medalla</span>
-                    <span class="font-black text-slate-500 bg-slate-100 px-2 py-0.5 rounded-md text-[11px]">26 casillas</span>
+              </div>
+              <!-- Face Left (Value 4: 4 corner pips) -->
+              <div class="dice-face dice-left">
+                <div class="flex flex-col justify-between w-full h-full p-1.5">
+                  <div class="flex justify-between items-center">
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                  </div>
+                  <div class="flex justify-between items-center">
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                  </div>
                 </div>
-            </section>
-        </aside>
-        <!-- END: LeftSidebar -->
+              </div>
+              <!-- Face Top (Value 5: 4 corners + center) -->
+              <div class="dice-face dice-top">
+                <div class="relative w-full h-full p-1.5 flex flex-col justify-between">
+                  <div class="flex justify-between items-center">
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                  </div>
+                  <div class="flex justify-center items-center">
+                    <div class="dot"></div>
+                  </div>
+                  <div class="flex justify-between items-center">
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                  </div>
+                </div>
+              </div>
+              <!-- Face Bottom (Value 2: 2 opposite corner pips) -->
+              <div class="dice-face dice-bottom">
+                <div class="flex flex-col justify-between w-full h-full p-2">
+                  <div class="dot self-start"></div>
+                  <div class="dot self-end"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
 
-        <!-- BEGIN: MainGameBoardArea -->
-        <section class="lg:col-span-9 bg-white rounded-3xl p-2 sm:p-4 md:p-6 shadow-game-card border border-slate-200/90 relative overflow-hidden" data-purpose="board-canvas-wrapper">
-            <!-- Outer Board Track (28 Tiles along the perimeter: 8x8 grid) -->
-            <div class="board-grid w-auto max-w-full aspect-[8/7] max-h-[calc(100vh-145px)] md:max-h-[calc(100vh-160px)] mx-auto select-none">
-<!-- Tile 1: Matemática -->
-<div class="col-start-1 row-start-1 bg-gradient-to-b from-[#38BDF8] via-[#2563EB] to-[#1D4ED8] border border-[#93C5FD]/60 shadow-[0_6px_0_#1E40AF,0_10px_15px_rgba(30,64,175,0.25)] rounded-2xl md:rounded-3xl p-1 sm:p-1.5 md:p-2 flex flex-col justify-between items-center transition-all duration-150 hover:-translate-y-1 hover:shadow-xl relative select-none cursor-pointer group" id="tile-1">
-  <div class="absolute -top-1.5 -left-1.5 z-20 bg-[#1D4ED8] text-white font-black text-[10px] sm:text-xs rounded-full w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center border-2 border-white shadow-md select-none">
-  <span>1</span>
-</div>
-  
-  <div class="flex-1 flex items-center justify-center w-full my-auto mt-1 sm:mt-1.5 group-hover:scale-105 transition-transform">
-    <svg class="w-7 h-7 sm:w-9 sm:h-9 md:w-12 md:h-12 drop-shadow-md" viewBox="0 0 64 64" fill="none">
-  <!-- Yellow Ruler -->
-  <g transform="rotate(-30 32 32)">
-    <rect x="26" y="8" width="12" height="48" rx="2.5" fill="url(#rulerGrad)" stroke="#B45309" stroke-width="1.5"/>
-    <!-- ruler tick marks -->
-    <line x1="26" y1="14" x2="31" y2="14" stroke="#78350F" stroke-width="1.5"/>
-    <line x1="26" y1="20" x2="34" y2="20" stroke="#78350F" stroke-width="1.5"/>
-    <line x1="26" y1="26" x2="31" y2="26" stroke="#78350F" stroke-width="1.5"/>
-    <line x1="26" y1="32" x2="34" y2="32" stroke="#78350F" stroke-width="1.5"/>
-    <line x1="26" y1="38" x2="31" y2="38" stroke="#78350F" stroke-width="1.5"/>
-    <line x1="26" y1="44" x2="34" y2="44" stroke="#78350F" stroke-width="1.5"/>
-    <line x1="26" y1="50" x2="31" y2="50" stroke="#78350F" stroke-width="1.5"/>
-  </g>
-  <!-- 3D Compass -->
-  <g transform="translate(0, 0)">
-    <!-- compass hinge -->
-    <circle cx="32" cy="18" r="5" fill="#E2E8F0" stroke="#475569" stroke-width="1.5"/>
-    <circle cx="32" cy="18" r="2.5" fill="#3B82F6"/>
-    <!-- left leg (blue) -->
-    <path d="M30 20 L20 48 L22 49 L32 21 Z" fill="url(#compassBlue)" stroke="#1D4ED8" stroke-width="1"/>
-    <!-- left tip (silver) -->
-    <path d="M20 48 L18 54 L22 49 Z" fill="#94A3B8" stroke="#475569" stroke-width="1"/>
-    <!-- right leg (red) -->
-    <path d="M34 20 L44 48 L42 49 L32 21 Z" fill="url(#compassRed)" stroke="#B91C1C" stroke-width="1"/>
-    <!-- right pencil tip -->
-    <path d="M44 48 L46 54 L42 49 Z" fill="#FCD34D" stroke="#B45309" stroke-width="1"/>
-    <!-- cross bar -->
-    <rect x="23" y="32" width="18" height="3" rx="1.5" fill="#CBD5E1" stroke="#475569" stroke-width="1"/>
-  </g>
-  <defs>
-    <linearGradient id="rulerGrad" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#FDE047"/>
-      <stop offset="50%" stop-color="#FACC15"/>
-      <stop offset="100%" stop-color="#EAB308"/>
-    </linearGradient>
-    <linearGradient id="compassBlue" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#60A5FA"/>
-      <stop offset="100%" stop-color="#2563EB"/>
-    </linearGradient>
-    <linearGradient id="compassRed" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#F87171"/>
-      <stop offset="100%" stop-color="#DC2626"/>
-    </linearGradient>
-  </defs>
-</svg>
-  </div>
-  <span class="hidden md:block text-[10px] sm:text-[11px] font-black text-white text-center leading-none tracking-tight drop-shadow-sm mb-1">Matemática</span>
-  <div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-1"></div>
-</div>
-<!-- Tile 2: Lengua -->
-<div class="col-start-2 row-start-1 bg-gradient-to-b from-[#FB7185] via-[#F43F5E] to-[#E11D48] border border-[#FDA4AF]/60 shadow-[0_6px_0_#9F1239,0_10px_15px_rgba(225,29,72,0.25)] rounded-2xl md:rounded-3xl p-1 sm:p-1.5 md:p-2 flex flex-col justify-between items-center transition-all duration-150 hover:-translate-y-1 hover:shadow-xl relative select-none cursor-pointer group" id="tile-2">
-  <div class="absolute -top-1.5 -left-1.5 z-20 bg-[#E11D48] text-white font-black text-[10px] sm:text-xs rounded-full w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center border-2 border-white shadow-md select-none">
-  <span>2</span>
-</div>
-  
-  <div class="flex-1 flex items-center justify-center w-full my-auto mt-1 sm:mt-1.5 group-hover:scale-105 transition-transform">
-    <svg class="w-7 h-7 sm:w-9 sm:h-9 md:w-12 md:h-12 drop-shadow-md" viewBox="0 0 64 64" fill="none">
-  <!-- 3D Open Book -->
-  <!-- Hardcover base/edges -->
-  <path d="M6 44 C 18 40, 28 42, 32 46 C 36 42, 46 40, 58 44 L 58 48 C 46 44, 36 46, 32 50 C 28 46, 18 44, 6 48 Z" fill="#991B1B"/>
-  <path d="M6 42 C 18 38, 28 40, 32 44 C 36 40, 46 38, 58 42 L 58 45 C 46 41, 36 43, 32 47 C 28 43, 18 41, 6 45 Z" fill="#EF4444"/>
-  <!-- Left Pages Stack -->
-  <path d="M8 20 C 18 16, 27 18, 31 22 L 31 43 C 27 39, 18 37, 8 41 Z" fill="url(#pageGradLeft)" stroke="#E2E8F0" stroke-width="1"/>
-  <!-- Right Pages Stack -->
-  <path d="M56 20 C 46 16, 37 18, 33 22 L 33 43 C 37 39, 46 37, 56 41 Z" fill="url(#pageGradRight)" stroke="#E2E8F0" stroke-width="1"/>
-  <!-- Book spine center -->
-  <path d="M31 22 C 32 21, 32 21, 33 22 L 33 44 C 32 43, 32 43, 31 44 Z" fill="#CBD5E1"/>
-  <!-- Bookmark ribbon -->
-  <path d="M31 22 L 31 35 L 32 33 L 33 35 L 33 22 Z" fill="#F59E0B"/>
-  <defs>
-    <linearGradient id="pageGradLeft" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#F1F5F9"/>
-      <stop offset="80%" stop-color="#FFFFFF"/>
-      <stop offset="100%" stop-color="#E2E8F0"/>
-    </linearGradient>
-    <linearGradient id="pageGradRight" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#E2E8F0"/>
-      <stop offset="20%" stop-color="#FFFFFF"/>
-      <stop offset="100%" stop-color="#F1F5F9"/>
-    </linearGradient>
-  </defs>
-</svg>
-  </div>
-  <span class="hidden md:block text-[10px] sm:text-[11px] font-black text-white text-center leading-none tracking-tight drop-shadow-sm mb-1">Lengua</span>
-  <div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-2"></div>
-</div>
-<!-- Tile 3: Matemática -->
-<div class="col-start-3 row-start-1 bg-gradient-to-b from-[#38BDF8] via-[#2563EB] to-[#1D4ED8] border-4 border-[#FBBF24] ring-2 ring-[#FDE68A] shadow-[0_6px_0_#92400E,0_12px_20px_rgba(217,119,6,0.35)] rounded-2xl md:rounded-3xl p-1 sm:p-1.5 md:p-2 flex flex-col justify-between items-center transition-all duration-150 hover:-translate-y-1 hover:shadow-xl relative select-none cursor-pointer group" id="tile-3">
-  <div class="absolute -top-1.5 -left-1.5 z-20 bg-[#1D4ED8] text-white font-black text-[10px] sm:text-xs rounded-full w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center border-2 border-white shadow-md select-none">
-  <span>3</span>
-</div>
-  <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 z-20 pointer-events-none filter drop-shadow-md text-xl sm:text-2xl animate-bounce-subtle">👑</div>
-  <div class="flex-1 flex items-center justify-center w-full my-auto mt-1 sm:mt-1.5 group-hover:scale-105 transition-transform">
-    <svg class="w-7 h-7 sm:w-9 sm:h-9 md:w-12 md:h-12 drop-shadow-md" viewBox="0 0 64 64" fill="none">
-  <!-- Yellow Ruler -->
-  <g transform="rotate(-30 32 32)">
-    <rect x="26" y="8" width="12" height="48" rx="2.5" fill="url(#rulerGrad)" stroke="#B45309" stroke-width="1.5"/>
-    <!-- ruler tick marks -->
-    <line x1="26" y1="14" x2="31" y2="14" stroke="#78350F" stroke-width="1.5"/>
-    <line x1="26" y1="20" x2="34" y2="20" stroke="#78350F" stroke-width="1.5"/>
-    <line x1="26" y1="26" x2="31" y2="26" stroke="#78350F" stroke-width="1.5"/>
-    <line x1="26" y1="32" x2="34" y2="32" stroke="#78350F" stroke-width="1.5"/>
-    <line x1="26" y1="38" x2="31" y2="38" stroke="#78350F" stroke-width="1.5"/>
-    <line x1="26" y1="44" x2="34" y2="44" stroke="#78350F" stroke-width="1.5"/>
-    <line x1="26" y1="50" x2="31" y2="50" stroke="#78350F" stroke-width="1.5"/>
-  </g>
-  <!-- 3D Compass -->
-  <g transform="translate(0, 0)">
-    <!-- compass hinge -->
-    <circle cx="32" cy="18" r="5" fill="#E2E8F0" stroke="#475569" stroke-width="1.5"/>
-    <circle cx="32" cy="18" r="2.5" fill="#3B82F6"/>
-    <!-- left leg (blue) -->
-    <path d="M30 20 L20 48 L22 49 L32 21 Z" fill="url(#compassBlue)" stroke="#1D4ED8" stroke-width="1"/>
-    <!-- left tip (silver) -->
-    <path d="M20 48 L18 54 L22 49 Z" fill="#94A3B8" stroke="#475569" stroke-width="1"/>
-    <!-- right leg (red) -->
-    <path d="M34 20 L44 48 L42 49 L32 21 Z" fill="url(#compassRed)" stroke="#B91C1C" stroke-width="1"/>
-    <!-- right pencil tip -->
-    <path d="M44 48 L46 54 L42 49 Z" fill="#FCD34D" stroke="#B45309" stroke-width="1"/>
-    <!-- cross bar -->
-    <rect x="23" y="32" width="18" height="3" rx="1.5" fill="#CBD5E1" stroke="#475569" stroke-width="1"/>
-  </g>
-  <defs>
-    <linearGradient id="rulerGrad" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#FDE047"/>
-      <stop offset="50%" stop-color="#FACC15"/>
-      <stop offset="100%" stop-color="#EAB308"/>
-    </linearGradient>
-    <linearGradient id="compassBlue" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#60A5FA"/>
-      <stop offset="100%" stop-color="#2563EB"/>
-    </linearGradient>
-    <linearGradient id="compassRed" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#F87171"/>
-      <stop offset="100%" stop-color="#DC2626"/>
-    </linearGradient>
-  </defs>
-</svg>
-  </div>
-  <span class="hidden md:block text-[10px] sm:text-[11px] font-black text-white text-center leading-none tracking-tight drop-shadow-sm mb-1">Matemática</span>
-  <div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-3"></div>
-</div>
-<!-- Tile 4: C. Sociales -->
-<div class="col-start-4 row-start-1 bg-gradient-to-b from-[#FBBF24] via-[#F59E0B] to-[#D97706] border border-[#FDE68A]/60 shadow-[0_6px_0_#92400E,0_10px_15px_rgba(217,119,6,0.25)] rounded-2xl md:rounded-3xl p-1 sm:p-1.5 md:p-2 flex flex-col justify-between items-center transition-all duration-150 hover:-translate-y-1 hover:shadow-xl relative select-none cursor-pointer group" id="tile-4">
-  <div class="absolute -top-1.5 -left-1.5 z-20 bg-[#D97706] text-white font-black text-[10px] sm:text-xs rounded-full w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center border-2 border-white shadow-md select-none">
-  <span>4</span>
-</div>
-  
-  <div class="flex-1 flex items-center justify-center w-full my-auto mt-1 sm:mt-1.5 group-hover:scale-105 transition-transform">
-    <svg class="w-7 h-7 sm:w-9 sm:h-9 md:w-12 md:h-12 drop-shadow-md" viewBox="0 0 64 64" fill="none">
-  <!-- 3D Earth Globe on Stand -->
-  <!-- Stand Base -->
-  <ellipse cx="32" cy="55" rx="14" ry="4" fill="#C2410C"/>
-  <ellipse cx="32" cy="54" rx="12" ry="3" fill="#FB923C"/>
-  <!-- Stand Vertical Rod -->
-  <path d="M30 46 L34 46 L34 54 L30 54 Z" fill="#EA580C"/>
-  <!-- Arc / Meridian (Orange/Gold) -->
-  <path d="M16 28 C 16 16, 26 8, 38 8 C 44 8, 49 11, 52 16" stroke="#EA580C" stroke-width="3" stroke-linecap="round"/>
-  <path d="M16 28 C 16 38, 24 46, 32 46" stroke="#EA580C" stroke-width="3" stroke-linecap="round"/>
-  <!-- Globe Sphere (Cyan Ocean) -->
-  <circle cx="32" cy="27" r="16" fill="url(#oceanGrad)" stroke="#0284C7" stroke-width="1.2"/>
-  <!-- Continents (Vibrant Green) -->
-  <g clip-path="url(#globeClip)">
-    <!-- North America / South America -->
-    <path d="M22 15 C 26 15, 29 18, 27 22 C 25 24, 27 28, 29 32 C 30 36, 26 40, 24 37 C 21 34, 18 25, 22 15 Z" fill="#22C55E"/>
-    <!-- Europe / Africa / Asia -->
-    <path d="M36 14 C 42 13, 46 17, 44 22 C 41 24, 45 29, 42 35 C 38 38, 35 32, 34 26 C 33 20, 34 16, 36 14 Z" fill="#22C55E"/>
-    <!-- Sphere Lighting / 3D Specular Highlight -->
-    <circle cx="28" cy="22" r="14" fill="url(#globeLight)"/>
-  </g>
-  <defs>
-    <clipPath id="globeClip">
-      <circle cx="32" cy="27" r="16"/>
-    </clipPath>
-    <radialGradient id="oceanGrad" cx="35%" cy="30%" r="70%">
-      <stop offset="0%" stop-color="#38BDF8"/>
-      <stop offset="60%" stop-color="#0284C7"/>
-      <stop offset="100%" stop-color="#0369A1"/>
-    </radialGradient>
-    <radialGradient id="globeLight" cx="35%" cy="30%" r="60%">
-      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.45"/>
-      <stop offset="60%" stop-color="#FFFFFF" stop-opacity="0"/>
-    </radialGradient>
-  </defs>
-</svg>
-  </div>
-  <span class="hidden md:block text-[10px] sm:text-[11px] font-black text-white text-center leading-none tracking-tight drop-shadow-sm mb-1">C. Sociales</span>
-  <div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-4"></div>
-</div>
-<!-- Tile 5: Comodín -->
-<div class="col-start-5 row-start-1 bg-gradient-to-b from-[#A855F7] via-[#6366F1] to-[#3B82F6] border border-[#C084FC]/70 shadow-[0_6px_0_#4338CA,0_10px_15px_rgba(67,56,202,0.3)] rounded-2xl md:rounded-3xl p-1 sm:p-1.5 md:p-2 flex flex-col justify-between items-center transition-all duration-150 hover:-translate-y-1 hover:shadow-xl relative select-none cursor-pointer group" id="tile-5">
-  <div class="absolute -top-1.5 -left-1.5 z-20 bg-[#6366F1] text-white font-black text-[10px] sm:text-xs rounded-full w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center border-2 border-white shadow-md select-none">
-  <span>5</span>
-</div>
-  
-  <div class="flex-1 flex items-center justify-center w-full my-auto mt-1 sm:mt-1.5 group-hover:scale-110 transition-transform">
-    <div class="w-7 h-7 sm:w-9 sm:h-9 md:w-10 md:h-10 rounded-xl bg-white/25 backdrop-blur-xs flex items-center justify-center text-xl sm:text-2xl md:text-3xl shadow-xs border border-white/40">
-      🃏
-    </div>
-  </div>
-  <span class="hidden md:block text-[10px] sm:text-[11px] font-black text-white text-center leading-none tracking-tight drop-shadow-sm mb-1 uppercase">Comodín</span>
-  <div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-5"></div>
-</div>
-<!-- Tile 6: Matemática -->
-<div class="col-start-6 row-start-1 bg-gradient-to-b from-[#38BDF8] via-[#2563EB] to-[#1D4ED8] border border-[#93C5FD]/60 shadow-[0_6px_0_#1E40AF,0_10px_15px_rgba(30,64,175,0.25)] rounded-2xl md:rounded-3xl p-1 sm:p-1.5 md:p-2 flex flex-col justify-between items-center transition-all duration-150 hover:-translate-y-1 hover:shadow-xl relative select-none cursor-pointer group" id="tile-6">
-  <div class="absolute -top-1.5 -left-1.5 z-20 bg-[#1D4ED8] text-white font-black text-[10px] sm:text-xs rounded-full w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center border-2 border-white shadow-md select-none">
-  <span>6</span>
-</div>
-  
-  <div class="flex-1 flex items-center justify-center w-full my-auto mt-1 sm:mt-1.5 group-hover:scale-105 transition-transform">
-    <svg class="w-7 h-7 sm:w-9 sm:h-9 md:w-12 md:h-12 drop-shadow-md" viewBox="0 0 64 64" fill="none">
-  <!-- Yellow Ruler -->
-  <g transform="rotate(-30 32 32)">
-    <rect x="26" y="8" width="12" height="48" rx="2.5" fill="url(#rulerGrad)" stroke="#B45309" stroke-width="1.5"/>
-    <!-- ruler tick marks -->
-    <line x1="26" y1="14" x2="31" y2="14" stroke="#78350F" stroke-width="1.5"/>
-    <line x1="26" y1="20" x2="34" y2="20" stroke="#78350F" stroke-width="1.5"/>
-    <line x1="26" y1="26" x2="31" y2="26" stroke="#78350F" stroke-width="1.5"/>
-    <line x1="26" y1="32" x2="34" y2="32" stroke="#78350F" stroke-width="1.5"/>
-    <line x1="26" y1="38" x2="31" y2="38" stroke="#78350F" stroke-width="1.5"/>
-    <line x1="26" y1="44" x2="34" y2="44" stroke="#78350F" stroke-width="1.5"/>
-    <line x1="26" y1="50" x2="31" y2="50" stroke="#78350F" stroke-width="1.5"/>
-  </g>
-  <!-- 3D Compass -->
-  <g transform="translate(0, 0)">
-    <!-- compass hinge -->
-    <circle cx="32" cy="18" r="5" fill="#E2E8F0" stroke="#475569" stroke-width="1.5"/>
-    <circle cx="32" cy="18" r="2.5" fill="#3B82F6"/>
-    <!-- left leg (blue) -->
-    <path d="M30 20 L20 48 L22 49 L32 21 Z" fill="url(#compassBlue)" stroke="#1D4ED8" stroke-width="1"/>
-    <!-- left tip (silver) -->
-    <path d="M20 48 L18 54 L22 49 Z" fill="#94A3B8" stroke="#475569" stroke-width="1"/>
-    <!-- right leg (red) -->
-    <path d="M34 20 L44 48 L42 49 L32 21 Z" fill="url(#compassRed)" stroke="#B91C1C" stroke-width="1"/>
-    <!-- right pencil tip -->
-    <path d="M44 48 L46 54 L42 49 Z" fill="#FCD34D" stroke="#B45309" stroke-width="1"/>
-    <!-- cross bar -->
-    <rect x="23" y="32" width="18" height="3" rx="1.5" fill="#CBD5E1" stroke="#475569" stroke-width="1"/>
-  </g>
-  <defs>
-    <linearGradient id="rulerGrad" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#FDE047"/>
-      <stop offset="50%" stop-color="#FACC15"/>
-      <stop offset="100%" stop-color="#EAB308"/>
-    </linearGradient>
-    <linearGradient id="compassBlue" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#60A5FA"/>
-      <stop offset="100%" stop-color="#2563EB"/>
-    </linearGradient>
-    <linearGradient id="compassRed" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#F87171"/>
-      <stop offset="100%" stop-color="#DC2626"/>
-    </linearGradient>
-  </defs>
-</svg>
-  </div>
-  <span class="hidden md:block text-[10px] sm:text-[11px] font-black text-white text-center leading-none tracking-tight drop-shadow-sm mb-1">Matemática</span>
-  <div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-6"></div>
-</div>
-<!-- Tile 7: Lengua -->
-<div class="col-start-7 row-start-1 bg-gradient-to-b from-[#FB7185] via-[#F43F5E] to-[#E11D48] border border-[#FDA4AF]/60 shadow-[0_6px_0_#9F1239,0_10px_15px_rgba(225,29,72,0.25)] rounded-2xl md:rounded-3xl p-1 sm:p-1.5 md:p-2 flex flex-col justify-between items-center transition-all duration-150 hover:-translate-y-1 hover:shadow-xl relative select-none cursor-pointer group" id="tile-7">
-  <div class="absolute -top-1.5 -left-1.5 z-20 bg-[#E11D48] text-white font-black text-[10px] sm:text-xs rounded-full w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center border-2 border-white shadow-md select-none">
-  <span>7</span>
-</div>
-  
-  <div class="flex-1 flex items-center justify-center w-full my-auto mt-1 sm:mt-1.5 group-hover:scale-105 transition-transform">
-    <svg class="w-7 h-7 sm:w-9 sm:h-9 md:w-12 md:h-12 drop-shadow-md" viewBox="0 0 64 64" fill="none">
-  <!-- 3D Open Book -->
-  <!-- Hardcover base/edges -->
-  <path d="M6 44 C 18 40, 28 42, 32 46 C 36 42, 46 40, 58 44 L 58 48 C 46 44, 36 46, 32 50 C 28 46, 18 44, 6 48 Z" fill="#991B1B"/>
-  <path d="M6 42 C 18 38, 28 40, 32 44 C 36 40, 46 38, 58 42 L 58 45 C 46 41, 36 43, 32 47 C 28 43, 18 41, 6 45 Z" fill="#EF4444"/>
-  <!-- Left Pages Stack -->
-  <path d="M8 20 C 18 16, 27 18, 31 22 L 31 43 C 27 39, 18 37, 8 41 Z" fill="url(#pageGradLeft)" stroke="#E2E8F0" stroke-width="1"/>
-  <!-- Right Pages Stack -->
-  <path d="M56 20 C 46 16, 37 18, 33 22 L 33 43 C 37 39, 46 37, 56 41 Z" fill="url(#pageGradRight)" stroke="#E2E8F0" stroke-width="1"/>
-  <!-- Book spine center -->
-  <path d="M31 22 C 32 21, 32 21, 33 22 L 33 44 C 32 43, 32 43, 31 44 Z" fill="#CBD5E1"/>
-  <!-- Bookmark ribbon -->
-  <path d="M31 22 L 31 35 L 32 33 L 33 35 L 33 22 Z" fill="#F59E0B"/>
-  <defs>
-    <linearGradient id="pageGradLeft" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#F1F5F9"/>
-      <stop offset="80%" stop-color="#FFFFFF"/>
-      <stop offset="100%" stop-color="#E2E8F0"/>
-    </linearGradient>
-    <linearGradient id="pageGradRight" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#E2E8F0"/>
-      <stop offset="20%" stop-color="#FFFFFF"/>
-      <stop offset="100%" stop-color="#F1F5F9"/>
-    </linearGradient>
-  </defs>
-</svg>
-  </div>
-  <span class="hidden md:block text-[10px] sm:text-[11px] font-black text-white text-center leading-none tracking-tight drop-shadow-sm mb-1">Lengua</span>
-  <div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-7"></div>
-</div>
-<!-- Tile 8: C. Naturales -->
-<div class="col-start-8 row-start-1 bg-gradient-to-b from-[#34D399] via-[#10B981] to-[#059669] border border-[#A7F3D0]/60 shadow-[0_6px_0_#065F46,0_10px_15px_rgba(5,150,105,0.25)] rounded-2xl md:rounded-3xl p-1 sm:p-1.5 md:p-2 flex flex-col justify-between items-center transition-all duration-150 hover:-translate-y-1 hover:shadow-xl relative select-none cursor-pointer group" id="tile-8">
-  <div class="absolute -top-1.5 -left-1.5 z-20 bg-[#059669] text-white font-black text-[10px] sm:text-xs rounded-full w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center border-2 border-white shadow-md select-none">
-  <span>8</span>
-</div>
-  
-  <div class="flex-1 flex items-center justify-center w-full my-auto mt-1 sm:mt-1.5 group-hover:scale-105 transition-transform">
-    <svg class="w-7 h-7 sm:w-9 sm:h-9 md:w-12 md:h-12 drop-shadow-md" viewBox="0 0 64 64" fill="none">
-  <!-- 3D Potion Flask with Green Liquid and Leaves -->
-  <!-- Flask Body (Glass) -->
-  <path d="M26 14 L38 14 L38 24 L48 42 C 51 47, 47 54, 41 54 L23 54 C 17 54, 13 47, 16 42 L26 24 Z" fill="url(#glassGrad)" stroke="#A7F3D0" stroke-width="1.8"/>
-  <!-- Cork Stopper -->
-  <rect x="27" y="10" width="10" height="5" rx="1.5" fill="#B45309" stroke="#78350F" stroke-width="1"/>
-  <!-- Green Liquid Inside -->
-  <path d="M18 43 C 20 40, 24 44, 32 41 C 40 44, 44 40, 46 43 L 47 45 C 49 49, 46 53, 41 53 L 23 53 C 18 53, 15 49, 17 45 Z" fill="url(#liquidGrad)"/>
-  <!-- Liquid Bubbles -->
-  <circle cx="26" cy="48" r="2" fill="#DCFCE7" opacity="0.8"/>
-  <circle cx="36" cy="46" r="1.5" fill="#DCFCE7" opacity="0.8"/>
-  <circle cx="31" cy="49" r="1.2" fill="#DCFCE7" opacity="0.7"/>
-  <!-- Sprouting Leaves on Flask -->
-  <g transform="translate(32, 46)">
-    <path d="M0 0 C -6 -6, -8 -1, 0 4 C 8 -1, 6 -6, 0 0 Z" fill="#22C55E" stroke="#15803D" stroke-width="0.8"/>
-    <path d="M0 4 C -1 1, 0 -3, 0 -3" stroke="#15803D" stroke-width="0.8"/>
-  </g>
-  <!-- Glass Shine Highlight -->
-  <path d="M20 42 L28 26 L29 27 L22 43 Z" fill="#FFFFFF" opacity="0.45"/>
-  <defs>
-    <linearGradient id="glassGrad" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.8"/>
-      <stop offset="50%" stop-color="#E6FFFA" stop-opacity="0.3"/>
-      <stop offset="100%" stop-color="#A7F3D0" stop-opacity="0.6"/>
-    </linearGradient>
-    <linearGradient id="liquidGrad" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#4ADE80"/>
-      <stop offset="50%" stop-color="#22C55E"/>
-      <stop offset="100%" stop-color="#16A34A"/>
-    </linearGradient>
-  </defs>
-</svg>
-  </div>
-  <span class="hidden md:block text-[10px] sm:text-[11px] font-black text-white text-center leading-none tracking-tight drop-shadow-sm mb-1">C. Naturales</span>
-  <div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-8"></div>
-</div>
-<!-- Tile 9: Corona -->
-<div class="col-start-8 row-start-2 bg-gradient-to-b from-[#FDE047] via-[#F59E0B] to-[#D97706] border-4 border-[#FBBF24] ring-2 ring-[#FDE68A] shadow-[0_6px_0_#92400E,0_12px_20px_rgba(217,119,6,0.35)] rounded-2xl md:rounded-3xl p-1 sm:p-1.5 md:p-2 flex flex-col justify-between items-center transition-all duration-150 hover:-translate-y-1 hover:shadow-xl relative select-none cursor-pointer group" id="tile-9">
-  <div class="absolute -top-1.5 -left-1.5 z-20 bg-[#B45309] text-white font-black text-[10px] sm:text-xs rounded-full w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center border-2 border-white shadow-md select-none">
-  <span>9</span>
-</div>
-  
-  <div class="flex-1 flex items-center justify-center w-full my-auto mt-1 sm:mt-1.5 group-hover:scale-105 transition-transform">
-    <svg class="w-8 h-8 sm:w-11 sm:h-11 md:w-14 md:h-14 drop-shadow-lg" viewBox="0 0 64 64" fill="none">
-  <!-- 3D Golden Crown with Jewels -->
-  <!-- Crown Base Band -->
-  <path d="M10 46 C 24 49, 40 49, 54 46 L 52 52 C 38 55, 26 55, 12 52 Z" fill="#B45309"/>
-  <path d="M10 44 C 24 47, 40 47, 54 44 L 54 48 C 40 51, 24 51, 10 48 Z" fill="url(#goldBand)"/>
-  <!-- Crown Peaks -->
-  <path d="M10 44 L 14 26 L 24 35 L 32 16 L 40 35 L 50 26 L 54 44 C 40 47, 24 47, 10 44 Z" fill="url(#crownGold)" stroke="#D97706" stroke-width="1.5"/>
-  <!-- Crown Peak Pearls / Orbs -->
-  <circle cx="14" cy="25" r="3" fill="#FDE047" stroke="#B45309" stroke-width="1"/>
-  <circle cx="24" cy="34" r="2.5" fill="#FDE047" stroke="#B45309" stroke-width="1"/>
-  <circle cx="32" cy="15" r="4" fill="#FEF08A" stroke="#B45309" stroke-width="1.2"/>
-  <circle cx="40" cy="34" r="2.5" fill="#FDE047" stroke="#B45309" stroke-width="1"/>
-  <circle cx="50" cy="25" r="3" fill="#FDE047" stroke="#B45309" stroke-width="1"/>
-  <!-- Jewels on the Crown Band -->
-  <circle cx="20" cy="46" r="2.5" fill="#EF4444" stroke="#991B1B" stroke-width="0.8"/>
-  <circle cx="32" cy="47" r="3" fill="#3B82F6" stroke="#1D4ED8" stroke-width="0.8"/>
-  <circle cx="44" cy="46" r="2.5" fill="#10B981" stroke="#047857" stroke-width="0.8"/>
-  <defs>
-    <linearGradient id="crownGold" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#FEF08A"/>
-      <stop offset="30%" stop-color="#FBBF24"/>
-      <stop offset="70%" stop-color="#F59E0B"/>
-      <stop offset="100%" stop-color="#D97706"/>
-    </linearGradient>
-    <linearGradient id="goldBand" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#F59E0B"/>
-      <stop offset="50%" stop-color="#FEF08A"/>
-      <stop offset="100%" stop-color="#F59E0B"/>
-    </linearGradient>
-  </defs>
-</svg>
-  </div>
-  <span class="hidden md:block text-[10px] sm:text-[11px] font-black text-white text-center leading-none tracking-tight drop-shadow-sm mb-1">Corona</span>
-  <div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-9"></div>
-</div>
-<!-- Tile 10: Lengua -->
-<div class="col-start-8 row-start-3 bg-gradient-to-b from-[#FB7185] via-[#F43F5E] to-[#E11D48] border border-[#FDA4AF]/60 shadow-[0_6px_0_#9F1239,0_10px_15px_rgba(225,29,72,0.25)] rounded-2xl md:rounded-3xl p-1 sm:p-1.5 md:p-2 flex flex-col justify-between items-center transition-all duration-150 hover:-translate-y-1 hover:shadow-xl relative select-none cursor-pointer group" id="tile-10">
-  <div class="absolute -top-1.5 -left-1.5 z-20 bg-[#E11D48] text-white font-black text-[10px] sm:text-xs rounded-full w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center border-2 border-white shadow-md select-none">
-  <span>10</span>
-</div>
-  
-  <div class="flex-1 flex items-center justify-center w-full my-auto mt-1 sm:mt-1.5 group-hover:scale-105 transition-transform">
-    <svg class="w-7 h-7 sm:w-9 sm:h-9 md:w-12 md:h-12 drop-shadow-md" viewBox="0 0 64 64" fill="none">
-  <!-- 3D Open Book -->
-  <!-- Hardcover base/edges -->
-  <path d="M6 44 C 18 40, 28 42, 32 46 C 36 42, 46 40, 58 44 L 58 48 C 46 44, 36 46, 32 50 C 28 46, 18 44, 6 48 Z" fill="#991B1B"/>
-  <path d="M6 42 C 18 38, 28 40, 32 44 C 36 40, 46 38, 58 42 L 58 45 C 46 41, 36 43, 32 47 C 28 43, 18 41, 6 45 Z" fill="#EF4444"/>
-  <!-- Left Pages Stack -->
-  <path d="M8 20 C 18 16, 27 18, 31 22 L 31 43 C 27 39, 18 37, 8 41 Z" fill="url(#pageGradLeft)" stroke="#E2E8F0" stroke-width="1"/>
-  <!-- Right Pages Stack -->
-  <path d="M56 20 C 46 16, 37 18, 33 22 L 33 43 C 37 39, 46 37, 56 41 Z" fill="url(#pageGradRight)" stroke="#E2E8F0" stroke-width="1"/>
-  <!-- Book spine center -->
-  <path d="M31 22 C 32 21, 32 21, 33 22 L 33 44 C 32 43, 32 43, 31 44 Z" fill="#CBD5E1"/>
-  <!-- Bookmark ribbon -->
-  <path d="M31 22 L 31 35 L 32 33 L 33 35 L 33 22 Z" fill="#F59E0B"/>
-  <defs>
-    <linearGradient id="pageGradLeft" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#F1F5F9"/>
-      <stop offset="80%" stop-color="#FFFFFF"/>
-      <stop offset="100%" stop-color="#E2E8F0"/>
-    </linearGradient>
-    <linearGradient id="pageGradRight" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#E2E8F0"/>
-      <stop offset="20%" stop-color="#FFFFFF"/>
-      <stop offset="100%" stop-color="#F1F5F9"/>
-    </linearGradient>
-  </defs>
-</svg>
-  </div>
-  <span class="hidden md:block text-[10px] sm:text-[11px] font-black text-white text-center leading-none tracking-tight drop-shadow-sm mb-1">Lengua</span>
-  <div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-10"></div>
-</div>
-<!-- Tile 11: Matemática -->
-<div class="col-start-8 row-start-4 bg-gradient-to-b from-[#38BDF8] via-[#2563EB] to-[#1D4ED8] border border-[#93C5FD]/60 shadow-[0_6px_0_#1E40AF,0_10px_15px_rgba(30,64,175,0.25)] rounded-2xl md:rounded-3xl p-1 sm:p-1.5 md:p-2 flex flex-col justify-between items-center transition-all duration-150 hover:-translate-y-1 hover:shadow-xl relative select-none cursor-pointer group" id="tile-11">
-  <div class="absolute -top-1.5 -left-1.5 z-20 bg-[#1D4ED8] text-white font-black text-[10px] sm:text-xs rounded-full w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center border-2 border-white shadow-md select-none">
-  <span>11</span>
-</div>
-  
-  <div class="flex-1 flex items-center justify-center w-full my-auto mt-1 sm:mt-1.5 group-hover:scale-105 transition-transform">
-    <svg class="w-7 h-7 sm:w-9 sm:h-9 md:w-12 md:h-12 drop-shadow-md" viewBox="0 0 64 64" fill="none">
-  <!-- Yellow Ruler -->
-  <g transform="rotate(-30 32 32)">
-    <rect x="26" y="8" width="12" height="48" rx="2.5" fill="url(#rulerGrad)" stroke="#B45309" stroke-width="1.5"/>
-    <!-- ruler tick marks -->
-    <line x1="26" y1="14" x2="31" y2="14" stroke="#78350F" stroke-width="1.5"/>
-    <line x1="26" y1="20" x2="34" y2="20" stroke="#78350F" stroke-width="1.5"/>
-    <line x1="26" y1="26" x2="31" y2="26" stroke="#78350F" stroke-width="1.5"/>
-    <line x1="26" y1="32" x2="34" y2="32" stroke="#78350F" stroke-width="1.5"/>
-    <line x1="26" y1="38" x2="31" y2="38" stroke="#78350F" stroke-width="1.5"/>
-    <line x1="26" y1="44" x2="34" y2="44" stroke="#78350F" stroke-width="1.5"/>
-    <line x1="26" y1="50" x2="31" y2="50" stroke="#78350F" stroke-width="1.5"/>
-  </g>
-  <!-- 3D Compass -->
-  <g transform="translate(0, 0)">
-    <!-- compass hinge -->
-    <circle cx="32" cy="18" r="5" fill="#E2E8F0" stroke="#475569" stroke-width="1.5"/>
-    <circle cx="32" cy="18" r="2.5" fill="#3B82F6"/>
-    <!-- left leg (blue) -->
-    <path d="M30 20 L20 48 L22 49 L32 21 Z" fill="url(#compassBlue)" stroke="#1D4ED8" stroke-width="1"/>
-    <!-- left tip (silver) -->
-    <path d="M20 48 L18 54 L22 49 Z" fill="#94A3B8" stroke="#475569" stroke-width="1"/>
-    <!-- right leg (red) -->
-    <path d="M34 20 L44 48 L42 49 L32 21 Z" fill="url(#compassRed)" stroke="#B91C1C" stroke-width="1"/>
-    <!-- right pencil tip -->
-    <path d="M44 48 L46 54 L42 49 Z" fill="#FCD34D" stroke="#B45309" stroke-width="1"/>
-    <!-- cross bar -->
-    <rect x="23" y="32" width="18" height="3" rx="1.5" fill="#CBD5E1" stroke="#475569" stroke-width="1"/>
-  </g>
-  <defs>
-    <linearGradient id="rulerGrad" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#FDE047"/>
-      <stop offset="50%" stop-color="#FACC15"/>
-      <stop offset="100%" stop-color="#EAB308"/>
-    </linearGradient>
-    <linearGradient id="compassBlue" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#60A5FA"/>
-      <stop offset="100%" stop-color="#2563EB"/>
-    </linearGradient>
-    <linearGradient id="compassRed" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#F87171"/>
-      <stop offset="100%" stop-color="#DC2626"/>
-    </linearGradient>
-  </defs>
-</svg>
-  </div>
-  <span class="hidden md:block text-[10px] sm:text-[11px] font-black text-white text-center leading-none tracking-tight drop-shadow-sm mb-1">Matemática</span>
-  <div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-11"></div>
-</div>
-<!-- Tile 12: Ingenio -->
-<div class="col-start-8 row-start-5 bg-gradient-to-b from-[#C084FC] via-[#9333EA] to-[#7E22CE] border border-[#E9D5FF]/60 shadow-[0_6px_0_#581C87,0_10px_15px_rgba(126,34,206,0.25)] rounded-2xl md:rounded-3xl p-1 sm:p-1.5 md:p-2 flex flex-col justify-between items-center transition-all duration-150 hover:-translate-y-1 hover:shadow-xl relative select-none cursor-pointer group" id="tile-12">
-  <div class="absolute -top-1.5 -left-1.5 z-20 bg-[#7E22CE] text-white font-black text-[10px] sm:text-xs rounded-full w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center border-2 border-white shadow-md select-none">
-  <span>12</span>
-</div>
-  
-  <div class="flex-1 flex items-center justify-center w-full my-auto mt-1 sm:mt-1.5 group-hover:scale-105 transition-transform">
-    <svg class="w-7 h-7 sm:w-9 sm:h-9 md:w-12 md:h-12 drop-shadow-md" viewBox="0 0 64 64" fill="none">
-  <!-- 3D Glowing Lightbulb -->
-  <!-- Rays of Light -->
-  <line x1="32" y1="6" x2="32" y2="11" stroke="#FDE047" stroke-width="2.5" stroke-linecap="round"/>
-  <line x1="16" y1="12" x2="20" y2="16" stroke="#FDE047" stroke-width="2.5" stroke-linecap="round"/>
-  <line x1="48" y1="12" x2="44" y2="16" stroke="#FDE047" stroke-width="2.5" stroke-linecap="round"/>
-  <line x1="10" y1="26" x2="15" y2="26" stroke="#FDE047" stroke-width="2.5" stroke-linecap="round"/>
-  <line x1="54" y1="26" x2="49" y2="26" stroke="#FDE047" stroke-width="2.5" stroke-linecap="round"/>
-  <!-- Glow Halo -->
-  <circle cx="32" cy="27" r="18" fill="#FEF08A" opacity="0.25"/>
-  <!-- Bulb Glass -->
-  <path d="M32 12 C 22 12, 18 19, 18 26 C 18 32, 23 36, 24 41 L 40 41 C 41 36, 46 32, 46 26 C 46 19, 42 12, 32 12 Z" fill="url(#bulbGrad)" stroke="#EAB308" stroke-width="1.5"/>
-  <!-- Filament (Golden Glowing Loop) -->
-  <path d="M28 32 L 28 24 C 28 21, 30 20, 32 20 C 34 20, 36 21, 36 24 L 36 32" stroke="#B45309" stroke-width="1.8" stroke-linecap="round" fill="none"/>
-  <!-- Metallic Screw Base -->
-  <rect x="25" y="42" width="14" height="3" rx="1" fill="#94A3B8" stroke="#475569" stroke-width="1"/>
-  <rect x="26" y="46" width="12" height="3" rx="1" fill="#64748B" stroke="#475569" stroke-width="1"/>
-  <path d="M28 50 L 36 50 L 34 53 L 30 53 Z" fill="#334155"/>
-  <defs>
-    <radialGradient id="bulbGrad" cx="35%" cy="30%" r="70%">
-      <stop offset="0%" stop-color="#FFFFFF"/>
-      <stop offset="35%" stop-color="#FEF08A"/>
-      <stop offset="70%" stop-color="#FACC15"/>
-      <stop offset="100%" stop-color="#EAB308"/>
-    </radialGradient>
-  </defs>
-</svg>
-  </div>
-  <span class="hidden md:block text-[10px] sm:text-[11px] font-black text-white text-center leading-none tracking-tight drop-shadow-sm mb-1">Ingenio</span>
-  <div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-12"></div>
-</div>
-<!-- Tile 13: C. Naturales -->
-<div class="col-start-8 row-start-6 bg-gradient-to-b from-[#34D399] via-[#10B981] to-[#059669] border border-[#A7F3D0]/60 shadow-[0_6px_0_#065F46,0_10px_15px_rgba(5,150,105,0.25)] rounded-2xl md:rounded-3xl p-1 sm:p-1.5 md:p-2 flex flex-col justify-between items-center transition-all duration-150 hover:-translate-y-1 hover:shadow-xl relative select-none cursor-pointer group" id="tile-13">
-  <div class="absolute -top-1.5 -left-1.5 z-20 bg-[#059669] text-white font-black text-[10px] sm:text-xs rounded-full w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center border-2 border-white shadow-md select-none">
-  <span>13</span>
-</div>
-  
-  <div class="flex-1 flex items-center justify-center w-full my-auto mt-1 sm:mt-1.5 group-hover:scale-105 transition-transform">
-    <svg class="w-7 h-7 sm:w-9 sm:h-9 md:w-12 md:h-12 drop-shadow-md" viewBox="0 0 64 64" fill="none">
-  <!-- 3D Potion Flask with Green Liquid and Leaves -->
-  <!-- Flask Body (Glass) -->
-  <path d="M26 14 L38 14 L38 24 L48 42 C 51 47, 47 54, 41 54 L23 54 C 17 54, 13 47, 16 42 L26 24 Z" fill="url(#glassGrad)" stroke="#A7F3D0" stroke-width="1.8"/>
-  <!-- Cork Stopper -->
-  <rect x="27" y="10" width="10" height="5" rx="1.5" fill="#B45309" stroke="#78350F" stroke-width="1"/>
-  <!-- Green Liquid Inside -->
-  <path d="M18 43 C 20 40, 24 44, 32 41 C 40 44, 44 40, 46 43 L 47 45 C 49 49, 46 53, 41 53 L 23 53 C 18 53, 15 49, 17 45 Z" fill="url(#liquidGrad)"/>
-  <!-- Liquid Bubbles -->
-  <circle cx="26" cy="48" r="2" fill="#DCFCE7" opacity="0.8"/>
-  <circle cx="36" cy="46" r="1.5" fill="#DCFCE7" opacity="0.8"/>
-  <circle cx="31" cy="49" r="1.2" fill="#DCFCE7" opacity="0.7"/>
-  <!-- Sprouting Leaves on Flask -->
-  <g transform="translate(32, 46)">
-    <path d="M0 0 C -6 -6, -8 -1, 0 4 C 8 -1, 6 -6, 0 0 Z" fill="#22C55E" stroke="#15803D" stroke-width="0.8"/>
-    <path d="M0 4 C -1 1, 0 -3, 0 -3" stroke="#15803D" stroke-width="0.8"/>
-  </g>
-  <!-- Glass Shine Highlight -->
-  <path d="M20 42 L28 26 L29 27 L22 43 Z" fill="#FFFFFF" opacity="0.45"/>
-  <defs>
-    <linearGradient id="glassGrad" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.8"/>
-      <stop offset="50%" stop-color="#E6FFFA" stop-opacity="0.3"/>
-      <stop offset="100%" stop-color="#A7F3D0" stop-opacity="0.6"/>
-    </linearGradient>
-    <linearGradient id="liquidGrad" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#4ADE80"/>
-      <stop offset="50%" stop-color="#22C55E"/>
-      <stop offset="100%" stop-color="#16A34A"/>
-    </linearGradient>
-  </defs>
-</svg>
-  </div>
-  <span class="hidden md:block text-[10px] sm:text-[11px] font-black text-white text-center leading-none tracking-tight drop-shadow-sm mb-1">C. Naturales</span>
-  <div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-13"></div>
-</div>
-<!-- Tile 14: C. Naturales -->
-<div class="col-start-8 row-start-7 bg-gradient-to-b from-[#34D399] via-[#10B981] to-[#059669] border-4 border-[#FBBF24] ring-2 ring-[#FDE68A] shadow-[0_6px_0_#92400E,0_12px_20px_rgba(217,119,6,0.35)] rounded-2xl md:rounded-3xl p-1 sm:p-1.5 md:p-2 flex flex-col justify-between items-center transition-all duration-150 hover:-translate-y-1 hover:shadow-xl relative select-none cursor-pointer group" id="tile-14">
-  <div class="absolute -top-1.5 -left-1.5 z-20 bg-[#059669] text-white font-black text-[10px] sm:text-xs rounded-full w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center border-2 border-white shadow-md select-none">
-  <span>14</span>
-</div>
-  <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 z-20 pointer-events-none filter drop-shadow-md text-xl sm:text-2xl animate-bounce-subtle">👑</div>
-  <div class="flex-1 flex items-center justify-center w-full my-auto mt-1 sm:mt-1.5 group-hover:scale-105 transition-transform">
-    <svg class="w-7 h-7 sm:w-9 sm:h-9 md:w-12 md:h-12 drop-shadow-md" viewBox="0 0 64 64" fill="none">
-  <!-- 3D Potion Flask with Green Liquid and Leaves -->
-  <!-- Flask Body (Glass) -->
-  <path d="M26 14 L38 14 L38 24 L48 42 C 51 47, 47 54, 41 54 L23 54 C 17 54, 13 47, 16 42 L26 24 Z" fill="url(#glassGrad)" stroke="#A7F3D0" stroke-width="1.8"/>
-  <!-- Cork Stopper -->
-  <rect x="27" y="10" width="10" height="5" rx="1.5" fill="#B45309" stroke="#78350F" stroke-width="1"/>
-  <!-- Green Liquid Inside -->
-  <path d="M18 43 C 20 40, 24 44, 32 41 C 40 44, 44 40, 46 43 L 47 45 C 49 49, 46 53, 41 53 L 23 53 C 18 53, 15 49, 17 45 Z" fill="url(#liquidGrad)"/>
-  <!-- Liquid Bubbles -->
-  <circle cx="26" cy="48" r="2" fill="#DCFCE7" opacity="0.8"/>
-  <circle cx="36" cy="46" r="1.5" fill="#DCFCE7" opacity="0.8"/>
-  <circle cx="31" cy="49" r="1.2" fill="#DCFCE7" opacity="0.7"/>
-  <!-- Sprouting Leaves on Flask -->
-  <g transform="translate(32, 46)">
-    <path d="M0 0 C -6 -6, -8 -1, 0 4 C 8 -1, 6 -6, 0 0 Z" fill="#22C55E" stroke="#15803D" stroke-width="0.8"/>
-    <path d="M0 4 C -1 1, 0 -3, 0 -3" stroke="#15803D" stroke-width="0.8"/>
-  </g>
-  <!-- Glass Shine Highlight -->
-  <path d="M20 42 L28 26 L29 27 L22 43 Z" fill="#FFFFFF" opacity="0.45"/>
-  <defs>
-    <linearGradient id="glassGrad" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.8"/>
-      <stop offset="50%" stop-color="#E6FFFA" stop-opacity="0.3"/>
-      <stop offset="100%" stop-color="#A7F3D0" stop-opacity="0.6"/>
-    </linearGradient>
-    <linearGradient id="liquidGrad" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#4ADE80"/>
-      <stop offset="50%" stop-color="#22C55E"/>
-      <stop offset="100%" stop-color="#16A34A"/>
-    </linearGradient>
-  </defs>
-</svg>
-  </div>
-  <span class="hidden md:block text-[10px] sm:text-[11px] font-black text-white text-center leading-none tracking-tight drop-shadow-sm mb-1">C. Naturales</span>
-  <div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-14"></div>
-</div>
-<!-- Tile 15: Matemática -->
-<div class="col-start-7 row-start-7 bg-gradient-to-b from-[#38BDF8] via-[#2563EB] to-[#1D4ED8] border border-[#93C5FD]/60 shadow-[0_6px_0_#1E40AF,0_10px_15px_rgba(30,64,175,0.25)] rounded-2xl md:rounded-3xl p-1 sm:p-1.5 md:p-2 flex flex-col justify-between items-center transition-all duration-150 hover:-translate-y-1 hover:shadow-xl relative select-none cursor-pointer group" id="tile-15">
-  <div class="absolute -top-1.5 -left-1.5 z-20 bg-[#1D4ED8] text-white font-black text-[10px] sm:text-xs rounded-full w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center border-2 border-white shadow-md select-none">
-  <span>15</span>
-</div>
-  
-  <div class="flex-1 flex items-center justify-center w-full my-auto mt-1 sm:mt-1.5 group-hover:scale-105 transition-transform">
-    <svg class="w-7 h-7 sm:w-9 sm:h-9 md:w-12 md:h-12 drop-shadow-md" viewBox="0 0 64 64" fill="none">
-  <!-- Yellow Ruler -->
-  <g transform="rotate(-30 32 32)">
-    <rect x="26" y="8" width="12" height="48" rx="2.5" fill="url(#rulerGrad)" stroke="#B45309" stroke-width="1.5"/>
-    <!-- ruler tick marks -->
-    <line x1="26" y1="14" x2="31" y2="14" stroke="#78350F" stroke-width="1.5"/>
-    <line x1="26" y1="20" x2="34" y2="20" stroke="#78350F" stroke-width="1.5"/>
-    <line x1="26" y1="26" x2="31" y2="26" stroke="#78350F" stroke-width="1.5"/>
-    <line x1="26" y1="32" x2="34" y2="32" stroke="#78350F" stroke-width="1.5"/>
-    <line x1="26" y1="38" x2="31" y2="38" stroke="#78350F" stroke-width="1.5"/>
-    <line x1="26" y1="44" x2="34" y2="44" stroke="#78350F" stroke-width="1.5"/>
-    <line x1="26" y1="50" x2="31" y2="50" stroke="#78350F" stroke-width="1.5"/>
-  </g>
-  <!-- 3D Compass -->
-  <g transform="translate(0, 0)">
-    <!-- compass hinge -->
-    <circle cx="32" cy="18" r="5" fill="#E2E8F0" stroke="#475569" stroke-width="1.5"/>
-    <circle cx="32" cy="18" r="2.5" fill="#3B82F6"/>
-    <!-- left leg (blue) -->
-    <path d="M30 20 L20 48 L22 49 L32 21 Z" fill="url(#compassBlue)" stroke="#1D4ED8" stroke-width="1"/>
-    <!-- left tip (silver) -->
-    <path d="M20 48 L18 54 L22 49 Z" fill="#94A3B8" stroke="#475569" stroke-width="1"/>
-    <!-- right leg (red) -->
-    <path d="M34 20 L44 48 L42 49 L32 21 Z" fill="url(#compassRed)" stroke="#B91C1C" stroke-width="1"/>
-    <!-- right pencil tip -->
-    <path d="M44 48 L46 54 L42 49 Z" fill="#FCD34D" stroke="#B45309" stroke-width="1"/>
-    <!-- cross bar -->
-    <rect x="23" y="32" width="18" height="3" rx="1.5" fill="#CBD5E1" stroke="#475569" stroke-width="1"/>
-  </g>
-  <defs>
-    <linearGradient id="rulerGrad" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#FDE047"/>
-      <stop offset="50%" stop-color="#FACC15"/>
-      <stop offset="100%" stop-color="#EAB308"/>
-    </linearGradient>
-    <linearGradient id="compassBlue" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#60A5FA"/>
-      <stop offset="100%" stop-color="#2563EB"/>
-    </linearGradient>
-    <linearGradient id="compassRed" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#F87171"/>
-      <stop offset="100%" stop-color="#DC2626"/>
-    </linearGradient>
-  </defs>
-</svg>
-  </div>
-  <span class="hidden md:block text-[10px] sm:text-[11px] font-black text-white text-center leading-none tracking-tight drop-shadow-sm mb-1">Matemática</span>
-  <div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-15"></div>
-</div>
-<!-- Tile 16: C. Sociales -->
-<div class="col-start-6 row-start-7 bg-gradient-to-b from-[#FBBF24] via-[#F59E0B] to-[#D97706] border border-[#FDE68A]/60 shadow-[0_6px_0_#92400E,0_10px_15px_rgba(217,119,6,0.25)] rounded-2xl md:rounded-3xl p-1 sm:p-1.5 md:p-2 flex flex-col justify-between items-center transition-all duration-150 hover:-translate-y-1 hover:shadow-xl relative select-none cursor-pointer group" id="tile-16">
-  <div class="absolute -top-1.5 -left-1.5 z-20 bg-[#D97706] text-white font-black text-[10px] sm:text-xs rounded-full w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center border-2 border-white shadow-md select-none">
-  <span>16</span>
-</div>
-  
-  <div class="flex-1 flex items-center justify-center w-full my-auto mt-1 sm:mt-1.5 group-hover:scale-105 transition-transform">
-    <svg class="w-7 h-7 sm:w-9 sm:h-9 md:w-12 md:h-12 drop-shadow-md" viewBox="0 0 64 64" fill="none">
-  <!-- 3D Earth Globe on Stand -->
-  <!-- Stand Base -->
-  <ellipse cx="32" cy="55" rx="14" ry="4" fill="#C2410C"/>
-  <ellipse cx="32" cy="54" rx="12" ry="3" fill="#FB923C"/>
-  <!-- Stand Vertical Rod -->
-  <path d="M30 46 L34 46 L34 54 L30 54 Z" fill="#EA580C"/>
-  <!-- Arc / Meridian (Orange/Gold) -->
-  <path d="M16 28 C 16 16, 26 8, 38 8 C 44 8, 49 11, 52 16" stroke="#EA580C" stroke-width="3" stroke-linecap="round"/>
-  <path d="M16 28 C 16 38, 24 46, 32 46" stroke="#EA580C" stroke-width="3" stroke-linecap="round"/>
-  <!-- Globe Sphere (Cyan Ocean) -->
-  <circle cx="32" cy="27" r="16" fill="url(#oceanGrad)" stroke="#0284C7" stroke-width="1.2"/>
-  <!-- Continents (Vibrant Green) -->
-  <g clip-path="url(#globeClip)">
-    <!-- North America / South America -->
-    <path d="M22 15 C 26 15, 29 18, 27 22 C 25 24, 27 28, 29 32 C 30 36, 26 40, 24 37 C 21 34, 18 25, 22 15 Z" fill="#22C55E"/>
-    <!-- Europe / Africa / Asia -->
-    <path d="M36 14 C 42 13, 46 17, 44 22 C 41 24, 45 29, 42 35 C 38 38, 35 32, 34 26 C 33 20, 34 16, 36 14 Z" fill="#22C55E"/>
-    <!-- Sphere Lighting / 3D Specular Highlight -->
-    <circle cx="28" cy="22" r="14" fill="url(#globeLight)"/>
-  </g>
-  <defs>
-    <clipPath id="globeClip">
-      <circle cx="32" cy="27" r="16"/>
-    </clipPath>
-    <radialGradient id="oceanGrad" cx="35%" cy="30%" r="70%">
-      <stop offset="0%" stop-color="#38BDF8"/>
-      <stop offset="60%" stop-color="#0284C7"/>
-      <stop offset="100%" stop-color="#0369A1"/>
-    </radialGradient>
-    <radialGradient id="globeLight" cx="35%" cy="30%" r="60%">
-      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.45"/>
-      <stop offset="60%" stop-color="#FFFFFF" stop-opacity="0"/>
-    </radialGradient>
-  </defs>
-</svg>
-  </div>
-  <span class="hidden md:block text-[10px] sm:text-[11px] font-black text-white text-center leading-none tracking-tight drop-shadow-sm mb-1">C. Sociales</span>
-  <div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-16"></div>
-</div>
-<!-- Tile 17: Matemática -->
-<div class="col-start-5 row-start-7 bg-gradient-to-b from-[#38BDF8] via-[#2563EB] to-[#1D4ED8] border-4 border-[#FBBF24] ring-2 ring-[#FDE68A] shadow-[0_6px_0_#92400E,0_12px_20px_rgba(217,119,6,0.35)] rounded-2xl md:rounded-3xl p-1 sm:p-1.5 md:p-2 flex flex-col justify-between items-center transition-all duration-150 hover:-translate-y-1 hover:shadow-xl relative select-none cursor-pointer group" id="tile-17">
-  <div class="absolute -top-1.5 -left-1.5 z-20 bg-[#1D4ED8] text-white font-black text-[10px] sm:text-xs rounded-full w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center border-2 border-white shadow-md select-none">
-  <span>17</span>
-</div>
-  <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 z-20 pointer-events-none filter drop-shadow-md text-xl sm:text-2xl animate-bounce-subtle">👑</div>
-  <div class="flex-1 flex items-center justify-center w-full my-auto mt-1 sm:mt-1.5 group-hover:scale-105 transition-transform">
-    <svg class="w-7 h-7 sm:w-9 sm:h-9 md:w-12 md:h-12 drop-shadow-md" viewBox="0 0 64 64" fill="none">
-  <!-- Yellow Ruler -->
-  <g transform="rotate(-30 32 32)">
-    <rect x="26" y="8" width="12" height="48" rx="2.5" fill="url(#rulerGrad)" stroke="#B45309" stroke-width="1.5"/>
-    <!-- ruler tick marks -->
-    <line x1="26" y1="14" x2="31" y2="14" stroke="#78350F" stroke-width="1.5"/>
-    <line x1="26" y1="20" x2="34" y2="20" stroke="#78350F" stroke-width="1.5"/>
-    <line x1="26" y1="26" x2="31" y2="26" stroke="#78350F" stroke-width="1.5"/>
-    <line x1="26" y1="32" x2="34" y2="32" stroke="#78350F" stroke-width="1.5"/>
-    <line x1="26" y1="38" x2="31" y2="38" stroke="#78350F" stroke-width="1.5"/>
-    <line x1="26" y1="44" x2="34" y2="44" stroke="#78350F" stroke-width="1.5"/>
-    <line x1="26" y1="50" x2="31" y2="50" stroke="#78350F" stroke-width="1.5"/>
-  </g>
-  <!-- 3D Compass -->
-  <g transform="translate(0, 0)">
-    <!-- compass hinge -->
-    <circle cx="32" cy="18" r="5" fill="#E2E8F0" stroke="#475569" stroke-width="1.5"/>
-    <circle cx="32" cy="18" r="2.5" fill="#3B82F6"/>
-    <!-- left leg (blue) -->
-    <path d="M30 20 L20 48 L22 49 L32 21 Z" fill="url(#compassBlue)" stroke="#1D4ED8" stroke-width="1"/>
-    <!-- left tip (silver) -->
-    <path d="M20 48 L18 54 L22 49 Z" fill="#94A3B8" stroke="#475569" stroke-width="1"/>
-    <!-- right leg (red) -->
-    <path d="M34 20 L44 48 L42 49 L32 21 Z" fill="url(#compassRed)" stroke="#B91C1C" stroke-width="1"/>
-    <!-- right pencil tip -->
-    <path d="M44 48 L46 54 L42 49 Z" fill="#FCD34D" stroke="#B45309" stroke-width="1"/>
-    <!-- cross bar -->
-    <rect x="23" y="32" width="18" height="3" rx="1.5" fill="#CBD5E1" stroke="#475569" stroke-width="1"/>
-  </g>
-  <defs>
-    <linearGradient id="rulerGrad" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#FDE047"/>
-      <stop offset="50%" stop-color="#FACC15"/>
-      <stop offset="100%" stop-color="#EAB308"/>
-    </linearGradient>
-    <linearGradient id="compassBlue" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#60A5FA"/>
-      <stop offset="100%" stop-color="#2563EB"/>
-    </linearGradient>
-    <linearGradient id="compassRed" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#F87171"/>
-      <stop offset="100%" stop-color="#DC2626"/>
-    </linearGradient>
-  </defs>
-</svg>
-  </div>
-  <span class="hidden md:block text-[10px] sm:text-[11px] font-black text-white text-center leading-none tracking-tight drop-shadow-sm mb-1">Matemática</span>
-  <div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-17"></div>
-</div>
-<!-- Tile 18: Comodín -->
-<div class="col-start-4 row-start-7 bg-gradient-to-b from-[#A855F7] via-[#6366F1] to-[#3B82F6] border border-[#C084FC]/70 shadow-[0_6px_0_#4338CA,0_10px_15px_rgba(67,56,202,0.3)] rounded-2xl md:rounded-3xl p-1 sm:p-1.5 md:p-2 flex flex-col justify-between items-center transition-all duration-150 hover:-translate-y-1 hover:shadow-xl relative select-none cursor-pointer group" id="tile-18">
-  <div class="absolute -top-1.5 -left-1.5 z-20 bg-[#6366F1] text-white font-black text-[10px] sm:text-xs rounded-full w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center border-2 border-white shadow-md select-none">
-  <span>18</span>
-</div>
-  
-  <div class="flex-1 flex items-center justify-center w-full my-auto mt-1 sm:mt-1.5 group-hover:scale-110 transition-transform">
-    <div class="w-7 h-7 sm:w-9 sm:h-9 md:w-10 md:h-10 rounded-xl bg-white/25 backdrop-blur-xs flex items-center justify-center text-xl sm:text-2xl md:text-3xl shadow-xs border border-white/40">
-      🃏
-    </div>
-  </div>
-  <span class="hidden md:block text-[10px] sm:text-[11px] font-black text-white text-center leading-none tracking-tight drop-shadow-sm mb-1 uppercase">Comodín</span>
-  <div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-18"></div>
-</div>
-<!-- Tile 19: Lengua -->
-<div class="col-start-3 row-start-7 bg-gradient-to-b from-[#FB7185] via-[#F43F5E] to-[#E11D48] border border-[#FDA4AF]/60 shadow-[0_6px_0_#9F1239,0_10px_15px_rgba(225,29,72,0.25)] rounded-2xl md:rounded-3xl p-1 sm:p-1.5 md:p-2 flex flex-col justify-between items-center transition-all duration-150 hover:-translate-y-1 hover:shadow-xl relative select-none cursor-pointer group" id="tile-19">
-  <div class="absolute -top-1.5 -left-1.5 z-20 bg-[#E11D48] text-white font-black text-[10px] sm:text-xs rounded-full w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center border-2 border-white shadow-md select-none">
-  <span>19</span>
-</div>
-  
-  <div class="flex-1 flex items-center justify-center w-full my-auto mt-1 sm:mt-1.5 group-hover:scale-105 transition-transform">
-    <svg class="w-7 h-7 sm:w-9 sm:h-9 md:w-12 md:h-12 drop-shadow-md" viewBox="0 0 64 64" fill="none">
-  <!-- 3D Open Book -->
-  <!-- Hardcover base/edges -->
-  <path d="M6 44 C 18 40, 28 42, 32 46 C 36 42, 46 40, 58 44 L 58 48 C 46 44, 36 46, 32 50 C 28 46, 18 44, 6 48 Z" fill="#991B1B"/>
-  <path d="M6 42 C 18 38, 28 40, 32 44 C 36 40, 46 38, 58 42 L 58 45 C 46 41, 36 43, 32 47 C 28 43, 18 41, 6 45 Z" fill="#EF4444"/>
-  <!-- Left Pages Stack -->
-  <path d="M8 20 C 18 16, 27 18, 31 22 L 31 43 C 27 39, 18 37, 8 41 Z" fill="url(#pageGradLeft)" stroke="#E2E8F0" stroke-width="1"/>
-  <!-- Right Pages Stack -->
-  <path d="M56 20 C 46 16, 37 18, 33 22 L 33 43 C 37 39, 46 37, 56 41 Z" fill="url(#pageGradRight)" stroke="#E2E8F0" stroke-width="1"/>
-  <!-- Book spine center -->
-  <path d="M31 22 C 32 21, 32 21, 33 22 L 33 44 C 32 43, 32 43, 31 44 Z" fill="#CBD5E1"/>
-  <!-- Bookmark ribbon -->
-  <path d="M31 22 L 31 35 L 32 33 L 33 35 L 33 22 Z" fill="#F59E0B"/>
-  <defs>
-    <linearGradient id="pageGradLeft" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#F1F5F9"/>
-      <stop offset="80%" stop-color="#FFFFFF"/>
-      <stop offset="100%" stop-color="#E2E8F0"/>
-    </linearGradient>
-    <linearGradient id="pageGradRight" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#E2E8F0"/>
-      <stop offset="20%" stop-color="#FFFFFF"/>
-      <stop offset="100%" stop-color="#F1F5F9"/>
-    </linearGradient>
-  </defs>
-</svg>
-  </div>
-  <span class="hidden md:block text-[10px] sm:text-[11px] font-black text-white text-center leading-none tracking-tight drop-shadow-sm mb-1">Lengua</span>
-  <div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-19"></div>
-</div>
-<!-- Tile 20: Ingenio -->
-<div class="col-start-2 row-start-7 bg-gradient-to-b from-[#C084FC] via-[#9333EA] to-[#7E22CE] border border-[#E9D5FF]/60 shadow-[0_6px_0_#581C87,0_10px_15px_rgba(126,34,206,0.25)] rounded-2xl md:rounded-3xl p-1 sm:p-1.5 md:p-2 flex flex-col justify-between items-center transition-all duration-150 hover:-translate-y-1 hover:shadow-xl relative select-none cursor-pointer group" id="tile-20">
-  <div class="absolute -top-1.5 -left-1.5 z-20 bg-[#7E22CE] text-white font-black text-[10px] sm:text-xs rounded-full w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center border-2 border-white shadow-md select-none">
-  <span>20</span>
-</div>
-  
-  <div class="flex-1 flex items-center justify-center w-full my-auto mt-1 sm:mt-1.5 group-hover:scale-105 transition-transform">
-    <svg class="w-7 h-7 sm:w-9 sm:h-9 md:w-12 md:h-12 drop-shadow-md" viewBox="0 0 64 64" fill="none">
-  <!-- 3D Glowing Lightbulb -->
-  <!-- Rays of Light -->
-  <line x1="32" y1="6" x2="32" y2="11" stroke="#FDE047" stroke-width="2.5" stroke-linecap="round"/>
-  <line x1="16" y1="12" x2="20" y2="16" stroke="#FDE047" stroke-width="2.5" stroke-linecap="round"/>
-  <line x1="48" y1="12" x2="44" y2="16" stroke="#FDE047" stroke-width="2.5" stroke-linecap="round"/>
-  <line x1="10" y1="26" x2="15" y2="26" stroke="#FDE047" stroke-width="2.5" stroke-linecap="round"/>
-  <line x1="54" y1="26" x2="49" y2="26" stroke="#FDE047" stroke-width="2.5" stroke-linecap="round"/>
-  <!-- Glow Halo -->
-  <circle cx="32" cy="27" r="18" fill="#FEF08A" opacity="0.25"/>
-  <!-- Bulb Glass -->
-  <path d="M32 12 C 22 12, 18 19, 18 26 C 18 32, 23 36, 24 41 L 40 41 C 41 36, 46 32, 46 26 C 46 19, 42 12, 32 12 Z" fill="url(#bulbGrad)" stroke="#EAB308" stroke-width="1.5"/>
-  <!-- Filament (Golden Glowing Loop) -->
-  <path d="M28 32 L 28 24 C 28 21, 30 20, 32 20 C 34 20, 36 21, 36 24 L 36 32" stroke="#B45309" stroke-width="1.8" stroke-linecap="round" fill="none"/>
-  <!-- Metallic Screw Base -->
-  <rect x="25" y="42" width="14" height="3" rx="1" fill="#94A3B8" stroke="#475569" stroke-width="1"/>
-  <rect x="26" y="46" width="12" height="3" rx="1" fill="#64748B" stroke="#475569" stroke-width="1"/>
-  <path d="M28 50 L 36 50 L 34 53 L 30 53 Z" fill="#334155"/>
-  <defs>
-    <radialGradient id="bulbGrad" cx="35%" cy="30%" r="70%">
-      <stop offset="0%" stop-color="#FFFFFF"/>
-      <stop offset="35%" stop-color="#FEF08A"/>
-      <stop offset="70%" stop-color="#FACC15"/>
-      <stop offset="100%" stop-color="#EAB308"/>
-    </radialGradient>
-  </defs>
-</svg>
-  </div>
-  <span class="hidden md:block text-[10px] sm:text-[11px] font-black text-white text-center leading-none tracking-tight drop-shadow-sm mb-1">Ingenio</span>
-  <div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-20"></div>
-</div>
-<!-- Tile 21: Ingenio -->
-<div class="col-start-1 row-start-7 bg-gradient-to-b from-[#C084FC] via-[#9333EA] to-[#7E22CE] border border-[#E9D5FF]/60 shadow-[0_6px_0_#581C87,0_10px_15px_rgba(126,34,206,0.25)] rounded-2xl md:rounded-3xl p-1 sm:p-1.5 md:p-2 flex flex-col justify-between items-center transition-all duration-150 hover:-translate-y-1 hover:shadow-xl relative select-none cursor-pointer group" id="tile-21">
-  <div class="absolute -top-1.5 -left-1.5 z-20 bg-[#7E22CE] text-white font-black text-[10px] sm:text-xs rounded-full w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center border-2 border-white shadow-md select-none">
-  <span>21</span>
-</div>
-  
-  <div class="flex-1 flex items-center justify-center w-full my-auto mt-1 sm:mt-1.5 group-hover:scale-105 transition-transform">
-    <svg class="w-7 h-7 sm:w-9 sm:h-9 md:w-12 md:h-12 drop-shadow-md" viewBox="0 0 64 64" fill="none">
-  <!-- 3D Glowing Lightbulb -->
-  <!-- Rays of Light -->
-  <line x1="32" y1="6" x2="32" y2="11" stroke="#FDE047" stroke-width="2.5" stroke-linecap="round"/>
-  <line x1="16" y1="12" x2="20" y2="16" stroke="#FDE047" stroke-width="2.5" stroke-linecap="round"/>
-  <line x1="48" y1="12" x2="44" y2="16" stroke="#FDE047" stroke-width="2.5" stroke-linecap="round"/>
-  <line x1="10" y1="26" x2="15" y2="26" stroke="#FDE047" stroke-width="2.5" stroke-linecap="round"/>
-  <line x1="54" y1="26" x2="49" y2="26" stroke="#FDE047" stroke-width="2.5" stroke-linecap="round"/>
-  <!-- Glow Halo -->
-  <circle cx="32" cy="27" r="18" fill="#FEF08A" opacity="0.25"/>
-  <!-- Bulb Glass -->
-  <path d="M32 12 C 22 12, 18 19, 18 26 C 18 32, 23 36, 24 41 L 40 41 C 41 36, 46 32, 46 26 C 46 19, 42 12, 32 12 Z" fill="url(#bulbGrad)" stroke="#EAB308" stroke-width="1.5"/>
-  <!-- Filament (Golden Glowing Loop) -->
-  <path d="M28 32 L 28 24 C 28 21, 30 20, 32 20 C 34 20, 36 21, 36 24 L 36 32" stroke="#B45309" stroke-width="1.8" stroke-linecap="round" fill="none"/>
-  <!-- Metallic Screw Base -->
-  <rect x="25" y="42" width="14" height="3" rx="1" fill="#94A3B8" stroke="#475569" stroke-width="1"/>
-  <rect x="26" y="46" width="12" height="3" rx="1" fill="#64748B" stroke="#475569" stroke-width="1"/>
-  <path d="M28 50 L 36 50 L 34 53 L 30 53 Z" fill="#334155"/>
-  <defs>
-    <radialGradient id="bulbGrad" cx="35%" cy="30%" r="70%">
-      <stop offset="0%" stop-color="#FFFFFF"/>
-      <stop offset="35%" stop-color="#FEF08A"/>
-      <stop offset="70%" stop-color="#FACC15"/>
-      <stop offset="100%" stop-color="#EAB308"/>
-    </radialGradient>
-  </defs>
-</svg>
-  </div>
-  <span class="hidden md:block text-[10px] sm:text-[11px] font-black text-white text-center leading-none tracking-tight drop-shadow-sm mb-1">Ingenio</span>
-  <div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-21"></div>
-</div>
-<!-- Tile 22: Lengua -->
-<div class="col-start-1 row-start-6 bg-gradient-to-b from-[#FB7185] via-[#F43F5E] to-[#E11D48] border border-[#FDA4AF]/60 shadow-[0_6px_0_#9F1239,0_10px_15px_rgba(225,29,72,0.25)] rounded-2xl md:rounded-3xl p-1 sm:p-1.5 md:p-2 flex flex-col justify-between items-center transition-all duration-150 hover:-translate-y-1 hover:shadow-xl relative select-none cursor-pointer group" id="tile-22">
-  <div class="absolute -top-1.5 -left-1.5 z-20 bg-[#E11D48] text-white font-black text-[10px] sm:text-xs rounded-full w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center border-2 border-white shadow-md select-none">
-  <span>22</span>
-</div>
-  
-  <div class="flex-1 flex items-center justify-center w-full my-auto mt-1 sm:mt-1.5 group-hover:scale-105 transition-transform">
-    <svg class="w-7 h-7 sm:w-9 sm:h-9 md:w-12 md:h-12 drop-shadow-md" viewBox="0 0 64 64" fill="none">
-  <!-- 3D Open Book -->
-  <!-- Hardcover base/edges -->
-  <path d="M6 44 C 18 40, 28 42, 32 46 C 36 42, 46 40, 58 44 L 58 48 C 46 44, 36 46, 32 50 C 28 46, 18 44, 6 48 Z" fill="#991B1B"/>
-  <path d="M6 42 C 18 38, 28 40, 32 44 C 36 40, 46 38, 58 42 L 58 45 C 46 41, 36 43, 32 47 C 28 43, 18 41, 6 45 Z" fill="#EF4444"/>
-  <!-- Left Pages Stack -->
-  <path d="M8 20 C 18 16, 27 18, 31 22 L 31 43 C 27 39, 18 37, 8 41 Z" fill="url(#pageGradLeft)" stroke="#E2E8F0" stroke-width="1"/>
-  <!-- Right Pages Stack -->
-  <path d="M56 20 C 46 16, 37 18, 33 22 L 33 43 C 37 39, 46 37, 56 41 Z" fill="url(#pageGradRight)" stroke="#E2E8F0" stroke-width="1"/>
-  <!-- Book spine center -->
-  <path d="M31 22 C 32 21, 32 21, 33 22 L 33 44 C 32 43, 32 43, 31 44 Z" fill="#CBD5E1"/>
-  <!-- Bookmark ribbon -->
-  <path d="M31 22 L 31 35 L 32 33 L 33 35 L 33 22 Z" fill="#F59E0B"/>
-  <defs>
-    <linearGradient id="pageGradLeft" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#F1F5F9"/>
-      <stop offset="80%" stop-color="#FFFFFF"/>
-      <stop offset="100%" stop-color="#E2E8F0"/>
-    </linearGradient>
-    <linearGradient id="pageGradRight" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#E2E8F0"/>
-      <stop offset="20%" stop-color="#FFFFFF"/>
-      <stop offset="100%" stop-color="#F1F5F9"/>
-    </linearGradient>
-  </defs>
-</svg>
-  </div>
-  <span class="hidden md:block text-[10px] sm:text-[11px] font-black text-white text-center leading-none tracking-tight drop-shadow-sm mb-1">Lengua</span>
-  <div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-22"></div>
-</div>
-<!-- Tile 23: C. Sociales -->
-<div class="col-start-1 row-start-5 bg-gradient-to-b from-[#FBBF24] via-[#F59E0B] to-[#D97706] border border-[#FDE68A]/60 shadow-[0_6px_0_#92400E,0_10px_15px_rgba(217,119,6,0.25)] rounded-2xl md:rounded-3xl p-1 sm:p-1.5 md:p-2 flex flex-col justify-between items-center transition-all duration-150 hover:-translate-y-1 hover:shadow-xl relative select-none cursor-pointer group" id="tile-23">
-  <div class="absolute -top-1.5 -left-1.5 z-20 bg-[#D97706] text-white font-black text-[10px] sm:text-xs rounded-full w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center border-2 border-white shadow-md select-none">
-  <span>23</span>
-</div>
-  
-  <div class="flex-1 flex items-center justify-center w-full my-auto mt-1 sm:mt-1.5 group-hover:scale-105 transition-transform">
-    <svg class="w-7 h-7 sm:w-9 sm:h-9 md:w-12 md:h-12 drop-shadow-md" viewBox="0 0 64 64" fill="none">
-  <!-- 3D Earth Globe on Stand -->
-  <!-- Stand Base -->
-  <ellipse cx="32" cy="55" rx="14" ry="4" fill="#C2410C"/>
-  <ellipse cx="32" cy="54" rx="12" ry="3" fill="#FB923C"/>
-  <!-- Stand Vertical Rod -->
-  <path d="M30 46 L34 46 L34 54 L30 54 Z" fill="#EA580C"/>
-  <!-- Arc / Meridian (Orange/Gold) -->
-  <path d="M16 28 C 16 16, 26 8, 38 8 C 44 8, 49 11, 52 16" stroke="#EA580C" stroke-width="3" stroke-linecap="round"/>
-  <path d="M16 28 C 16 38, 24 46, 32 46" stroke="#EA580C" stroke-width="3" stroke-linecap="round"/>
-  <!-- Globe Sphere (Cyan Ocean) -->
-  <circle cx="32" cy="27" r="16" fill="url(#oceanGrad)" stroke="#0284C7" stroke-width="1.2"/>
-  <!-- Continents (Vibrant Green) -->
-  <g clip-path="url(#globeClip)">
-    <!-- North America / South America -->
-    <path d="M22 15 C 26 15, 29 18, 27 22 C 25 24, 27 28, 29 32 C 30 36, 26 40, 24 37 C 21 34, 18 25, 22 15 Z" fill="#22C55E"/>
-    <!-- Europe / Africa / Asia -->
-    <path d="M36 14 C 42 13, 46 17, 44 22 C 41 24, 45 29, 42 35 C 38 38, 35 32, 34 26 C 33 20, 34 16, 36 14 Z" fill="#22C55E"/>
-    <!-- Sphere Lighting / 3D Specular Highlight -->
-    <circle cx="28" cy="22" r="14" fill="url(#globeLight)"/>
-  </g>
-  <defs>
-    <clipPath id="globeClip">
-      <circle cx="32" cy="27" r="16"/>
-    </clipPath>
-    <radialGradient id="oceanGrad" cx="35%" cy="30%" r="70%">
-      <stop offset="0%" stop-color="#38BDF8"/>
-      <stop offset="60%" stop-color="#0284C7"/>
-      <stop offset="100%" stop-color="#0369A1"/>
-    </radialGradient>
-    <radialGradient id="globeLight" cx="35%" cy="30%" r="60%">
-      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.45"/>
-      <stop offset="60%" stop-color="#FFFFFF" stop-opacity="0"/>
-    </radialGradient>
-  </defs>
-</svg>
-  </div>
-  <span class="hidden md:block text-[10px] sm:text-[11px] font-black text-white text-center leading-none tracking-tight drop-shadow-sm mb-1">C. Sociales</span>
-  <div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-23"></div>
-</div>
-<!-- Tile 24: Matemática -->
-<div class="col-start-1 row-start-4 bg-gradient-to-b from-[#38BDF8] via-[#2563EB] to-[#1D4ED8] border border-[#93C5FD]/60 shadow-[0_6px_0_#1E40AF,0_10px_15px_rgba(30,64,175,0.25)] rounded-2xl md:rounded-3xl p-1 sm:p-1.5 md:p-2 flex flex-col justify-between items-center transition-all duration-150 hover:-translate-y-1 hover:shadow-xl relative select-none cursor-pointer group" id="tile-24">
-  <div class="absolute -top-1.5 -left-1.5 z-20 bg-[#1D4ED8] text-white font-black text-[10px] sm:text-xs rounded-full w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center border-2 border-white shadow-md select-none">
-  <span>24</span>
-</div>
-  
-  <div class="flex-1 flex items-center justify-center w-full my-auto mt-1 sm:mt-1.5 group-hover:scale-105 transition-transform">
-    <svg class="w-7 h-7 sm:w-9 sm:h-9 md:w-12 md:h-12 drop-shadow-md" viewBox="0 0 64 64" fill="none">
-  <!-- Yellow Ruler -->
-  <g transform="rotate(-30 32 32)">
-    <rect x="26" y="8" width="12" height="48" rx="2.5" fill="url(#rulerGrad)" stroke="#B45309" stroke-width="1.5"/>
-    <!-- ruler tick marks -->
-    <line x1="26" y1="14" x2="31" y2="14" stroke="#78350F" stroke-width="1.5"/>
-    <line x1="26" y1="20" x2="34" y2="20" stroke="#78350F" stroke-width="1.5"/>
-    <line x1="26" y1="26" x2="31" y2="26" stroke="#78350F" stroke-width="1.5"/>
-    <line x1="26" y1="32" x2="34" y2="32" stroke="#78350F" stroke-width="1.5"/>
-    <line x1="26" y1="38" x2="31" y2="38" stroke="#78350F" stroke-width="1.5"/>
-    <line x1="26" y1="44" x2="34" y2="44" stroke="#78350F" stroke-width="1.5"/>
-    <line x1="26" y1="50" x2="31" y2="50" stroke="#78350F" stroke-width="1.5"/>
-  </g>
-  <!-- 3D Compass -->
-  <g transform="translate(0, 0)">
-    <!-- compass hinge -->
-    <circle cx="32" cy="18" r="5" fill="#E2E8F0" stroke="#475569" stroke-width="1.5"/>
-    <circle cx="32" cy="18" r="2.5" fill="#3B82F6"/>
-    <!-- left leg (blue) -->
-    <path d="M30 20 L20 48 L22 49 L32 21 Z" fill="url(#compassBlue)" stroke="#1D4ED8" stroke-width="1"/>
-    <!-- left tip (silver) -->
-    <path d="M20 48 L18 54 L22 49 Z" fill="#94A3B8" stroke="#475569" stroke-width="1"/>
-    <!-- right leg (red) -->
-    <path d="M34 20 L44 48 L42 49 L32 21 Z" fill="url(#compassRed)" stroke="#B91C1C" stroke-width="1"/>
-    <!-- right pencil tip -->
-    <path d="M44 48 L46 54 L42 49 Z" fill="#FCD34D" stroke="#B45309" stroke-width="1"/>
-    <!-- cross bar -->
-    <rect x="23" y="32" width="18" height="3" rx="1.5" fill="#CBD5E1" stroke="#475569" stroke-width="1"/>
-  </g>
-  <defs>
-    <linearGradient id="rulerGrad" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#FDE047"/>
-      <stop offset="50%" stop-color="#FACC15"/>
-      <stop offset="100%" stop-color="#EAB308"/>
-    </linearGradient>
-    <linearGradient id="compassBlue" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#60A5FA"/>
-      <stop offset="100%" stop-color="#2563EB"/>
-    </linearGradient>
-    <linearGradient id="compassRed" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#F87171"/>
-      <stop offset="100%" stop-color="#DC2626"/>
-    </linearGradient>
-  </defs>
-</svg>
-  </div>
-  <span class="hidden md:block text-[10px] sm:text-[11px] font-black text-white text-center leading-none tracking-tight drop-shadow-sm mb-1">Matemática</span>
-  <div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-24"></div>
-</div>
-<!-- Tile 25: Corona -->
-<div class="col-start-1 row-start-3 bg-gradient-to-b from-[#A855F7] via-[#7E22CE] to-[#581C87] border-4 border-[#FBBF24] ring-2 ring-[#FDE68A] shadow-[0_6px_0_#92400E,0_12px_20px_rgba(217,119,6,0.35)] rounded-2xl md:rounded-3xl p-1 sm:p-1.5 md:p-2 flex flex-col justify-between items-center transition-all duration-150 hover:-translate-y-1 hover:shadow-xl relative select-none cursor-pointer group" id="tile-25">
-  <div class="absolute -top-1.5 -left-1.5 z-20 bg-[#7E22CE] text-white font-black text-[10px] sm:text-xs rounded-full w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center border-2 border-white shadow-md select-none">
-  <span>25</span>
-</div>
-  
-  <div class="flex-1 flex items-center justify-center w-full my-auto mt-1 sm:mt-1.5 group-hover:scale-105 transition-transform">
-    <svg class="w-8 h-8 sm:w-11 sm:h-11 md:w-14 md:h-14 drop-shadow-lg" viewBox="0 0 64 64" fill="none">
-  <!-- 3D Golden Crown with Jewels -->
-  <!-- Crown Base Band -->
-  <path d="M10 46 C 24 49, 40 49, 54 46 L 52 52 C 38 55, 26 55, 12 52 Z" fill="#B45309"/>
-  <path d="M10 44 C 24 47, 40 47, 54 44 L 54 48 C 40 51, 24 51, 10 48 Z" fill="url(#goldBand)"/>
-  <!-- Crown Peaks -->
-  <path d="M10 44 L 14 26 L 24 35 L 32 16 L 40 35 L 50 26 L 54 44 C 40 47, 24 47, 10 44 Z" fill="url(#crownGold)" stroke="#D97706" stroke-width="1.5"/>
-  <!-- Crown Peak Pearls / Orbs -->
-  <circle cx="14" cy="25" r="3" fill="#FDE047" stroke="#B45309" stroke-width="1"/>
-  <circle cx="24" cy="34" r="2.5" fill="#FDE047" stroke="#B45309" stroke-width="1"/>
-  <circle cx="32" cy="15" r="4" fill="#FEF08A" stroke="#B45309" stroke-width="1.2"/>
-  <circle cx="40" cy="34" r="2.5" fill="#FDE047" stroke="#B45309" stroke-width="1"/>
-  <circle cx="50" cy="25" r="3" fill="#FDE047" stroke="#B45309" stroke-width="1"/>
-  <!-- Jewels on the Crown Band -->
-  <circle cx="20" cy="46" r="2.5" fill="#EF4444" stroke="#991B1B" stroke-width="0.8"/>
-  <circle cx="32" cy="47" r="3" fill="#3B82F6" stroke="#1D4ED8" stroke-width="0.8"/>
-  <circle cx="44" cy="46" r="2.5" fill="#10B981" stroke="#047857" stroke-width="0.8"/>
-  <defs>
-    <linearGradient id="crownGold" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#FEF08A"/>
-      <stop offset="30%" stop-color="#FBBF24"/>
-      <stop offset="70%" stop-color="#F59E0B"/>
-      <stop offset="100%" stop-color="#D97706"/>
-    </linearGradient>
-    <linearGradient id="goldBand" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#F59E0B"/>
-      <stop offset="50%" stop-color="#FEF08A"/>
-      <stop offset="100%" stop-color="#F59E0B"/>
-    </linearGradient>
-  </defs>
-</svg>
-  </div>
-  <span class="hidden md:block text-[10px] sm:text-[11px] font-black text-white text-center leading-none tracking-tight drop-shadow-sm mb-1">Corona</span>
-  <div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-25"></div>
-</div>
-<!-- Tile 26: C. Sociales -->
-<div class="col-start-1 row-start-2 bg-gradient-to-b from-[#FBBF24] via-[#F59E0B] to-[#D97706] border border-[#FDE68A]/60 shadow-[0_6px_0_#92400E,0_10px_15px_rgba(217,119,6,0.25)] rounded-2xl md:rounded-3xl p-1 sm:p-1.5 md:p-2 flex flex-col justify-between items-center transition-all duration-150 hover:-translate-y-1 hover:shadow-xl relative select-none cursor-pointer group" id="tile-26">
-  <div class="absolute -top-1.5 -left-1.5 z-20 bg-[#D97706] text-white font-black text-[10px] sm:text-xs rounded-full w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center border-2 border-white shadow-md select-none">
-  <span>26</span>
-</div>
-  
-  <div class="flex-1 flex items-center justify-center w-full my-auto mt-1 sm:mt-1.5 group-hover:scale-105 transition-transform">
-    <svg class="w-7 h-7 sm:w-9 sm:h-9 md:w-12 md:h-12 drop-shadow-md" viewBox="0 0 64 64" fill="none">
-  <!-- 3D Earth Globe on Stand -->
-  <!-- Stand Base -->
-  <ellipse cx="32" cy="55" rx="14" ry="4" fill="#C2410C"/>
-  <ellipse cx="32" cy="54" rx="12" ry="3" fill="#FB923C"/>
-  <!-- Stand Vertical Rod -->
-  <path d="M30 46 L34 46 L34 54 L30 54 Z" fill="#EA580C"/>
-  <!-- Arc / Meridian (Orange/Gold) -->
-  <path d="M16 28 C 16 16, 26 8, 38 8 C 44 8, 49 11, 52 16" stroke="#EA580C" stroke-width="3" stroke-linecap="round"/>
-  <path d="M16 28 C 16 38, 24 46, 32 46" stroke="#EA580C" stroke-width="3" stroke-linecap="round"/>
-  <!-- Globe Sphere (Cyan Ocean) -->
-  <circle cx="32" cy="27" r="16" fill="url(#oceanGrad)" stroke="#0284C7" stroke-width="1.2"/>
-  <!-- Continents (Vibrant Green) -->
-  <g clip-path="url(#globeClip)">
-    <!-- North America / South America -->
-    <path d="M22 15 C 26 15, 29 18, 27 22 C 25 24, 27 28, 29 32 C 30 36, 26 40, 24 37 C 21 34, 18 25, 22 15 Z" fill="#22C55E"/>
-    <!-- Europe / Africa / Asia -->
-    <path d="M36 14 C 42 13, 46 17, 44 22 C 41 24, 45 29, 42 35 C 38 38, 35 32, 34 26 C 33 20, 34 16, 36 14 Z" fill="#22C55E"/>
-    <!-- Sphere Lighting / 3D Specular Highlight -->
-    <circle cx="28" cy="22" r="14" fill="url(#globeLight)"/>
-  </g>
-  <defs>
-    <clipPath id="globeClip">
-      <circle cx="32" cy="27" r="16"/>
-    </clipPath>
-    <radialGradient id="oceanGrad" cx="35%" cy="30%" r="70%">
-      <stop offset="0%" stop-color="#38BDF8"/>
-      <stop offset="60%" stop-color="#0284C7"/>
-      <stop offset="100%" stop-color="#0369A1"/>
-    </radialGradient>
-    <radialGradient id="globeLight" cx="35%" cy="30%" r="60%">
-      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.45"/>
-      <stop offset="60%" stop-color="#FFFFFF" stop-opacity="0"/>
-    </radialGradient>
-  </defs>
-</svg>
-  </div>
-  <span class="hidden md:block text-[10px] sm:text-[11px] font-black text-white text-center leading-none tracking-tight drop-shadow-sm mb-1">C. Sociales</span>
-  <div class="tile-pawns-container absolute bottom-0.5 inset-x-0 flex justify-center md:justify-end md:inset-x-auto md:-bottom-1.5 md:-right-1.5 gap-0.5 z-10 pointer-events-none" id="pawns-tile-26"></div>
-</div>
-<!-- ================= BOARD CENTER: INTERACTIVE ARENA ================= -->
-<div class="col-span-6 row-span-5 col-start-2 row-start-2 bg-gradient-to-b from-[#F0F7FF] via-[#F8FAFC] to-[#EEF2FF] rounded-3xl m-0.5 sm:m-1 border border-slate-200/90 flex flex-col items-center justify-center p-2 sm:p-4 md:p-6 text-center relative shadow-inner overflow-hidden" data-purpose="board-center-interactive-area">
-  
-  <!-- SPECTATOR LIVE HUD (Visible en tiempo real cuando la otra jugadora tira o responde online) -->
-  <div id="spectator-hud" class="hidden w-full max-w-sm sm:max-w-md bg-white/95 backdrop-blur-md rounded-2xl p-3.5 sm:p-4 border-2 border-indigo-200 shadow-xl flex-col gap-2 text-left mb-2 transition-all z-20 animate-in fade-in">
-    <div class="flex items-center justify-between border-b border-slate-100 pb-1.5">
-      <div class="flex items-center gap-2">
-        <span class="w-2.5 h-2.5 rounded-full bg-amber-500 animate-ping"></span>
-        <span class="text-xs font-black uppercase text-indigo-700 tracking-wide" id="spectator-hud-title">EN VIVO · TURNO DE OTRA JUGADORA</span>
+        <!-- Large 3D Primary Button: ¡TIRAR DADO! -->
+        <div class="flex flex-col items-center justify-center w-full max-w-sm text-center mt-1 sm:mt-2">
+          <button class="btn-action-3d text-white font-black text-xl sm:text-2xl lg:text-3xl tracking-wider py-3 sm:py-4 px-8 sm:px-12 rounded-full cursor-pointer select-none w-full sm:w-auto flex items-center justify-center gap-2" id="rollDiceBtn">
+            <span id="btnIcon">🎲</span>
+            <span id="btnText">¡TIRAR DADO!</span>
+          </button>
+          <p class="mt-2 text-xs sm:text-sm font-bold text-slate-500" id="helperMessage">
+            ¡Tirá el dado para avanzar por el tablero!
+          </p>
+        </div>
+
+        <!-- Spectator HUD for online multiplayer -->
+        <div id="spectator-hud" class="hidden absolute top-2 left-1/2 transform -translate-x-1/2 w-11/12 max-w-lg bg-indigo-900/95 backdrop-blur-md border-2 border-indigo-400 text-white rounded-2xl p-3 shadow-2xl z-40 flex-col gap-1 text-center">
+          <div class="flex items-center justify-between text-[11px] font-black text-indigo-200">
+            <span id="spectator-hud-title">EN VIVO · MODO ESPECTADOR</span>
+            <span id="spectator-hud-category" class="bg-indigo-800 px-2 py-0.5 rounded-full">📚 Materia</span>
+          </div>
+          <p id="spectator-hud-question" class="text-xs sm:text-sm font-extrabold text-white mt-1 line-clamp-2">"Pregunta en vivo..."</p>
+          <div id="spectator-hud-status" class="text-[11px] font-bold text-amber-300 mt-0.5">Esperando respuesta...</div>
+        </div>
+
+        <!-- Bottom subtle stage ambient gradient glow -->
+        <div class="absolute bottom-1 w-2/3 h-5 bg-blue-500/10 rounded-full blur-xl pointer-events-none"></div>
       </div>
-      <span class="text-[11px] font-extrabold px-2.5 py-0.5 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-100" id="spectator-hud-category">Materia</span>
+      <!-- END: Center Action Canvas -->
     </div>
-    <p class="text-xs sm:text-sm font-extrabold text-slate-800 leading-snug" id="spectator-hud-question">Esperando pregunta...</p>
-    <div class="flex items-center justify-between gap-2 text-xs font-bold text-slate-600 bg-slate-50 px-3 py-1.5 rounded-xl border border-slate-100" id="spectator-hud-status">
-      <span class="flex items-center gap-1.5"><span class="animate-spin text-indigo-600">⏳</span> <span>Pensando respuesta...</span></span>
-    </div>
-  </div>
+  </section>
+  <!-- END: BoardPerimeterCircuit -->
 
-  <!-- Floating Result Toast for Dice Roll -->
-  <div id="resultFloatingToast" class="opacity-0 scale-90 transition-all duration-300 pointer-events-none absolute top-3 sm:top-5 z-20 bg-indigo-900 text-white font-black text-xs sm:text-sm px-4 py-2 rounded-2xl shadow-xl flex items-center gap-2">
-    <span>🎲</span>
-    <span id="toastValue">¡Sacaste un 5!</span>
-  </div>
-  <!-- Active turn headline notification -->
-  <div class="inline-flex items-center gap-2 bg-white px-5 py-2 rounded-full shadow-md border border-slate-200/80 text-xs sm:text-sm font-black text-slate-800 mb-2 sm:mb-4 transition-all select-none" data-purpose="turn-indicator-pill" id="turnPill">
-    <span class="w-3 h-3 rounded-full bg-emerald-500 animate-pulse"></span>
-    <span>Es el turno de <span class="text-indigo-600 font-black">Ger</span> 💻</span>
-  </div>
-
-  <!-- 3D Realistic Playful Dice Component (Centered) -->
-  <div class="relative flex items-center justify-center my-3 sm:my-5">
-    <!-- 3D Realistic Playful Dice Component -->
-    <div class="relative group cursor-pointer dice-container-perspective" data-purpose="3d-dice-component" id="diceClickArea" title="Haz clic para tirar el dado">
-      <div class="absolute -bottom-3 left-1/2 -translate-x-1/2 w-16 md:w-24 h-3 sm:h-5 bg-indigo-950/20 rounded-full blur-md group-hover:scale-95 transition-all" id="diceShadow"></div>
-      <div class="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 lg:w-28 lg:h-28 bg-gradient-to-b from-white via-slate-50 to-slate-100 rounded-2xl md:rounded-3xl border-2 md:border-4 border-slate-200 shadow-xl flex flex-col justify-between p-3 md:p-4 select-none" id="diceCubeFace">
-        <div class="flex justify-between w-full h-3 sm:h-4">
-          <span class="dice-dot" id="dot-tl"></span>
-          <span class="dice-dot opacity-0" id="dot-tc"></span>
-          <span class="dice-dot" id="dot-tr"></span>
-        </div>
-        <div class="flex justify-between w-full h-3 sm:h-4 items-center">
-          <span class="dice-dot opacity-0" id="dot-ml"></span>
-          <span class="dice-dot" id="dot-mc"></span>
-          <span class="dice-dot opacity-0" id="dot-mr"></span>
-        </div>
-        <div class="flex justify-between w-full h-3 sm:h-4">
-          <span class="dice-dot" id="dot-bl"></span>
-          <span class="dice-dot opacity-0" id="dot-bc"></span>
-          <span class="dice-dot" id="dot-br"></span>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Giant 3D Roll Button -->
-  <div class="mt-2 sm:mt-3 flex flex-col items-center">
-    <button class="bg-gradient-to-r from-blue-600 via-indigo-600 to-indigo-700 hover:from-blue-500 hover:to-indigo-600 text-white font-black text-lg sm:text-xl md:text-2xl px-8 py-3 md:px-14 md:py-4 rounded-2xl md:rounded-3xl border-b-[6px] md:border-b-[8px] border-indigo-950 shadow-[0_10px_20px_rgba(30,27,75,0.35)] active:translate-y-1.5 active:border-b-[2px] active:shadow-md transition-all duration-100 flex items-center gap-3 tracking-wider cursor-pointer select-none" data-purpose="roll-dice-cta" id="rollDiceBtn">
-      <span class="text-2xl md:text-3xl inline-block" id="btnIcon">🎲</span>
-      <span id="btnText">¡TIRAR DADO!</span>
-    </button>
-    <p class="text-xs md:text-sm font-bold text-slate-500 mt-2.5 flex items-center gap-1.5">
-      <span id="helperIcon">🎯</span> <span id="helperMessage">Turno de Ger. ¡Tirá el dado para avanzar por el tablero!</span>
-    </p>
-  </div>
-</div>
-</div>
-
-            <!-- END: Board Track -->
-        </section>
-        <!-- END: MainGameBoardArea -->
-
-    </main>
-    <!-- END: GameAreaContainer -->
-
-    <!-- BEGIN: BottomStatusBar (Stitch) -->
-    <footer class="max-w-[1540px] w-full mx-auto mt-4 px-3 py-2 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-400 font-semibold gap-2" data-purpose="footer-status-bar">
+  <!-- BEGIN: RightSidebar -->
+  <aside class="xl:col-span-3 flex flex-col gap-4 order-2" data-purpose="player-subject-sidebar">
+    <!-- Player & Ranking Card -->
+    <div class="clay-card rounded-3xl p-5" data-purpose="rankings-card">
+      <div class="flex items-center justify-between mb-3.5">
         <div class="flex items-center gap-2">
-            <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
-            <span>Servidor sincronizado: <strong>carreradelsaber.netlify.app</strong></span>
+          <span class="text-2xl">🏆</span>
+          <h2 class="text-lg font-extrabold text-[#172554] tracking-tight">Posiciones y Medallas</h2>
         </div>
-        <div class="flex items-center gap-4">
-            <span id="footer-fullscreen" class="hover:text-slate-600 transition-colors cursor-pointer">Pantalla Completa ⛶</span>
-            <span id="footer-restart" class="hover:text-slate-600 transition-colors cursor-pointer">Reiniciar Partida 🔄</span>
-            <span class="bg-slate-900 text-white text-[10px] font-extrabold px-2 py-0.5 rounded flex items-center gap-1">
-                Powered by Netlify
-            </span>
-        </div>
-    </footer>
-    <!-- END: BottomStatusBar -->
+        <span class="text-[11px] font-bold bg-slate-100 text-slate-600 px-2.5 py-1 rounded-full border border-slate-200" id="sidebar-players-count">2 Jugadores</span>
+      </div>
+      <div id="scoreboard-list" class="flex flex-col gap-3"></div>
+    </div>
 
-    <!-- ========================================================================= -->
-    <!-- MODAL DE PREGUNTAS (DISEÑO STITCH PULIDO) -->
-    <!-- ========================================================================= -->
-    <div id="question-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center p-4">
+    <!-- Subject Legends Card -->
+    <div class="clay-card rounded-3xl p-5" data-purpose="subjects-legend-card">
+      <div class="flex items-center gap-2 mb-3.5">
+        <span class="text-lg">📐</span>
+        <h2 class="text-xs font-black tracking-wider text-slate-700 uppercase" id="legend-grade-label">MATERIAS DE 6.° GRADO</h2>
+      </div>
+      <!-- Subject Pills Grid -->
+      <div class="grid grid-cols-2 gap-2.5 text-xs font-extrabold">
+        <!-- Matemática -->
+        <div class="bg-[#EBF3FF] border border-blue-200 text-[#1E56B6] rounded-xl py-2 px-3 flex items-center gap-2 shadow-2xs">
+          <svg class="w-5 h-5 flex-shrink-0 text-blue-600" fill="none" viewBox="0 0 24 24">
+            <path d="M12 2v3m-5 17l4-15 4 15m-7-6h6" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2"></path>
+            <circle cx="12" cy="5" fill="#FBBF24" r="2" stroke="#D97706" stroke-width="1.5"></circle>
+          </svg>
+          <span>Matemática</span>
+        </div>
+        <!-- Lengua -->
+        <div class="bg-[#FFEFEF] border border-rose-200 text-[#D9383A] rounded-xl py-2 px-3 flex items-center gap-2 shadow-2xs">
+          <svg class="w-5 h-5 flex-shrink-0 text-[#E11D48]" fill="none" viewBox="0 0 24 24">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M4 19.5A2.5 2.5 0 0 0 6.5 22H20V4H6.5A2.5 2.5 0 0 0 4 6.5v13z" fill="#FFF" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+            <path d="M12 4v13" stroke="#FDA4AF" stroke-linecap="round" stroke-width="1.8"></path>
+          </svg>
+          <span>Lengua</span>
+        </div>
+        <!-- C. Naturales -->
+        <div class="bg-[#EBF9F1] border border-emerald-200 text-[#0F8649] rounded-xl py-2 px-3 flex items-center gap-2 shadow-2xs">
+          <svg class="w-5 h-5 flex-shrink-0 text-[#16A34A]" fill="none" viewBox="0 0 24 24">
+            <path d="M10 2h4m-3 0v6l-5 9.5A2 2 0 0 0 7.7 21h8.6a2 2 0 0 0 1.7-3.5L13 8V2" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+            <path d="M8 15c2 0 3-1.5 5 0s3 0 3 0" stroke="#86EFAC" stroke-linecap="round" stroke-width="2"></path>
+          </svg>
+          <span>C. Naturales</span>
+        </div>
+        <!-- C. Sociales -->
+        <div class="bg-[#FFF4E5] border border-amber-200 text-[#C66900] rounded-xl py-2 px-3 flex items-center gap-2 shadow-2xs">
+          <svg class="w-5 h-5 flex-shrink-0 text-[#EA580C]" fill="none" viewBox="0 0 24 24">
+            <circle cx="12" cy="11" fill="#60A5FA" r="7" stroke="currentColor" stroke-width="2"></circle>
+            <path d="M9 10c1 0 2-2 3-1s1.5 2.5 3 2" stroke="#4ADE80" stroke-linecap="round" stroke-width="2"></path>
+            <path d="M12 18v3m-4 0h8" stroke="currentColor" stroke-linecap="round" stroke-width="2"></path>
+          </svg>
+          <span>C. Sociales</span>
+        </div>
+        <!-- Ingenio y Cultura -->
+        <div class="col-span-2 bg-[#F5EEFF] border border-purple-200 text-[#7925C7] rounded-xl py-2 px-3 flex items-center justify-center gap-2 shadow-2xs">
+          <svg class="w-5 h-5 flex-shrink-0 text-[#9333EA]" fill="none" viewBox="0 0 24 24">
+            <path d="M9 18h6m-4 3h2m-4-10a5 5 0 1 1 8 4c-.7.6-1.5 1.5-1.5 3h-5c0-1.5-.8-2.4-1.5-3a4.98 4.98 0 0 1 0-4z" fill="#FEF08A" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+          </svg>
+          <span>Ingenio y Cultura</span>
+        </div>
+      </div>
+      <!-- Special Tiles Markers -->
+      <div class="mt-3.5 pt-3 border-t border-slate-100 flex flex-col gap-1.5 text-xs font-black text-slate-700">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-1.5">
+            <span class="text-base">👑</span>
+            <span class="text-[11px]">Casillero Corona / Medalla</span>
+          </div>
+          <span class="text-[11px] font-bold text-slate-400">26 casillas</span>
+        </div>
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-1.5">
+            <span class="text-base">🃏</span>
+            <span class="text-[11px]">Casillero Comodín (#5 y #18)</span>
+          </div>
+          <span class="text-[10px] font-extrabold text-purple-600 bg-purple-50 px-2 py-0.5 rounded-full border border-purple-200">Elegí materia</span>
+        </div>
+      </div>
+    </div>
+  </aside>
+  <!-- END: RightSidebar -->
+</main>
+<!-- END: GameWorkspaceGrid -->
+
+<!-- BEGIN: BottomStatusFooter -->
+<footer class="w-full max-w-[1720px] mx-auto mt-3 pt-2 text-center text-xs font-semibold text-slate-400 flex flex-wrap items-center justify-between gap-2" data-purpose="bottom-footer">
+  <div>Carrera del Saber © Educación Primaria Interactiva</div>
+  <div class="flex items-center gap-3">
+    <span>Tablero Oficial de 26 Casilleros</span>
+    <span>•</span>
+    <span class="text-emerald-600 font-bold">Conexión Segura en Tiempo Real</span>
+  </div>
+</footer>
+<!-- END: BottomStatusFooter -->
+
+<!-- BEGIN: Modals -->
+<div id="question-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center p-4">
         <div class="w-full max-w-xl bg-white rounded-3xl overflow-hidden shadow-2xl border border-white transform transition-all animate-in fade-in zoom-in duration-200">
             <!-- Modal Header -->
             <div id="modal-header" class="p-5 text-white flex items-center justify-between bg-blue-600">
@@ -2213,7 +1263,10 @@
 
     <!-- Scripts del Juego -->
     <!-- Firebase Realtime Database SDK (Compat v10) -->
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+<!-- END: Modals -->
+
+<!-- BEGIN: Scripts -->
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
     <script src="firebase-config.js"></script>
     <script src="questions.js"></script>
@@ -2374,5 +1427,7 @@
         </div>
     </div>
 
+</body>
+</html>
 </body>
 </html>

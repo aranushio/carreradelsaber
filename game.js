@@ -284,43 +284,43 @@ const SUBJECT_THEME = {
         headerBg: '#2563eb',
         name: 'Matemática',
         short: 'Mat',
-        icon: `<svg class="w-5 h-5 drop-shadow-xs" fill="none" viewBox="0 0 32 32"><path d="M4 27 L28 27 L4 3 Z" fill="url(#metal-bezel)" stroke="#1d4ed8" stroke-width="1.2"></path><path d="M8 24 L21 24 L8 11 Z" fill="#ffffff" fill-opacity="0.75" stroke="#3b82f6" stroke-width="0.8"></path></svg>`,
-        activeRing: 'bg-gradient-to-b from-blue-50 to-blue-100/70 border border-blue-200 text-blue-700 shadow-2xs'
+        icon: `<svg class="w-4 h-4 text-blue-600" fill="none" viewBox="0 0 24 24"><path d="M12 2v3m-5 17l4-15 4 15m-7-6h6" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.3"></path></svg>`,
+        activeRing: 'bg-white/90 border border-blue-200 text-blue-700 shadow-2xs'
     },
     lengua: {
         headerBg: '#dc2626',
         name: 'Lengua',
         short: 'Len',
-        icon: `<svg class="w-5 h-5 drop-shadow-xs" fill="none" viewBox="0 0 32 32"><path d="M3 24 C8 21 13 23 16 26 C19 23 24 21 29 24 L29 8 C24 5 19 7 16 10 C13 7 8 5 3 8 Z" fill="url(#book-leather)" stroke="#7f1d1d" stroke-width="1"></path></svg>`,
-        activeRing: 'bg-gradient-to-b from-red-50 to-red-100 ring-1.5 ring-red-400 text-red-600 font-black shadow-2xs'
+        icon: `<svg class="w-4 h-4 text-rose-500" fill="none" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M4 19.5A2.5 2.5 0 0 0 6.5 22H20V4H6.5A2.5 2.5 0 0 0 4 6.5v13z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>`,
+        activeRing: 'bg-white/90 border border-rose-200 text-rose-600 shadow-2xs'
     },
     naturales: {
         headerBg: '#16a34a',
         name: 'Ciencias Naturales',
         short: 'Nat',
-        icon: `<svg class="w-5 h-5 drop-shadow-xs" fill="none" viewBox="0 0 32 32"><path d="M16 28 C16 19 16 11 16 6 C16 6 22 7 24 13 C25.5 17.5 22 22 16 23" fill="url(#plant-leaf-3d)" stroke="#14532d" stroke-width="0.8"></path></svg>`,
-        activeRing: 'bg-gradient-to-b from-emerald-50 to-emerald-100 ring-1.5 ring-emerald-500 text-emerald-700 font-black shadow-2xs'
+        icon: `<svg class="w-4 h-4 text-emerald-600" fill="none" viewBox="0 0 24 24"><path d="M10 2h4m-3 0v6l-5 9.5A2 2 0 0 0 7.7 21h8.6a2 2 0 0 0 1.7-3.5L13 8V2" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>`,
+        activeRing: 'bg-white/90 border border-emerald-200 text-emerald-700 shadow-2xs'
     },
     sociales: {
         headerBg: '#ea580c',
         name: 'Ciencias Sociales',
         short: 'Soc',
-        icon: `<svg class="w-5 h-5 drop-shadow-xs" fill="none" viewBox="0 0 32 32"><circle cx="16" cy="14" fill="url(#globe-sphere-3d)" r="10" stroke="#9a3412" stroke-width="1"></circle></svg>`,
-        activeRing: 'bg-gradient-to-b from-orange-50 to-orange-100 ring-1.5 ring-orange-400 text-orange-600 font-black shadow-2xs'
+        icon: `<svg class="w-4 h-4 text-amber-500" fill="none" viewBox="0 0 24 24"><circle cx="12" cy="11" r="7" stroke="currentColor" stroke-width="2"></circle><path d="M12 18v3m-4 0h8" stroke="currentColor" stroke-linecap="round" stroke-width="2"></path></svg>`,
+        activeRing: 'bg-white/90 border border-amber-200 text-amber-700 shadow-2xs'
     },
     ingenio: {
         headerBg: '#9333ea',
         name: 'Ingenio y Cultura',
         short: 'Ing',
-        icon: `<svg class="w-5 h-5 drop-shadow-xs" fill="none" viewBox="0 0 32 32"><path d="M11 14 C11 8 21 8 21 14 C21 17.5 18 19 18 22 L14 22 C14 19 11 17.5 11 14 Z" fill="url(#bulb-glow)" stroke="#a855f7" stroke-width="1.3"></path></svg>`,
-        activeRing: 'bg-gradient-to-b from-purple-50 to-purple-100 ring-1.5 ring-purple-400 text-purple-700 font-black shadow-2xs'
+        icon: `<svg class="w-4 h-4 text-purple-600" fill="none" viewBox="0 0 24 24"><path d="M9 18h6m-4 3h2m-4-10a5 5 0 1 1 8 4c-.7.6-1.5 1.5-1.5 3h-5c0-1.5-.8-2.4-1.5-3a4.98 4.98 0 0 1 0-4z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>`,
+        activeRing: 'bg-white/90 border border-purple-200 text-purple-700 shadow-2xs'
     },
     comodin: {
         headerBg: '#6366f1',
         name: 'Comodín',
         short: 'Com',
-        icon: `<span class="text-xl">🃏</span>`,
-        activeRing: 'bg-gradient-to-b from-purple-50 to-indigo-100 ring-1.5 ring-indigo-400 text-indigo-700 font-black shadow-2xs'
+        icon: `<span class="text-base">🃏</span>`,
+        activeRing: 'bg-gradient-to-b from-purple-50 to-indigo-100 ring-1.5 ring-indigo-400 text-indigo-700 shadow-2xs'
     }
 };
 
@@ -709,19 +709,22 @@ class CarreraDelSaberApp {
     }
 
     renderDiceFace(val) {
-        const activeKeys = this.dicePatterns[val] || this.dicePatterns[1];
-        Object.keys(this.diceDots).forEach(key => {
-            const el = this.diceDots[key];
-            if (el) {
-                if (activeKeys.includes(key)) {
-                    el.classList.remove('opacity-0');
-                    el.classList.add('opacity-100');
-                } else {
-                    el.classList.add('opacity-0');
-                    el.classList.remove('opacity-100');
-                }
-            }
-        });
+        const diceCube = document.getElementById('diceCubeFace') || document.getElementById('diceCube');
+        if (diceCube) {
+            const diceFaces = [
+                { value: 1, x: 0, y: 0 },
+                { value: 2, x: 90, y: 0 },
+                { value: 3, x: 0, y: -90 },
+                { value: 4, x: 0, y: 90 },
+                { value: 5, x: -90, y: 0 },
+                { value: 6, x: 0, y: 180 }
+            ];
+            const selected = diceFaces.find(f => f.value === val) || diceFaces[0];
+            this.fullRotations = (this.fullRotations || 2) + 2;
+            const finalX = selected.x + (360 * this.fullRotations);
+            const finalY = selected.y + (360 * this.fullRotations);
+            diceCube.style.transform = `rotateX(${finalX}deg) rotateY(${finalY}deg)`;
+        }
     }
 
     createBurst() {
@@ -835,11 +838,11 @@ class CarreraDelSaberApp {
         if (mobileContainer) {
             mobileContainer.innerHTML = '';
             if (this.players.length === 2) {
-                mobileContainer.className = 'lg:hidden w-full max-w-md mx-auto grid grid-cols-2 gap-2 shrink-0';
+                mobileContainer.className = 'xl:hidden w-full max-w-md mx-auto grid grid-cols-2 gap-2 shrink-0';
             } else if (this.players.length === 3) {
-                mobileContainer.className = 'lg:hidden w-full max-w-md mx-auto grid grid-cols-3 gap-1.5 shrink-0';
+                mobileContainer.className = 'xl:hidden w-full max-w-md mx-auto grid grid-cols-3 gap-1.5 shrink-0';
             } else {
-                mobileContainer.className = 'lg:hidden w-full max-w-md mx-auto grid grid-cols-2 sm:grid-cols-4 gap-1.5 shrink-0';
+                mobileContainer.className = 'xl:hidden w-full max-w-md mx-auto grid grid-cols-2 sm:grid-cols-4 gap-1.5 shrink-0';
             }
         }
 
@@ -848,12 +851,12 @@ class CarreraDelSaberApp {
         this.players.forEach(p => {
             const isActive = p.id === this.currentPlayerIndex;
 
-            // 1. Desktop card
+            // 1. Desktop card matching Stitch Redesign
             if (desktopContainer) {
                 const article = document.createElement('article');
                 article.className = isActive
-                    ? 'p-3 rounded-2xl border-2 border-blue-500 bg-blue-50/60 relative shadow-md transition-all'
-                    : 'p-3 rounded-2xl border border-slate-200 bg-white shadow-xs transition-all';
+                    ? 'bg-gradient-to-r from-blue-50/90 to-indigo-50/60 border-2 border-blue-400 rounded-2xl p-3.5 mb-2 shadow-sm relative transition-all'
+                    : 'bg-white border border-slate-200 rounded-2xl p-3.5 mb-2 shadow-sm transition-all';
 
                 let badgesHtml = '';
                 badgeKeys.forEach(k => {
@@ -862,61 +865,61 @@ class CarreraDelSaberApp {
 
                     if (has) {
                         badgesHtml += `
-                            <div class="flex-1 flex flex-col items-center p-1 rounded-lg ${meta.activeRing} font-black shadow-2xs relative" title="${meta.name} lograda">
+                            <div class="bg-white/90 border border-blue-200/80 rounded-xl py-1.5 px-1 flex flex-col items-center justify-center shadow-2xs hover:bg-white transition relative" title="${meta.name} lograda">
                                 ${meta.icon}
-                                <span class="text-[8px] font-extrabold mt-0.5">${meta.short}</span>
-                                <span class="absolute -top-1 -right-1 text-[9px]">✨</span>
+                                <span class="text-[10px] font-bold text-slate-700">${meta.short}</span>
+                                <span class="absolute -top-1 -right-1 text-[9px]">⭐</span>
                             </div>
                         `;
                     } else {
                         badgesHtml += `
-                            <div class="flex-1 flex flex-col items-center p-1 rounded-lg opacity-35 grayscale bg-slate-100" title="${meta.name} pendiente">
+                            <div class="bg-slate-50 border border-slate-200/80 rounded-xl py-1.5 px-1 flex flex-col items-center justify-center shadow-2xs opacity-40 grayscale" title="${meta.name} pendiente">
                                 ${meta.icon}
-                                <span class="text-[8px] font-medium mt-0.5">${meta.short}</span>
+                                <span class="text-[10px] font-bold text-slate-400">${meta.short}</span>
                             </div>
                         `;
                     }
                 });
 
-                article.className = isActive
-                    ? 'p-3.5 rounded-2xl border-2 border-blue-500 bg-blue-50/70 relative shadow-sm transition-all'
-                    : 'p-3.5 rounded-2xl border border-slate-200 bg-white/95 shadow-2xs transition-all';
-
                 article.innerHTML = `
-                    ${isActive ? `
-                    <div class="absolute -top-2.5 right-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-black text-[10px] tracking-wider px-2.5 py-0.5 rounded-full uppercase turn-glow shadow-xs">
-                        Turno
-                    </div>` : ''}
-
-                    <div class="flex items-center gap-3 mb-2">
-                        <div class="w-12 h-12 rounded-full ${p.avatarBg} border-2 border-white shadow-sm flex items-center justify-center text-2xl relative shrink-0">
-                            ${p.avatar}
-                            ${isActive ? '<span class="absolute -bottom-1 -right-1 text-xs">⭐</span>' : ''}
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="w-12 h-12 rounded-2xl ${p.avatarBg || 'bg-amber-100'} border border-amber-300 flex items-center justify-center text-2xl shadow-inner relative shrink-0">
+                                ${p.avatar}
+                                ${isActive ? '<span class="absolute -bottom-1 -right-1 text-xs">⭐</span>' : ''}
+                            </div>
+                            <div class="min-w-0">
+                                <div class="flex items-center gap-2">
+                                    <h3 class="font-black text-slate-900 text-base truncate max-w-[110px]">${p.name}</h3>
+                                </div>
+                                <p class="text-xs font-extrabold ${isActive ? 'text-blue-600' : 'text-slate-500'}">
+                                    ${p.badges.size} / 5 Insignias maestras
+                                </p>
+                            </div>
                         </div>
-                        <div class="min-w-0 flex-1">
-                            <div class="flex items-center justify-between">
-                                <h3 class="font-black text-slate-900 text-sm truncate max-w-[120px]">${p.name}</h3>
-                                <span class="text-xs font-bold text-slate-500" id="player-tile-tag-${p.id}">
-                                    Casilla #${p.position + 1}
-                                </span>
-                            </div>
-                            <!-- Barra de progreso hacia canje de 300 puntos -->
-                            <div class="mt-1 flex flex-col gap-0.5 w-full">
-                                <div class="flex items-center justify-between text-[10px] font-bold text-slate-500">
-                                    <span class="flex items-center gap-1">⭐ Puntos: <strong class="text-indigo-700">${p.score}</strong></span>
-                                    <span class="text-amber-700 font-extrabold text-[9px]">${p.score % 300}/300 pts</span>
-                                </div>
-                                <div class="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden border border-slate-200">
-                                    <div class="h-full bg-gradient-to-r from-amber-400 to-amber-500 rounded-full transition-all duration-300" style="width: ${Math.min(100, ((p.score % 300) / 300) * 100)}%"></div>
-                                </div>
-                            </div>
-                            <p class="text-xs font-black ${isActive ? 'text-blue-600' : 'text-blue-500/90'} mt-0.5">
-                                ${p.badges.size} / 5 Insignias maestras
-                            </p>
+                        <div class="flex flex-col items-end gap-1 shrink-0">
+                            ${isActive ? `
+                            <span class="text-[10px] font-black tracking-wider bg-blue-600 text-white px-2.5 py-0.5 rounded-full uppercase shadow-xs">TURNO</span>
+                            ` : ''}
+                            <span class="text-xs font-bold text-slate-500" id="player-tile-tag-${p.id}">
+                                Casillero #${p.position + 1}
+                            </span>
                         </div>
                     </div>
 
-                    <div class="${isActive ? 'bg-white/90 border-blue-100' : 'bg-slate-50 border-slate-100'} p-1 rounded-lg border flex items-center justify-between gap-0.5 shadow-2xs">
+                    <!-- Barra de progreso hacia canje de 300 puntos -->
+                    <div class="mt-2.5 flex flex-col gap-0.5 w-full">
+                        <div class="flex items-center justify-between text-[10px] font-bold text-slate-500">
+                            <span class="flex items-center gap-1">⭐ Puntos: <strong class="text-indigo-700 font-extrabold">${p.score}</strong></span>
+                            <span class="text-amber-700 font-extrabold text-[9px]">${p.score % 300}/300 pts</span>
+                        </div>
+                        <div class="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden border border-slate-200">
+                            <div class="h-full bg-gradient-to-r from-amber-400 to-amber-500 rounded-full transition-all duration-300" style="width: ${Math.min(100, ((p.score % 300) / 300) * 100)}%"></div>
+                        </div>
+                    </div>
+
+                    <!-- 5 Subject Insignia Medal Slots -->
+                    <div class="mt-2.5 pt-2 border-t ${isActive ? 'border-blue-100/90' : 'border-slate-100'} grid grid-cols-5 gap-1.5 text-center">
                         ${badgesHtml}
                     </div>
                 `;
@@ -927,7 +930,7 @@ class CarreraDelSaberApp {
             if (mobileContainer) {
                 const mobArticle = document.createElement('article');
                 mobArticle.className = isActive
-                    ? 'p-2 rounded-2xl border-2 border-blue-500 bg-blue-50/50 shadow-xs relative flex flex-col justify-between'
+                    ? 'p-2 rounded-2xl border-2 border-blue-500 bg-blue-50/70 shadow-xs relative flex flex-col justify-between'
                     : 'p-2 rounded-2xl border border-slate-200 bg-white shadow-xs flex flex-col justify-between';
 
                 let miniBadges = '';
@@ -988,12 +991,16 @@ class CarreraDelSaberApp {
     }
 
     updatePawnPositions() {
-        // Limpiar todas las ranuras de fichas en los 28 casilleros
+        // Limpiar todas las ranuras de fichas en los 26 casilleros
         for (let i = 1; i <= 26; i++) {
             const slot = document.getElementById(`pawns-tile-${i}`);
             if (slot) slot.innerHTML = '';
             const t = document.getElementById(`tile-${i}`);
-            if (t) t.classList.remove('ring-4', 'ring-blue-500', 'scale-[1.03]');
+            if (t) {
+                t.classList.remove('tile-active-target', 'ring-4', 'ring-blue-500', 'scale-[1.03]');
+                const oldTooltip = t.querySelector('.stitch-target-tooltip');
+                if (oldTooltip) oldTooltip.remove();
+            }
         }
 
         // Colocar cada jugador en su casillero
@@ -1002,18 +1009,28 @@ class CarreraDelSaberApp {
             const slot = document.getElementById(`pawns-tile-${tileNum}`);
             if (slot) {
                 const token = document.createElement('div');
-                token.className = `bg-gradient-to-tr ${p.tokenGradient} text-white rounded-full p-0.5 md:p-1.5 shadow-token border md:border-2 border-white flex items-center justify-center text-[10px] md:text-sm transition-all`;
-                token.textContent = p.avatar;
+                const isActive = p.id === this.currentPlayerIndex;
+                token.className = isActive
+                    ? `bg-gradient-to-r from-amber-400 to-yellow-300 text-slate-900 text-[10px] font-black px-2 py-0.5 rounded-full shadow-lg border-2 border-white flex items-center gap-1 token-bouncing z-30 ring-2 ring-yellow-400 select-none`
+                    : `bg-sky-400 text-slate-900 text-[10px] font-black px-1.5 py-0.5 rounded-full shadow border-2 border-white flex items-center gap-0.5 select-none`;
+                token.innerHTML = `<span>${p.avatar}</span><span>${p.name}</span>`;
                 token.title = `${p.name} (Casillero #${tileNum})`;
                 slot.appendChild(token);
             }
         });
 
-        // Resaltar casillero del jugador actual
-        const activeTileNum = this.players[this.currentPlayerIndex].position + 1;
-        const activeTileEl = document.getElementById(`tile-${activeTileNum}`);
-        if (activeTileEl) {
-            activeTileEl.classList.add('ring-4', 'ring-blue-500', 'scale-[1.03]');
+        // Resaltar casillero del jugador actual con estilo Stitch
+        if (this.players && this.players[this.currentPlayerIndex]) {
+            const activePlayer = this.players[this.currentPlayerIndex];
+            const activeTileNum = activePlayer.position + 1;
+            const activeTileEl = document.getElementById(`tile-${activeTileNum}`);
+            if (activeTileEl) {
+                activeTileEl.classList.add('tile-active-target');
+                const tooltip = document.createElement('div');
+                tooltip.className = 'stitch-target-tooltip absolute -top-7 left-1/2 transform -translate-x-1/2 bg-yellow-400 text-slate-900 font-black text-[9px] px-2 py-0.5 rounded-full shadow-md flex items-center gap-1 whitespace-nowrap border border-white z-40 animate-bounce pointer-events-none select-none';
+                tooltip.innerHTML = '<span>🎯 ¡Aquí!</span>';
+                activeTileEl.appendChild(tooltip);
+            }
         }
     }
 
@@ -1024,26 +1041,23 @@ class CarreraDelSaberApp {
         this.audio.init();
 
         const rollBtn = document.getElementById('rollDiceBtn');
-        const diceCube = document.getElementById('diceCubeFace');
-        const diceShadow = document.getElementById('diceShadow');
+        const diceCube = document.getElementById('diceCubeFace') || document.getElementById('diceCube');
         const btnText = document.getElementById('btnText');
         const btnIcon = document.getElementById('btnIcon');
         const turnPill = document.getElementById('turnPill');
         const helperMsg = document.getElementById('helperMessage');
         const helperIcon = document.getElementById('helperIcon');
-        const resultToast = document.getElementById('resultFloatingToast');
-        const toastValue = document.getElementById('toastValue');
-        const lastRollLog = document.getElementById('lastRollLog');
-        const lastRollStatus = document.getElementById('lastRollStatus');
+        const resultToast = document.getElementById('resultFloatingToast') || document.getElementById('resultToast');
+        const toastValue = document.getElementById('toastValue') || document.getElementById('toastDiceHeader');
+        const lastRollLog = document.getElementById('lastRollLog') || document.getElementById('toastSubtext');
 
         if (rollBtn) {
             rollBtn.disabled = true;
-            rollBtn.classList.remove('shadow-3d-btn');
             rollBtn.classList.add('opacity-80', 'cursor-not-allowed', 'translate-y-1');
         }
         if (btnText) btnText.textContent = 'Tirando...';
         if (btnIcon) {
-            btnIcon.innerHTML = `<svg class="animate-spin h-5 w-5 text-white inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path></svg>`;
+            btnIcon.innerHTML = `<svg class="animate-spin h-5 w-5 text-white inline-block mr-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path></svg>`;
         }
 
         if (turnPill) {
@@ -1053,35 +1067,32 @@ class CarreraDelSaberApp {
         if (helperMsg) helperMsg.textContent = '¡El dado está en el aire! Crucemos los dedos...';
 
         if (resultToast) {
-            resultToast.classList.add('opacity-0', 'scale-90');
+            resultToast.style.opacity = '0.35';
+            resultToast.style.transform = 'scale(0.95)';
         }
 
-        // Animación 3D del cubo y su sombra
+        // Animación 3D del cubo
         if (diceCube) {
             diceCube.classList.remove('dice-rolling');
             void diceCube.offsetWidth;
             diceCube.classList.add('dice-rolling');
         }
-        if (diceShadow) {
-            diceShadow.classList.remove('shadow-rolling');
-            void diceShadow.offsetWidth;
-            diceShadow.classList.add('shadow-rolling');
-        }
 
         let rollStep = 0;
-        const totalSteps = 12;
+        const totalSteps = 10;
         const shuffleInterval = setInterval(() => {
             rollStep++;
-            const randomFace = Math.floor(Math.random() * 6) + 1;
-            this.renderDiceFace(randomFace);
             this.audio.playClack(300 + rollStep * 20, 0.035);
-
             if (rollStep >= totalSteps) {
                 clearInterval(shuffleInterval);
             }
-        }, 80);
+        }, 85);
 
         setTimeout(() => {
+            if (diceCube) {
+                diceCube.classList.remove('dice-rolling');
+            }
+
             const finalNumber = Math.floor(Math.random() * 6) + 1;
             this.renderDiceFace(finalNumber);
 
@@ -1093,16 +1104,17 @@ class CarreraDelSaberApp {
             if (toastValue) {
                 toastValue.textContent = `¡Sacaste un ${finalNumber}! Avanzas ${finalNumber} casillas`;
             }
-            if (resultToast) {
-                resultToast.classList.remove('opacity-0', 'scale-90');
-                resultToast.classList.add('opacity-100', 'scale-100');
-            }
-
             if (lastRollLog) {
-                lastRollLog.innerHTML = `Último tiro: <strong>${currPlayer.name} sacó ${finalNumber}</strong>`;
+                const targetTile = (currPlayer.position + finalNumber) % 26 + 1;
+                const meta = TILES_METADATA[targetTile - 1];
+                lastRollLog.innerHTML = `¡${currPlayer.name} avanza hacia <strong class="text-amber-300 font-extrabold">${meta.label} (Casilla #${meta.id})</strong>!`;
             }
-            if (lastRollStatus) {
-                lastRollStatus.textContent = '¡Avanzando por la pista!';
+            if (resultToast) {
+                resultToast.style.opacity = '1';
+                resultToast.style.transform = 'scale(1)';
+                resultToast.classList.remove('pop-in-toast');
+                void resultToast.offsetWidth;
+                resultToast.classList.add('pop-in-toast');
             }
 
             if (this.isOnline && this.onlineManager) {
@@ -1114,7 +1126,7 @@ class CarreraDelSaberApp {
                 this.movePlayer(finalNumber);
             }, 600);
 
-        }, 1150);
+        }, 1100);
     }
 
     movePlayer(steps) {
@@ -1519,45 +1531,30 @@ class CarreraDelSaberApp {
     // =========================================================================
     showRemoteRoll(rollerId, diceValue) {
         const roller = this.players.find(p => p.id === rollerId) || this.players[this.currentPlayerIndex];
-        const diceCube = document.getElementById('diceCubeFace');
-        const diceShadow = document.getElementById('diceShadow');
+        const diceCube = document.getElementById('diceCubeFace') || document.getElementById('diceCube');
         const turnPill = document.getElementById('turnPill');
         const helperMsg = document.getElementById('helperMessage');
-        const helperIcon = document.getElementById('helperIcon');
-        const resultToast = document.getElementById('resultFloatingToast');
-        const toastValue = document.getElementById('toastValue');
+        const resultToast = document.getElementById('resultFloatingToast') || document.getElementById('resultToast');
+        const toastValue = document.getElementById('toastValue') || document.getElementById('toastDiceHeader');
+        const lastRollLog = document.getElementById('lastRollLog') || document.getElementById('toastSubtext');
 
         if (turnPill) {
-            turnPill.innerHTML = `<span class="w-2.5 h-2.5 rounded-full bg-amber-400 animate-ping"></span> ${roller.name} está rodando el dado...`;
+            turnPill.innerHTML = `<span class="w-2.5 h-2.5 rounded-full bg-amber-400 animate-ping"></span> ${roller.name} está tirando el dado...`;
         }
-        if (helperIcon) helperIcon.textContent = '🎲';
-        if (helperMsg) helperMsg.textContent = `${roller.name} tiró el dado. ¡Veamos qué saca!`;
+        if (helperMsg) {
+            helperMsg.textContent = `${roller.name} está tirando el dado en vivo...`;
+        }
 
         if (diceCube) {
             diceCube.classList.remove('dice-rolling');
             void diceCube.offsetWidth;
             diceCube.classList.add('dice-rolling');
         }
-        if (diceShadow) {
-            diceShadow.classList.remove('shadow-rolling');
-            void diceShadow.offsetWidth;
-            diceShadow.classList.add('shadow-rolling');
-        }
-
-        let rollStep = 0;
-        const totalSteps = 10;
-        const shuffleInterval = setInterval(() => {
-            rollStep++;
-            const randomFace = Math.floor(Math.random() * 6) + 1;
-            this.renderDiceFace(randomFace);
-            this.audio.playClack(300 + rollStep * 20, 0.035);
-
-            if (rollStep >= totalSteps) {
-                clearInterval(shuffleInterval);
-            }
-        }, 85);
 
         setTimeout(() => {
+            if (diceCube) {
+                diceCube.classList.remove('dice-rolling');
+            }
             this.renderDiceFace(diceValue);
             this.audio.playDingSuccess();
             this.createBurst();
@@ -1565,13 +1562,17 @@ class CarreraDelSaberApp {
             if (toastValue) {
                 toastValue.textContent = `¡${roller.name} sacó un ${diceValue}! Avanza ${diceValue} casillas`;
             }
+            if (lastRollLog) {
+                const targetTile = (roller.position + diceValue) % 26 + 1;
+                const meta = TILES_METADATA[targetTile - 1];
+                lastRollLog.innerHTML = `¡${roller.name} avanza hacia <strong class="text-amber-300 font-extrabold">${meta.label} (Casilla #${meta.id})</strong>!`;
+            }
             if (resultToast) {
-                resultToast.classList.remove('opacity-0', 'scale-90');
-                resultToast.classList.add('opacity-100', 'scale-100');
-                setTimeout(() => {
-                    resultToast.classList.remove('opacity-100', 'scale-100');
-                    resultToast.classList.add('opacity-0', 'scale-90');
-                }, 2400);
+                resultToast.style.opacity = '1';
+                resultToast.style.transform = 'scale(1)';
+                resultToast.classList.remove('pop-in-toast');
+                void resultToast.offsetWidth;
+                resultToast.classList.add('pop-in-toast');
             }
 
             setTimeout(() => {
