@@ -119,9 +119,9 @@
     /* Dice Rolling Jitter Animation */
     @keyframes rollingJitter {
       0% { transform: scale(1) translateY(0) rotateX(0deg) rotateY(0deg); }
-      25% { transform: scale(1.15) translateY(-25px) rotateX(240deg) rotateY(180deg); }
-      50% { transform: scale(1.2) translateY(-35px) rotateX(540deg) rotateY(420deg); }
-      75% { transform: scale(1.1) translateY(-15px) rotateX(720deg) rotateY(640deg); }
+      25% { transform: scale(1.08) translateY(-10px) rotateX(240deg) rotateY(180deg); }
+      50% { transform: scale(1.14) translateY(-15px) rotateX(540deg) rotateY(420deg); }
+      75% { transform: scale(1.08) translateY(-6px) rotateX(720deg) rotateY(640deg); }
       100% { transform: scale(1) translateY(0) rotateX(1080deg) rotateY(900deg); }
     }
     .dice-rolling {
@@ -194,11 +194,7 @@
       <span class="w-2.5 h-2.5 rounded-full bg-[#10B981] animate-pulse"></span>
       <span>Partida en Vivo</span>
     </div>
-    <!-- Firebase Connectivity Indicator -->
-    <div id="firebase-status-badge" class="hidden md:flex bg-[#EAF2FE] text-[#1E56B6] px-4 py-2 rounded-full items-center gap-2 shadow-sm border border-blue-200 cursor-pointer">
-      <span class="w-2.5 h-2.5 rounded-full bg-[#3B82F6]"></span>
-      <span>Servidor Firebase: Conectado</span>
-    </div>
+    
     <!-- Rules Button -->
     <button id="rulesToggleBtn" aria-label="Reglas" class="w-10 h-10 rounded-full bg-white border border-slate-200 text-slate-600 flex items-center justify-center hover:bg-slate-50 hover:text-blue-600 transition shadow-sm cursor-pointer" title="Reglas y ayuda">
       <span class="font-extrabold text-base">❓</span>
@@ -940,7 +936,7 @@
         </div>
 
         <!-- FLOATING RESULT BANNER / TOAST -->
-        <div class="pop-in-toast w-full max-w-md bg-gradient-to-r from-[#172554] via-[#1E3A8A] to-[#1E293B] text-white rounded-2xl py-2.5 px-4 shadow-xl border-2 border-indigo-400/50 mb-3 text-center relative z-20" id="resultFloatingToast">
+        <div class="hidden w-full max-w-md bg-gradient-to-r from-[#172554] via-[#1E3A8A] to-[#1E293B] text-white rounded-2xl py-2.5 px-4 shadow-xl border-2 border-indigo-400/50 mb-3 text-center relative z-20" id="resultFloatingToast">
           <div class="flex items-center justify-center gap-2 font-black text-sm sm:text-base tracking-wide text-amber-300">
             <span class="text-lg">🎲</span>
             <span id="toastValue">¡Sacaste un 6! Avanzas 6 casillas</span>
@@ -953,7 +949,7 @@
 
         <!-- Realistic 3D Dice -->
         <div class="flex items-center justify-center my-2 sm:my-3">
-          <div class="dice-container p-2 cursor-pointer filter drop-shadow-xl" id="diceClickArea" title="¡Haz click para tirar el dado!">
+          <div class="dice-container p-2 cursor-pointer filter drop-shadow-xl relative z-30" id="diceClickArea" title="¡Haz click para tirar el dado!">
             <div class="dice-cube" id="diceCubeFace">
               <!-- Face Front (Value 1: Centered Pip) -->
               <div class="dice-face dice-front">
@@ -1052,74 +1048,36 @@
   <!-- END: BoardPerimeterCircuit -->
 
   <!-- BEGIN: RightSidebar -->
-    <!-- BEGIN: RightSidebar (Ajuste vertical compacto sin scroll) -->
-  <aside class="xl:col-span-3 flex flex-col justify-between gap-2.5 max-h-[calc(100vh-140px)] order-2 select-none" data-purpose="player-subject-sidebar">
-    <!-- Player & Ranking Card -->
-    <div class="clay-card rounded-2xl p-3 sm:p-3.5 flex flex-col flex-1 min-h-0 overflow-hidden" data-purpose="rankings-card">
-      <div class="flex items-center justify-between mb-2 shrink-0">
-        <div class="flex items-center gap-1.5">
-          <span class="text-xl">🏆</span>
-          <h2 class="text-sm font-extrabold text-[#172554] tracking-tight">Posiciones y Medallas</h2>
+  <aside class="xl:col-span-3 flex flex-col h-full order-2 select-none" data-purpose="player-subject-sidebar">
+    <!-- Player & Ranking Card (Estilizada a altura completa del tablero) -->
+    <div class="clay-card rounded-3xl p-4 sm:p-5 flex flex-col flex-1 h-full shadow-xl justify-between" data-purpose="rankings-card">
+      <!-- Header -->
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100 shrink-0">
+        <div class="flex items-center gap-2.5">
+          <div class="w-9 h-9 rounded-2xl bg-amber-100 flex items-center justify-center text-xl shadow-xs border border-amber-200">
+            🏆
+          </div>
+          <div>
+            <h2 class="text-base sm:text-lg font-black text-[#172554] tracking-tight">Posiciones y Medallas</h2>
+            <p class="text-[11px] font-bold text-slate-400">Progreso e insignias en vivo</p>
+          </div>
         </div>
-        <span class="text-[10px] font-bold bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full border border-slate-200" id="sidebar-players-count">2 Jugadores</span>
+        <span class="text-xs font-black bg-blue-50 text-blue-700 px-3 py-1 rounded-full border border-blue-200/60 shadow-xs" id="sidebar-players-count">2 Jugadores</span>
       </div>
-      <div id="scoreboard-list" class="flex flex-col gap-2 overflow-y-auto pr-0.5 flex-1 min-h-0"></div>
-    </div>
 
-    <!-- Subject Legends Card -->
-    <div class="clay-card rounded-2xl p-3 sm:p-3.5 shrink-0" data-purpose="subjects-legend-card">
-      <div class="flex items-center gap-1.5 mb-2">
-        <span class="text-sm">📐</span>
-        <h2 class="text-[11px] font-black tracking-wider text-slate-700 uppercase" id="legend-grade-label">MATERIAS DE 6.° GRADO</h2>
-      </div>
-      <!-- Subject Pills Grid -->
-      <div class="grid grid-cols-2 gap-1.5 text-[11px] font-bold">
-        <!-- Matemática -->
-        <div class="bg-[#EBF3FF] border border-blue-200 text-[#1E56B6] rounded-lg py-1 px-2 flex items-center gap-1.5 shadow-2xs">
-          <svg class="w-4 h-4 flex-shrink-0 text-blue-600" fill="none" viewBox="0 0 24 24">
-            <path d="M12 2v3m-5 17l4-15 4 15m-7-6h6" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2"></path>
-            <circle cx="12" cy="5" fill="#FBBF24" r="2" stroke="#D97706" stroke-width="1.5"></circle>
-          </svg>
-          <span class="truncate">Matemática</span>
+      <!-- Scoreboard List -->
+      <div id="scoreboard-list" class="flex flex-col gap-3.5 sm:gap-4 py-3 overflow-y-auto flex-1 justify-around"></div>
+
+      <!-- Footer de la tarjeta con meta de victoria -->
+      <div class="pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-slate-500 shrink-0">
+        <div class="flex items-center gap-1.5">
+          <span>🎯</span>
+          <span>Meta: <strong class="text-indigo-600 font-extrabold">5 Insignias</strong> o <strong class="text-amber-600 font-extrabold">300 pts</strong></span>
         </div>
-        <!-- Lengua -->
-        <div class="bg-[#FFEFEF] border border-rose-200 text-[#D9383A] rounded-lg py-1 px-2 flex items-center gap-1.5 shadow-2xs">
-          <svg class="w-4 h-4 flex-shrink-0 text-[#E11D48]" fill="none" viewBox="0 0 24 24">
-            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M4 19.5A2.5 2.5 0 0 0 6.5 22H20V4H6.5A2.5 2.5 0 0 0 4 6.5v13z" fill="#FFF" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-            <path d="M12 4v13" stroke="#FDA4AF" stroke-linecap="round" stroke-width="1.8"></path>
-          </svg>
-          <span class="truncate">Lengua</span>
+        <div class="flex items-center gap-1 text-[11px] text-slate-400 font-extrabold">
+          <span>👑</span>
+          <span>26 casillas</span>
         </div>
-        <!-- C. Naturales -->
-        <div class="bg-[#EBF9F1] border border-emerald-200 text-[#0F8649] rounded-lg py-1 px-2 flex items-center gap-1.5 shadow-2xs">
-          <svg class="w-4 h-4 flex-shrink-0 text-[#16A34A]" fill="none" viewBox="0 0 24 24">
-            <path d="M10 2h4m-3 0v6l-5 9.5A2 2 0 0 0 7.7 21h8.6a2 2 0 0 0 1.7-3.5L13 8V2" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-            <path d="M8 15c2 0 3-1.5 5 0s3 0 3 0" stroke="#86EFAC" stroke-linecap="round" stroke-width="2"></path>
-          </svg>
-          <span class="truncate">C. Naturales</span>
-        </div>
-        <!-- C. Sociales -->
-        <div class="bg-[#FFF4E5] border border-amber-200 text-[#C66900] rounded-lg py-1 px-2 flex items-center gap-1.5 shadow-2xs">
-          <svg class="w-4 h-4 flex-shrink-0 text-[#EA580C]" fill="none" viewBox="0 0 24 24">
-            <circle cx="12" cy="11" fill="#60A5FA" r="7" stroke="currentColor" stroke-width="2"></circle>
-            <path d="M9 10c1 0 2-2 3-1s1.5 2.5 3 2" stroke="#4ADE80" stroke-linecap="round" stroke-width="2"></path>
-            <path d="M12 18v3m-4 0h8" stroke="currentColor" stroke-linecap="round" stroke-width="2"></path>
-          </svg>
-          <span class="truncate">C. Sociales</span>
-        </div>
-        <!-- Ingenio y Cultura -->
-        <div class="col-span-2 bg-[#F5EEFF] border border-purple-200 text-[#7925C7] rounded-lg py-1 px-2 flex items-center justify-center gap-1.5 shadow-2xs">
-          <svg class="w-4 h-4 flex-shrink-0 text-[#9333EA]" fill="none" viewBox="0 0 24 24">
-            <path d="M9 18h6m-4 3h2m-4-10a5 5 0 1 1 8 4c-.7.6-1.5 1.5-1.5 3h-5c0-1.5-.8-2.4-1.5-3a4.98 4.98 0 0 1 0-4z" fill="#FEF08A" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-          </svg>
-          <span>Ingenio y Cultura</span>
-        </div>
-      </div>
-      <!-- Special Tiles Markers Compact Line -->
-      <div class="mt-2 pt-2 border-t border-slate-100 flex items-center justify-between text-[10px] font-extrabold text-slate-600">
-        <span class="flex items-center gap-1"><span>👑</span> Corona</span>
-        <span class="flex items-center gap-1"><span>🃏</span> Comodín (#5 y #18)</span>
-        <span class="text-slate-400 font-bold">26 casillas</span>
       </div>
     </div>
   </aside>

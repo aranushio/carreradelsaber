@@ -855,8 +855,8 @@ class CarreraDelSaberApp {
             if (desktopContainer) {
                 const article = document.createElement('article');
                 article.className = isActive
-                    ? 'bg-gradient-to-r from-blue-50/90 to-indigo-50/60 border-2 border-blue-400 rounded-xl p-2.5 shadow-xs relative transition-all shrink-0'
-                    : 'bg-white border border-slate-200 rounded-xl p-2.5 shadow-xs transition-all shrink-0';
+                    ? 'bg-gradient-to-r from-blue-50/90 to-indigo-50/70 border-2 border-blue-400 rounded-2xl p-3.5 sm:p-4 shadow-sm relative transition-all'
+                    : 'bg-white border border-slate-200/90 rounded-2xl p-3.5 sm:p-4 shadow-xs transition-all';
 
                 let badgesHtml = '';
                 badgeKeys.forEach(k => {
@@ -865,17 +865,17 @@ class CarreraDelSaberApp {
 
                     if (has) {
                         badgesHtml += `
-                            <div class="bg-white/95 border border-blue-200/80 rounded-lg py-1 px-0.5 flex flex-col items-center justify-center shadow-2xs hover:bg-white transition relative" title="${meta.name} lograda">
+                            <div class="bg-white border-2 border-amber-300/80 rounded-xl py-2 px-1 flex flex-col items-center justify-center shadow-2xs hover:bg-amber-50/40 transition relative cursor-default" title="${meta.name} lograda">
                                 ${meta.icon}
-                                <span class="text-[9px] font-bold text-slate-700 leading-none mt-0.5">${meta.short}</span>
-                                <span class="absolute -top-1 -right-1 text-[8px]">⭐</span>
+                                <span class="text-[10px] sm:text-[11px] font-black text-slate-800 leading-none mt-1">${meta.short}</span>
+                                <span class="absolute -top-1.5 -right-1 text-[10px]">⭐</span>
                             </div>
                         `;
                     } else {
                         badgesHtml += `
-                            <div class="bg-slate-50 border border-slate-200/80 rounded-lg py-1 px-0.5 flex flex-col items-center justify-center shadow-2xs opacity-40 grayscale" title="${meta.name} pendiente">
+                            <div class="bg-slate-50/80 border border-slate-200 rounded-xl py-2 px-1 flex flex-col items-center justify-center shadow-2xs opacity-40 grayscale hover:opacity-60 transition cursor-default" title="${meta.name} pendiente">
                                 ${meta.icon}
-                                <span class="text-[9px] font-bold text-slate-400 leading-none mt-0.5">${meta.short}</span>
+                                <span class="text-[10px] sm:text-[11px] font-bold text-slate-400 leading-none mt-1">${meta.short}</span>
                             </div>
                         `;
                     }
@@ -883,43 +883,41 @@ class CarreraDelSaberApp {
 
                 article.innerHTML = `
                     <div class="flex items-center justify-between">
-                        <div class="flex items-center gap-2.5">
-                            <div class="w-10 h-10 rounded-xl ${p.avatarBg || 'bg-amber-100'} border border-amber-300 flex items-center justify-center text-xl shadow-inner relative shrink-0">
+                        <div class="flex items-center gap-3">
+                            <div class="w-12 h-12 rounded-2xl ${p.avatarBg || 'bg-amber-100'} border-2 border-amber-300 flex items-center justify-center text-2xl shadow-inner relative shrink-0">
                                 ${p.avatar}
-                                ${isActive ? '<span class="absolute -bottom-1 -right-1 text-[10px]">⭐</span>' : ''}
+                                ${isActive ? '<span class="absolute -bottom-1 -right-1 text-xs">⭐</span>' : ''}
                             </div>
                             <div class="min-w-0">
-                                <div class="flex items-center gap-1.5">
-                                    <h3 class="font-black text-slate-900 text-sm truncate max-w-[100px] leading-tight">${p.name}</h3>
-                                </div>
-                                <p class="text-[11px] font-extrabold ${isActive ? 'text-blue-600' : 'text-slate-500'} leading-tight">
-                                    ${p.badges.size} / 5 Insignias
+                                <h3 class="font-black text-slate-900 text-base sm:text-lg truncate max-w-[120px] leading-snug">${p.name}</h3>
+                                <p class="text-xs sm:text-sm font-extrabold ${isActive ? 'text-blue-600' : 'text-slate-500'} leading-snug">
+                                    ${p.badges.size} / 5 Insignias maestras
                                 </p>
                             </div>
                         </div>
-                        <div class="flex flex-col items-end gap-0.5 shrink-0">
+                        <div class="flex flex-col items-end gap-1 shrink-0">
                             ${isActive ? `
-                            <span class="text-[9px] font-black tracking-wider bg-blue-600 text-white px-2 py-0.5 rounded-full uppercase shadow-xs">TURNO</span>
+                            <span class="text-[10px] font-black tracking-wider bg-blue-600 text-white px-2.5 py-1 rounded-full uppercase shadow-xs">TURNO</span>
                             ` : ''}
-                            <span class="text-[11px] font-bold text-slate-500" id="player-tile-tag-${p.id}">
-                                Casilla #${p.position + 1}
+                            <span class="text-xs font-bold text-slate-500" id="player-tile-tag-${p.id}">
+                                Casillero #${p.position + 1}
                             </span>
                         </div>
                     </div>
 
                     <!-- Barra de progreso hacia canje de 300 puntos -->
-                    <div class="mt-1.5 flex flex-col gap-0.5 w-full">
-                        <div class="flex items-center justify-between text-[9px] font-bold text-slate-500">
-                            <span class="flex items-center gap-1">⭐ Puntos: <strong class="text-indigo-700 font-extrabold">${p.score}</strong></span>
-                            <span class="text-amber-700 font-extrabold text-[9px]">${p.score % 300}/300 pts</span>
+                    <div class="mt-2.5 flex flex-col gap-1 w-full">
+                        <div class="flex items-center justify-between text-xs font-bold text-slate-600">
+                            <span class="flex items-center gap-1">⭐ Puntos: <strong class="text-indigo-700 font-extrabold text-sm">${p.score}</strong></span>
+                            <span class="text-amber-700 font-extrabold text-xs">${p.score % 300}/300 pts</span>
                         </div>
-                        <div class="w-full h-1 bg-slate-100 rounded-full overflow-hidden border border-slate-200">
+                        <div class="w-full h-1.5 sm:h-2 bg-slate-100 rounded-full overflow-hidden border border-slate-200">
                             <div class="h-full bg-gradient-to-r from-amber-400 to-amber-500 rounded-full transition-all duration-300" style="width: ${Math.min(100, ((p.score % 300) / 300) * 100)}%"></div>
                         </div>
                     </div>
 
                     <!-- 5 Subject Insignia Medal Slots -->
-                    <div class="mt-1.5 pt-1.5 border-t ${isActive ? 'border-blue-100/90' : 'border-slate-100'} grid grid-cols-5 gap-1 text-center">
+                    <div class="mt-3 pt-2.5 border-t ${isActive ? 'border-blue-100' : 'border-slate-100'} grid grid-cols-5 gap-1.5 text-center">
                         ${badgesHtml}
                     </div>
                 `;
@@ -1067,8 +1065,8 @@ class CarreraDelSaberApp {
         if (helperMsg) helperMsg.textContent = '¡El dado está en el aire! Crucemos los dedos...';
 
         if (resultToast) {
-            resultToast.style.opacity = '0.35';
-            resultToast.style.transform = 'scale(0.95)';
+            resultToast.classList.add('hidden');
+            resultToast.classList.remove('pop-in-toast');
         }
 
         // Animación 3D del cubo
@@ -1093,7 +1091,13 @@ class CarreraDelSaberApp {
                 diceCube.classList.remove('dice-rolling');
             }
 
+            // Quitar el cartel de "Tirando..." apenas el dado frena su movimiento
+            if (btnText) btnText.textContent = '¡TIRAR DADO!';
+            if (btnIcon) btnIcon.textContent = '🎲';
+
             const finalNumber = Math.floor(Math.random() * 6) + 1;
+            if (helperIcon) helperIcon.textContent = '🎯';
+            if (helperMsg) helperMsg.textContent = `¡${this.players[this.currentPlayerIndex].name} sacó un ${finalNumber}!`;
             this.renderDiceFace(finalNumber);
 
             this.audio.playDingSuccess();
@@ -1110,11 +1114,16 @@ class CarreraDelSaberApp {
                 lastRollLog.innerHTML = `¡${currPlayer.name} avanza hacia <strong class="text-amber-300 font-extrabold">${meta.label} (Casilla #${meta.id})</strong>!`;
             }
             if (resultToast) {
-                resultToast.style.opacity = '1';
-                resultToast.style.transform = 'scale(1)';
+                resultToast.classList.remove('hidden');
                 resultToast.classList.remove('pop-in-toast');
                 void resultToast.offsetWidth;
                 resultToast.classList.add('pop-in-toast');
+            }
+            if (turnPill) {
+                turnPill.innerHTML = `
+                    <span class="w-2.5 h-2.5 rounded-full bg-blue-500"></span>
+                    Es el turno de <span class="text-blue-600 font-extrabold">${currPlayer.name}</span> (${currPlayer.avatar})
+                `;
             }
 
             if (this.isOnline && this.onlineManager) {
@@ -1568,11 +1577,16 @@ class CarreraDelSaberApp {
                 lastRollLog.innerHTML = `¡${roller.name} avanza hacia <strong class="text-amber-300 font-extrabold">${meta.label} (Casilla #${meta.id})</strong>!`;
             }
             if (resultToast) {
-                resultToast.style.opacity = '1';
-                resultToast.style.transform = 'scale(1)';
+                resultToast.classList.remove('hidden');
                 resultToast.classList.remove('pop-in-toast');
                 void resultToast.offsetWidth;
                 resultToast.classList.add('pop-in-toast');
+            }
+            if (turnPill) {
+                turnPill.innerHTML = `
+                    <span class="w-2.5 h-2.5 rounded-full bg-blue-500"></span>
+                    Es el turno de <span class="text-blue-600 font-extrabold">${currPlayer.name}</span> (${currPlayer.avatar})
+                `;
             }
 
             setTimeout(() => {
