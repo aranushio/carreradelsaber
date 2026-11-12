@@ -855,8 +855,8 @@ class CarreraDelSaberApp {
             if (desktopContainer) {
                 const article = document.createElement('article');
                 article.className = isActive
-                    ? 'bg-gradient-to-r from-blue-50/90 to-indigo-50/70 border-2 border-blue-400 rounded-2xl p-3.5 sm:p-4 shadow-sm relative transition-all'
-                    : 'bg-white border border-slate-200/90 rounded-2xl p-3.5 sm:p-4 shadow-xs transition-all';
+                    ? 'bg-gradient-to-r from-blue-50/90 to-indigo-50/70 border-2 border-blue-400 rounded-2xl p-3 sm:p-3.5 shadow-sm relative transition-all'
+                    : 'bg-white border border-slate-200/90 rounded-2xl p-3 sm:p-3.5 shadow-xs transition-all';
 
                 let badgesHtml = '';
                 badgeKeys.forEach(k => {
@@ -865,17 +865,17 @@ class CarreraDelSaberApp {
 
                     if (has) {
                         badgesHtml += `
-                            <div class="bg-white border-2 border-amber-300/80 rounded-xl py-2 px-1 flex flex-col items-center justify-center shadow-2xs hover:bg-amber-50/40 transition relative cursor-default" title="${meta.name} lograda">
+                            <div class="bg-white border-2 border-amber-300/80 rounded-xl py-1.5 px-0.5 flex flex-col items-center justify-center shadow-2xs hover:bg-amber-50/40 transition relative cursor-default" title="${meta.name} lograda">
                                 ${meta.icon}
-                                <span class="text-[10px] sm:text-[11px] font-black text-slate-800 leading-none mt-1">${meta.short}</span>
+                                <span class="text-[10px] font-black text-slate-800 leading-none mt-0.5">${meta.short}</span>
                                 <span class="absolute -top-1.5 -right-1 text-[10px]">⭐</span>
                             </div>
                         `;
                     } else {
                         badgesHtml += `
-                            <div class="bg-slate-50/80 border border-slate-200 rounded-xl py-2 px-1 flex flex-col items-center justify-center shadow-2xs opacity-40 grayscale hover:opacity-60 transition cursor-default" title="${meta.name} pendiente">
+                            <div class="bg-slate-50/80 border border-slate-200 rounded-xl py-1.5 px-0.5 flex flex-col items-center justify-center shadow-2xs opacity-40 grayscale hover:opacity-60 transition cursor-default" title="${meta.name} pendiente">
                                 ${meta.icon}
-                                <span class="text-[10px] sm:text-[11px] font-bold text-slate-400 leading-none mt-1">${meta.short}</span>
+                                <span class="text-[10px] font-bold text-slate-400 leading-none mt-0.5">${meta.short}</span>
                             </div>
                         `;
                     }
@@ -883,41 +883,41 @@ class CarreraDelSaberApp {
 
                 article.innerHTML = `
                     <div class="flex items-center justify-between">
-                        <div class="flex items-center gap-3">
-                            <div class="w-12 h-12 rounded-2xl ${p.avatarBg || 'bg-amber-100'} border-2 border-amber-300 flex items-center justify-center text-2xl shadow-inner relative shrink-0">
+                        <div class="flex items-center gap-2.5">
+                            <div class="w-11 h-11 rounded-xl ${p.avatarBg || 'bg-amber-100'} border-2 border-amber-300 flex items-center justify-center text-xl shadow-inner relative shrink-0">
                                 ${p.avatar}
                                 ${isActive ? '<span class="absolute -bottom-1 -right-1 text-xs">⭐</span>' : ''}
                             </div>
                             <div class="min-w-0">
-                                <h3 class="font-black text-slate-900 text-base sm:text-lg truncate max-w-[120px] leading-snug">${p.name}</h3>
-                                <p class="text-xs sm:text-sm font-extrabold ${isActive ? 'text-blue-600' : 'text-slate-500'} leading-snug">
-                                    ${p.badges.size} / 5 Insignias maestras
+                                <h3 class="font-black text-slate-900 text-sm sm:text-base truncate max-w-[120px] leading-tight">${p.name}</h3>
+                                <p class="text-xs font-extrabold ${isActive ? 'text-blue-600' : 'text-slate-500'} leading-tight">
+                                    ${p.badges.size} / 5 Insignias
                                 </p>
                             </div>
                         </div>
                         <div class="flex flex-col items-end gap-1 shrink-0">
                             ${isActive ? `
-                            <span class="text-[10px] font-black tracking-wider bg-blue-600 text-white px-2.5 py-1 rounded-full uppercase shadow-xs">TURNO</span>
+                            <span class="text-[9px] font-black tracking-wider bg-blue-600 text-white px-2 py-0.5 rounded-full uppercase shadow-xs">TURNO</span>
                             ` : ''}
                             <span class="text-xs font-bold text-slate-500" id="player-tile-tag-${p.id}">
-                                Casillero #${p.position + 1}
+                                Casilla #${p.position + 1}
                             </span>
                         </div>
                     </div>
 
                     <!-- Barra de progreso hacia canje de 300 puntos -->
-                    <div class="mt-2.5 flex flex-col gap-1 w-full">
+                    <div class="mt-2 flex flex-col gap-0.5 w-full">
                         <div class="flex items-center justify-between text-xs font-bold text-slate-600">
-                            <span class="flex items-center gap-1">⭐ Puntos: <strong class="text-indigo-700 font-extrabold text-sm">${p.score}</strong></span>
+                            <span class="flex items-center gap-1">⭐ Puntos: <strong class="text-indigo-700 font-extrabold text-xs sm:text-sm">${p.score}</strong></span>
                             <span class="text-amber-700 font-extrabold text-xs">${p.score % 300}/300 pts</span>
                         </div>
-                        <div class="w-full h-1.5 sm:h-2 bg-slate-100 rounded-full overflow-hidden border border-slate-200">
+                        <div class="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden border border-slate-200">
                             <div class="h-full bg-gradient-to-r from-amber-400 to-amber-500 rounded-full transition-all duration-300" style="width: ${Math.min(100, ((p.score % 300) / 300) * 100)}%"></div>
                         </div>
                     </div>
 
                     <!-- 5 Subject Insignia Medal Slots -->
-                    <div class="mt-3 pt-2.5 border-t ${isActive ? 'border-blue-100' : 'border-slate-100'} grid grid-cols-5 gap-1.5 text-center">
+                    <div class="mt-2.5 pt-2 border-t ${isActive ? 'border-blue-100' : 'border-slate-100'} grid grid-cols-5 gap-1 text-center">
                         ${badgesHtml}
                     </div>
                 `;
@@ -1024,10 +1024,6 @@ class CarreraDelSaberApp {
             const activeTileEl = document.getElementById(`tile-${activeTileNum}`);
             if (activeTileEl) {
                 activeTileEl.classList.add('tile-active-target');
-                const tooltip = document.createElement('div');
-                tooltip.className = 'stitch-target-tooltip absolute -top-7 left-1/2 transform -translate-x-1/2 bg-yellow-400 text-slate-900 font-black text-[9px] px-2 py-0.5 rounded-full shadow-md flex items-center gap-1 whitespace-nowrap border border-white z-40 animate-bounce pointer-events-none select-none';
-                tooltip.innerHTML = '<span>🎯 ¡Aquí!</span>';
-                activeTileEl.appendChild(tooltip);
             }
         }
     }
@@ -1300,7 +1296,7 @@ class CarreraDelSaberApp {
 
             mappedOptions.forEach((opt, idx) => {
                 const btn = document.createElement('button');
-                btn.className = 'option-btn flex items-center gap-3 p-3.5 rounded-2xl bg-slate-50 hover:bg-slate-100 font-bold text-sm text-left border-2 border-slate-200 transition-all cursor-pointer shadow-xs active:translate-y-0.5 text-slate-800';
+                btn.className = 'option-btn flex items-center gap-2.5 py-2.5 px-3 sm:py-3 sm:px-3.5 rounded-xl bg-slate-50 hover:bg-blue-50/60 font-bold text-xs sm:text-sm text-left border-2 border-slate-200 hover:border-blue-400 transition-all cursor-pointer shadow-xs active:translate-y-0.5 text-slate-800';
                 btn.innerHTML = `
                     <span class="w-8 h-8 rounded-xl bg-white shadow-xs flex items-center justify-center font-black text-xs text-slate-700 shrink-0 border border-slate-200">${letters[idx]}</span>
                     <span class="flex-1">${opt.text}</span>
@@ -1416,11 +1412,11 @@ class CarreraDelSaberApp {
                     this.confetti.fire();
                 }
 
-                feedbackBox.className = 'p-4 rounded-2xl border-2 border-emerald-300 bg-emerald-50 text-emerald-900 flex flex-col gap-2 mt-2';
+                feedbackBox.className = 'p-3 sm:p-3.5 rounded-2xl border-2 border-emerald-300 bg-emerald-50 text-emerald-900 flex flex-col gap-1.5 mt-1';
                 if (feedbackTitle) feedbackTitle.textContent = `¡CORRECTO! 🎉${extraMsg}`;
             } else {
                 this.audio.playWrong();
-                feedbackBox.className = 'p-4 rounded-2xl border-2 border-red-300 bg-red-50 text-red-900 flex flex-col gap-2 mt-2';
+                feedbackBox.className = 'p-3 sm:p-3.5 rounded-2xl border-2 border-red-300 bg-red-50 text-red-900 flex flex-col gap-1.5 mt-1';
                 if (feedbackTitle) {
                     feedbackTitle.textContent = selectedIndex === -1 ? '¡TIEMPO AGOTADO! ⏰' : '¡INCORRECTO! ❌';
                 }

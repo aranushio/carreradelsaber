@@ -1050,23 +1050,18 @@
   <!-- BEGIN: RightSidebar -->
   <aside class="xl:col-span-3 flex flex-col h-full order-2 select-none" data-purpose="player-subject-sidebar">
     <!-- Player & Ranking Card (Estilizada a altura completa del tablero) -->
-    <div class="clay-card rounded-3xl p-4 sm:p-5 flex flex-col flex-1 h-full shadow-xl justify-between" data-purpose="rankings-card">
-      <!-- Header -->
-      <div class="flex items-center justify-between pb-3 border-b border-slate-100 shrink-0">
-        <div class="flex items-center gap-2.5">
-          <div class="w-9 h-9 rounded-2xl bg-amber-100 flex items-center justify-center text-xl shadow-xs border border-amber-200">
-            🏆
-          </div>
-          <div>
-            <h2 class="text-base sm:text-lg font-black text-[#172554] tracking-tight">Posiciones y Medallas</h2>
-            <p class="text-[11px] font-bold text-slate-400">Progreso e insignias en vivo</p>
-          </div>
+    <div class="clay-card rounded-3xl p-3.5 sm:p-4 flex flex-col h-full shadow-xl justify-between overflow-hidden" data-purpose="rankings-card">
+      <!-- Header en una sola línea -->
+      <div class="flex items-center justify-between pb-2 border-b border-slate-100 shrink-0 gap-2">
+        <div class="flex items-center gap-2 min-w-0">
+          <span class="text-xl shrink-0">🏆</span>
+          <h2 class="text-xs sm:text-sm font-black text-[#172554] tracking-tight whitespace-nowrap">Posiciones y Medallas</h2>
         </div>
-        <span class="text-xs font-black bg-blue-50 text-blue-700 px-3 py-1 rounded-full border border-blue-200/60 shadow-xs" id="sidebar-players-count">2 Jugadores</span>
+        <span class="text-[11px] font-black bg-blue-50 text-blue-700 px-2.5 py-1 rounded-full border border-blue-200/60 shadow-2xs whitespace-nowrap shrink-0" id="sidebar-players-count">2 Jugadores</span>
       </div>
 
       <!-- Scoreboard List -->
-      <div id="scoreboard-list" class="flex flex-col gap-3.5 sm:gap-4 py-3 overflow-y-auto flex-1 justify-around"></div>
+      <div id="scoreboard-list" class="flex flex-col gap-2.5 sm:gap-3 py-2 flex-1 justify-around overflow-y-auto min-h-0"></div>
 
       <!-- Footer de la tarjeta con meta de victoria -->
       <div class="pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-slate-500 shrink-0">
@@ -1097,47 +1092,47 @@
 <!-- END: BottomStatusFooter -->
 
 <!-- BEGIN: Modals -->
-<div id="question-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center p-4">
-        <div class="w-full max-w-xl bg-white rounded-3xl overflow-hidden shadow-2xl border border-white transform transition-all animate-in fade-in zoom-in duration-200">
-            <!-- Modal Header -->
-            <div id="modal-header" class="p-5 text-white flex items-center justify-between bg-blue-600">
-                <div class="flex items-center gap-3">
-                    <span id="q-category-icon" class="w-12 h-12 rounded-2xl bg-white/20 flex items-center justify-center text-2xl">📐</span>
+<div id="question-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center p-3 sm:p-4 overflow-y-auto">
+        <div class="w-full max-w-xl max-h-[92vh] bg-white rounded-3xl overflow-hidden shadow-2xl border border-white flex flex-col my-auto transform transition-all animate-in fade-in zoom-in duration-200">
+            <!-- Modal Header (Compacto) -->
+            <div id="modal-header" class="px-4 py-3 sm:px-5 sm:py-3.5 text-white flex items-center justify-between bg-blue-600 shrink-0">
+                <div class="flex items-center gap-2.5 sm:gap-3">
+                    <span id="q-category-icon" class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-white/20 flex items-center justify-center text-xl sm:text-2xl shrink-0">📐</span>
                     <div class="flex flex-col">
-                        <span id="q-category-name" class="font-black text-lg tracking-wide uppercase">MATEMÁTICA</span>
-                        <span id="q-badge-indicator" class="text-[10px] font-black bg-amber-300 text-amber-900 px-2 py-0.5 rounded-full inline-block mt-0.5">⭐ ¡CASILLERO DE MEDALLA!</span>
+                        <span id="q-category-name" class="font-black text-base sm:text-lg tracking-wide uppercase leading-tight">MATEMÁTICA</span>
+                        <span id="q-badge-indicator" class="text-[9px] sm:text-[10px] font-black bg-amber-300 text-amber-900 px-2 py-0.5 rounded-full inline-block mt-0.5 w-fit">⭐ ¡CASILLERO DE MEDALLA!</span>
                     </div>
                 </div>
                 <!-- Countdown -->
-                <div class="w-12 h-12 rounded-full border-2 border-white/60 bg-black/20 flex items-center justify-center font-black text-xl" id="timer-number">
+                <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-full border-2 border-white/60 bg-black/20 flex items-center justify-center font-black text-lg sm:text-xl shrink-0" id="timer-number">
                     25
                 </div>
             </div>
 
             <!-- Timer Bar -->
-            <div class="w-full h-2 bg-slate-100">
+            <div class="w-full h-1.5 bg-slate-100 shrink-0">
                 <div id="timer-bar" class="h-full bg-emerald-500 w-full transition-all duration-1000 ease-linear"></div>
             </div>
 
-            <!-- Modal Body -->
-            <div class="p-6 flex flex-col gap-4">
-                <div class="flex items-center justify-between text-xs font-bold text-slate-500">
+            <!-- Modal Body (Desplazamiento interno seguro sin desbordar pantalla) -->
+            <div class="p-4 sm:p-5 flex flex-col gap-2.5 sm:gap-3 overflow-y-auto flex-1 min-h-0">
+                <div class="flex items-center justify-between text-xs font-bold text-slate-500 shrink-0">
                     <span id="q-player-turn">Turno de: <strong>Ger</strong></span>
-                    <span id="q-grade-tag" class="px-2.5 py-0.5 rounded-full bg-slate-100 text-blue-700">6.° Grado · 39 restantes</span>
+                    <span id="q-grade-tag" class="px-2.5 py-0.5 rounded-full bg-slate-100 text-blue-700 text-[11px] font-bold">6.° Grado · 39 restantes</span>
                 </div>
 
-                <h3 id="question-text" class="font-extrabold text-slate-800 text-lg md:text-xl leading-snug">
+                <h3 id="question-text" class="font-extrabold text-slate-800 text-base sm:text-lg leading-snug shrink-0">
                     Cargando pregunta...
                 </h3>
 
                 <!-- Options Grid -->
-                <div id="options-grid" class="flex flex-col gap-2.5 pt-1"></div>
+                <div id="options-grid" class="flex flex-col gap-2 pt-0.5"></div>
 
                 <!-- Pedagogical Feedback Box -->
-                <div id="feedback-box" class="hidden p-4 rounded-2xl border flex flex-col gap-2 mt-2">
-                    <div id="feedback-title" class="font-black text-base">¡CORRECTO! 🎉</div>
+                <div id="feedback-box" class="hidden p-3 sm:p-3.5 rounded-2xl border flex flex-col gap-1.5 mt-1 shrink-0">
+                    <div id="feedback-title" class="font-black text-sm sm:text-base">¡CORRECTO! 🎉</div>
                     <p id="feedback-explanation" class="text-xs sm:text-sm text-slate-700 leading-relaxed"></p>
-                    <button id="btn-next-turn" class="w-full py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-black text-sm tracking-wide uppercase shadow-md transition-all cursor-pointer mt-1" type="button">
+                    <button id="btn-next-turn" class="w-full py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-black text-xs sm:text-sm tracking-wide uppercase shadow-md transition-all cursor-pointer mt-1" type="button">
                         Continuar ▶
                     </button>
                 </div>
