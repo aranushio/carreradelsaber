@@ -1514,14 +1514,23 @@ class CarreraDelSaberApp {
         const badgesContainer = document.getElementById('winner-badges-show');
         if (badgesContainer) {
             badgesContainer.innerHTML = '';
-            player.badges.forEach(catKey => {
-                const theme = SUBJECT_THEME[catKey];
-                const span = document.createElement('span');
-                span.className = `w-11 h-11 rounded-2xl flex items-center justify-center text-xl shadow-sm border-2 ${theme.activeRing}`;
-                span.textContent = theme.icon;
-                span.title = theme.name;
-                badgesContainer.appendChild(span);
-            });
+            if (player.badges && player.badges.size > 0) {
+                player.badges.forEach(catKey => {
+                    const theme = SUBJECT_THEME[catKey];
+                    if (!theme) return;
+                    const badgeCard = document.createElement('div');
+                    badgeCard.className = `w-12 h-12 rounded-2xl flex flex-col items-center justify-center shadow-xs border-2 ${theme.activeRing} relative p-1`;
+                    badgeCard.innerHTML = `
+                        <div class="scale-110 flex items-center justify-center">${theme.icon}</div>
+                        <span class="text-[9px] font-black text-slate-700 mt-0.5 leading-none">${theme.short}</span>
+                        <span class="absolute -top-1 -right-1 text-[10px]">⭐</span>
+                    `;
+                    badgeCard.title = theme.name;
+                    badgesContainer.appendChild(badgeCard);
+                });
+            } else {
+                badgesContainer.innerHTML = '<span class="text-xs font-extrabold text-amber-700 bg-amber-100/80 border border-amber-300 px-3 py-1 rounded-full shadow-2xs">⭐ ¡Victoria por Puntos Acumulados!</span>';
+            }
         }
 
         const victoryModal = document.getElementById('victory-modal');
