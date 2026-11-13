@@ -19,6 +19,7 @@
   <link href="https://fonts.googleapis.com" rel="preconnect"/>
   <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800;900&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
   <script id="tailwind-config">
@@ -78,6 +79,12 @@
       background: #FFFFFF;
       box-shadow: 0 12px 32px -4px rgba(71, 95, 142, 0.08), 0 2px 8px rgba(71, 95, 142, 0.04);
       border: 1.5px solid rgba(226, 232, 240, 0.85);
+    }
+
+    .card-stitch {
+      background: #FFFFFF;
+      border: 1px solid rgba(219, 230, 248, 0.85);
+      box-shadow: 0 4px 20px -2px rgba(37, 99, 235, 0.06), 0 2px 6px rgba(0, 0, 0, 0.03);
     }
 
     /* Badge numbers in corner of tiles */
@@ -229,219 +236,335 @@
 <!-- END: MainHeader -->
 
 <!-- BEGIN: SetupScreen -->
-<section id="setup-screen" class="max-w-4xl w-full mx-auto flex-1 flex flex-col justify-center items-center py-4">
-        <div class="w-full bg-white rounded-3xl p-6 md:p-10 shadow-game-card border border-slate-200/90 flex flex-col gap-8 relative overflow-hidden">
+<section id="setup-screen" class="max-w-[1040px] w-full mx-auto flex-1 flex flex-col justify-center items-center py-4">
+        <div class="w-full flex flex-col gap-6 relative">
             
-            <!-- Hero Setup Title with Mascot Nelo (A la izquierda del título como en la imagen de referencia) -->
-            <div class="flex flex-col md:flex-row items-center justify-center gap-5 lg:gap-8 relative pb-2">
-                <!-- Mascota Nelo Video Loop Animado (A la izquierda del título) -->
-                <div class="hidden md:flex flex-col items-center shrink-0 pointer-events-none select-none">
-                    <div class="relative rounded-2xl md:rounded-3xl overflow-hidden border-2 border-indigo-200/90 shadow-lg bg-white/95">
-                        <video src="assets/mascot_animated.mp4" autoplay loop muted playsinline preload="auto" class="w-40 md:w-44 lg:w-48 max-h-[145px] md:max-h-[155px] object-cover pointer-events-none select-none"></video>
-                    </div>
-                    <div class="w-28 md:w-32 lg:w-36 h-2 bg-indigo-950/20 rounded-full blur-[2px] -mt-1"></div>
-                </div>
+            <!-- Hero Setup Title with Mascot Nelo (A la derecha como en el diseño Stitch, perfectamente alineado) -->
+            <div class="relative bg-white rounded-3xl p-6 sm:p-8 md:p-10 card-stitch overflow-hidden border border-slate-200/80 shadow-md">
+                <!-- Glow ambient shapes inside hero -->
+                <div class="absolute -right-12 -top-12 w-52 h-52 rounded-full bg-amber-200/20 blur-2xl pointer-events-none"></div>
+                <div class="absolute -left-10 -bottom-10 w-48 h-48 rounded-full bg-purple-200/25 blur-2xl pointer-events-none"></div>
 
-                <!-- Título y subtítulos -->
-                <div class="text-center md:text-left flex flex-col items-center md:items-start relative max-w-lg">
-                    <!-- Mascot (Mobile compact badge above title) -->
-                    <div class="flex md:hidden items-center gap-2 mb-2 bg-gradient-to-r from-amber-50 to-indigo-50 border border-indigo-100 px-3.5 py-1.5 rounded-full shadow-2xs">
-                        <div class="w-9 h-9 rounded-full overflow-hidden border border-indigo-200 shrink-0">
-                            <video src="assets/mascot_animated.mp4" autoplay loop muted playsinline preload="auto" class="w-full h-full object-cover"></video>
+                <div class="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6 md:gap-8">
+                    
+                    <!-- Left Title Info -->
+                    <div class="flex-1 text-center md:text-left">
+                        <!-- Curricular Badge -->
+                        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-gradient-to-r from-amber-100 via-rose-100 to-purple-100 border border-amber-200/60 shadow-2xs mb-3">
+                            <span class="text-base">🎓</span>
+                            <span class="text-xs font-black text-slate-800 tracking-wider uppercase">Olimpíada Escolar Interactiva</span>
+                            <span class="inline-block w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
                         </div>
-                        <span class="text-xs font-black text-indigo-800">Nelo: ¡Listo para la carrera! 🏃‍♂️</span>
+
+                        <!-- Main Title with Stitch colorful gradient -->
+                        <h2 class="text-3xl sm:text-4xl md:text-5xl font-black text-slate-900 tracking-tight leading-tight">
+                            CONFIGURÁ <span class="bg-gradient-to-r from-blue-600 via-purple-600 to-rose-500 bg-clip-text text-transparent">TU PARTIDA</span>
+                        </h2>
+                        <p class="text-sm sm:text-base font-semibold text-slate-500 mt-2 max-w-xl">
+                            Elegí el nivel curricular y los participantes para comenzar la competencia escolar más divertida.
+                        </p>
+
+                        <!-- Materias en juego Mini-Preview -->
+                        <div class="flex items-center justify-center md:justify-start gap-1.5 mt-4 flex-wrap">
+                            <span class="text-xs font-extrabold text-slate-500 mr-1.5">Materias en juego:</span>
+                            <span class="w-8 h-8 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center text-sm shadow-xs border border-blue-200/80" title="Matemática">📐</span>
+                            <span class="w-8 h-8 rounded-full bg-rose-100 text-rose-700 flex items-center justify-center text-sm shadow-xs border border-rose-200/80" title="Lengua">📖</span>
+                            <span class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center text-sm shadow-xs border border-emerald-200/80" title="Ciencias Naturales">🌿</span>
+                            <span class="w-8 h-8 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center text-sm shadow-xs border border-amber-200/80" title="Ciencias Sociales">🌍</span>
+                            <span class="w-8 h-8 rounded-full bg-purple-100 text-purple-700 flex items-center justify-center text-sm shadow-xs border border-purple-200/80" title="Ingenio y Lógica">💡</span>
+                        </div>
                     </div>
 
-                    <span class="inline-flex items-center gap-1.5 px-4 py-1 rounded-full bg-amber-100 text-amber-800 text-xs font-black uppercase tracking-wider mb-2">
-                        🎓 Olimpíada Escolar Interactiva
-                    </span>
-                    <h2 class="text-3xl md:text-4xl font-black text-slate-800 tracking-tight">
-                        CONFIGURÁ TU PARTIDA
-                    </h2>
-                    <p class="text-xs md:text-sm font-semibold text-slate-500 mt-1">
-                        Elegí el nivel curricular y los participantes para comenzar la competencia
-                    </p>
+                    <!-- Right Side: MASCOTA CEREBRO CORRIENDO ANIMADA (PERFECTAMENTE ALINEADA Y RECTA) -->
+                    <div class="relative flex-shrink-0 flex flex-col items-center">
+                        <div class="relative w-48 h-48 sm:w-52 sm:h-52 rounded-3xl bg-gradient-to-tr from-blue-100 via-indigo-50 to-white flex items-center justify-center shadow-lg border-2 border-indigo-200/80">
+                            <div class="absolute inset-2.5 rounded-2xl bg-white flex flex-col items-center justify-between p-2 text-center overflow-hidden shadow-inner border border-slate-100">
+                                <!-- Animated mascot video loop perfectly centered and upright -->
+                                <div class="w-full h-34 sm:h-36 rounded-xl overflow-hidden border border-indigo-100/80 shadow-2xs bg-white">
+                                    <video src="assets/mascot_animated.mp4" autoplay loop muted playsinline preload="auto" class="w-full h-full object-cover pointer-events-none select-none"></video>
+                                </div>
+                                <span class="text-[11px] font-black uppercase text-blue-700 py-1 tracking-wider">¡Nelo al control!</span>
+                            </div>
+                            <!-- Star floaters -->
+                            <span class="absolute -top-3 -right-2 text-2xl select-none animate-bounce">⭐</span>
+                            <span class="absolute -bottom-2 -left-2 text-xl select-none">✨</span>
+                        </div>
+                    </div>
+
                 </div>
             </div>
 
             <!-- 0. ¿Cómo van a jugar? (Selector Local vs Online) -->
-            <div class="flex flex-col gap-3">
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center gap-2">
-                        <span class="w-7 h-7 rounded-xl bg-indigo-600 text-white font-black text-xs flex items-center justify-center shadow-sm">🌐</span>
-                        <h3 class="font-extrabold text-slate-800 text-base md:text-lg">¿Cómo van a jugar?</h3>
+            <section class="bg-white rounded-3xl p-5 sm:p-7 card-stitch transition-all border border-slate-200/80 shadow-md">
+                <div class="flex items-center justify-between gap-3 mb-4">
+                    <div class="flex items-center gap-2.5">
+                        <div class="w-8 h-8 rounded-xl bg-blue-600 flex items-center justify-center text-white font-black shadow-sm">
+                            <span class="material-symbols-outlined text-[19px]">sports_esports</span>
+                        </div>
+                        <h3 class="text-lg sm:text-xl font-black text-slate-800">¿Cómo van a jugar?</h3>
                     </div>
-                    
+                    <span class="text-[11px] font-black uppercase px-3 py-1 rounded-full bg-slate-100 text-slate-600 tracking-wider">Modo de red</span>
                 </div>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3" id="connection-mode-group">
-                    <button type="button" id="btn-conn-local" class="conn-mode-btn active p-4 rounded-2xl border-2 border-blue-500 bg-blue-50/50 flex items-center gap-3.5 text-left cursor-pointer transition-all shadow-sm">
-                        <div class="w-12 h-12 rounded-xl bg-white shadow-xs flex items-center justify-center text-2xl shrink-0">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="connection-mode-group">
+                    <button type="button" id="btn-conn-local" class="conn-mode-btn active p-4 sm:p-5 rounded-2xl border-2 border-blue-600 bg-blue-50/70 flex items-center gap-4 text-left cursor-pointer transition-all shadow-sm group">
+                        <div class="w-14 h-14 rounded-2xl bg-blue-600/10 flex items-center justify-center text-3xl shadow-inner group-hover:scale-105 transition-transform shrink-0">
                             📱
                         </div>
-                        <div class="flex flex-col flex-1">
-                            <div class="flex justify-between items-center">
-                                <span id="title-conn-local" class="font-black text-blue-700 text-sm">Mismo Dispositivo</span>
-                                <span class="text-[10px] font-extrabold uppercase bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full">Pasa y Juega</span>
+                        <div class="flex flex-col flex-1 min-w-0">
+                            <div class="flex justify-between items-center gap-2 mb-1">
+                                <span id="title-conn-local" class="font-black text-base text-blue-700 truncate">Mismo Dispositivo</span>
+                                <span class="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-full bg-blue-100 text-blue-700 tracking-wider">PASA Y JUEGA</span>
                             </div>
-                            <span class="text-xs text-slate-500 font-semibold mt-0.5">Una sola pantalla compartida (presencial)</span>
+                            <span class="text-xs sm:text-sm font-semibold text-slate-600">Una sola pantalla compartida (presencial en el aula o casa).</span>
+                            <div class="mt-2.5 flex items-center gap-1.5 text-blue-700 text-xs font-bold">
+                                <span class="material-symbols-outlined text-[18px]">check_circle</span>
+                                <span>Modo presencial seleccionado</span>
+                            </div>
                         </div>
                     </button>
-                    <button type="button" id="btn-conn-online" class="conn-mode-btn p-4 rounded-2xl border-2 border-slate-200 bg-slate-50/60 hover:bg-slate-100 flex items-center gap-3.5 text-left cursor-pointer transition-all">
-                        <div class="w-12 h-12 rounded-xl bg-white shadow-xs flex items-center justify-center text-2xl shrink-0">
+                    <button type="button" id="btn-conn-online" class="conn-mode-btn p-4 sm:p-5 rounded-2xl border-2 border-slate-200/80 bg-slate-50/80 hover:bg-slate-100 flex items-center gap-4 text-left cursor-pointer transition-all shadow-xs group">
+                        <div class="w-14 h-14 rounded-2xl bg-emerald-500/10 flex items-center justify-center text-3xl shadow-inner group-hover:scale-105 transition-transform shrink-0">
                             🌐
                         </div>
-                        <div class="flex flex-col flex-1">
-                            <div class="flex justify-between items-center">
-                                <span id="title-conn-online" class="font-black text-slate-800 text-sm">Online con Amigas</span>
-                                <span class="text-[10px] font-extrabold uppercase bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full">Multidispositivo</span>
+                        <div class="flex flex-col flex-1 min-w-0">
+                            <div class="flex justify-between items-center gap-2 mb-1">
+                                <span id="title-conn-online" class="font-black text-base text-slate-800 truncate">Online con Amigas</span>
+                                <span class="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700 tracking-wider">MULTIDISPOSITIVO</span>
                             </div>
-                            <span class="text-xs text-slate-500 font-semibold mt-0.5">Cada una desde su celular o tablet</span>
+                            <span class="text-xs sm:text-sm font-semibold text-slate-600">Cada una desde su celular, tablet o netbook de la escuela.</span>
+                            <div class="mt-2.5 flex items-center gap-1.5 text-slate-500 text-xs font-bold">
+                                <span class="material-symbols-outlined text-[18px]">devices</span>
+                                <span>Crea o unite a una sala con código de 4 letras</span>
+                            </div>
                         </div>
                     </button>
                 </div>
-            </div>
+            </section>
 
             <!-- CONTENEDOR MODO LOCAL (DEFAULT) -->
-            <div id="local-setup-container" class="flex flex-col gap-8">
-<!-- 1. Elegí el Grado Escolar -->
-            <div class="flex flex-col gap-3">
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center gap-2">
-                        <span class="w-7 h-7 rounded-xl bg-blue-600 text-white font-black text-xs flex items-center justify-center shadow-sm">1</span>
-                        <h3 class="font-extrabold text-slate-800 text-base md:text-lg">Elegí el Grado Escolar</h3>
-                    </div>
-                    <span class="text-[11px] font-bold text-slate-400 bg-slate-100 px-2.5 py-0.5 rounded-full uppercase">Primaria Oficial</span>
-                </div>
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3" id="grade-selector-group">
-                    <button type="button" class="grade-btn p-4 rounded-2xl border-2 border-slate-200 bg-slate-50/60 hover:bg-slate-100 text-left transition-all cursor-pointer" data-grade="5">
-                        <div class="flex justify-between items-center mb-1">
-                            <span class="text-2xl font-black text-slate-700">5.°</span>
-                            <span class="grade-icon text-xs bg-slate-300 text-white rounded-full w-5 h-5 flex items-center justify-center opacity-0">+</span>
-                        </div>
-                        <span class="font-black text-slate-800 block text-sm">5.° Grado</span>
-                        <span class="text-[11px] font-semibold text-slate-500">10 a 11 años</span>
-                    </button>
-                    <button type="button" class="grade-btn active p-4 rounded-2xl border-2 border-blue-500 bg-blue-50/50 text-left transition-all shadow-sm cursor-pointer" data-grade="6">
-                        <div class="flex justify-between items-center mb-1">
-                            <span class="text-2xl font-black text-blue-600">6.°</span>
-                            <span class="grade-icon text-xs bg-blue-600 text-white rounded-full w-5 h-5 flex items-center justify-center">✓</span>
-                        </div>
-                        <span class="font-black text-slate-800 block text-sm">6.° Grado</span>
-                        <span class="text-[11px] font-semibold text-slate-500">11 a 12 años</span>
-                    </button>
-                    <button type="button" class="grade-btn p-4 rounded-2xl border-2 border-slate-200 bg-slate-50/60 hover:bg-slate-100 text-left transition-all cursor-pointer" data-grade="7">
-                        <div class="flex justify-between items-center mb-1">
-                            <span class="text-2xl font-black text-slate-700">7.°</span>
-                            <span class="grade-icon text-xs bg-slate-300 text-white rounded-full w-5 h-5 flex items-center justify-center opacity-0">+</span>
-                        </div>
-                        <span class="font-black text-slate-800 block text-sm">7.° Grado</span>
-                        <span class="text-[11px] font-semibold text-slate-500">12 a 13 años</span>
-                    </button>
-                </div>
-            </div>
+            <div id="local-setup-container" class="flex flex-col gap-6">
 
-            <!-- 2. Modo de Juego -->
-            <div class="flex flex-col gap-3">
-                <div class="flex items-center gap-2">
-                    <span class="w-7 h-7 rounded-xl bg-blue-600 text-white font-black text-xs flex items-center justify-center shadow-sm">2</span>
-                    <h3 class="font-extrabold text-slate-800 text-base md:text-lg">Elegí el Modo de Juego</h3>
-                </div>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3" id="mode-selector-group">
-                    <button type="button" class="mode-btn p-4 rounded-2xl border-2 border-slate-200 bg-slate-50/60 hover:bg-slate-100 flex items-center gap-3.5 text-left cursor-pointer transition-all" data-mode="teams">
-                        <div class="w-12 h-12 rounded-xl bg-white shadow-xs flex items-center justify-center text-2xl shrink-0">
-                            🏫
-                        </div>
-                        <div class="flex flex-col flex-1">
-                            <div class="flex justify-between items-center">
-                                <span class="font-black text-slate-800 text-sm">Duelo de Escuelas</span>
-                                <span class="text-[10px] font-extrabold uppercase bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full">Torneo</span>
+                <!-- 1. Elegí el Grado Escolar -->
+                <section class="bg-white rounded-3xl p-5 sm:p-7 card-stitch border border-slate-200/80 shadow-md">
+                    <div class="flex items-center justify-between gap-3 mb-4">
+                        <div class="flex items-center gap-2.5">
+                            <div class="w-8 h-8 rounded-xl bg-blue-600 flex items-center justify-center text-white font-black shadow-sm text-sm">
+                                1
                             </div>
-                            <span class="text-xs text-slate-500 font-semibold mt-0.5">Competencia entre colegios</span>
+                            <h3 class="text-lg sm:text-xl font-black text-slate-800">Elegí el Grado Escolar</h3>
                         </div>
-                    </button>
-                    <button type="button" class="mode-btn active p-4 rounded-2xl border-2 border-blue-500 bg-blue-50/50 flex items-center gap-3.5 text-left cursor-pointer transition-all shadow-sm" data-mode="individual">
-                        <div class="w-12 h-12 rounded-xl bg-white shadow-xs flex items-center justify-center text-2xl shrink-0">
-                            🎒
-                        </div>
-                        <div class="flex flex-col flex-1">
-                            <div class="flex justify-between items-center">
-                                <span class="font-black text-blue-700 text-sm">Alumnos</span>
-                                <span class="text-[10px] font-extrabold uppercase bg-slate-200 text-slate-600 px-2 py-0.5 rounded-full">Aula</span>
+                        <span class="text-[11px] font-black uppercase px-3 py-1 rounded-full bg-blue-50 text-blue-700 tracking-wider">Primaria Oficial</span>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5" id="grade-selector-group">
+                        <!-- 5to Grado -->
+                        <button type="button" class="grade-btn p-4 rounded-2xl border-2 border-slate-200/80 bg-slate-50/70 hover:bg-slate-100 text-left transition-all duration-200 relative cursor-pointer" data-grade="5">
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="text-3xl font-black text-slate-700">5.°</span>
+                                <span class="grade-icon w-6 h-6 rounded-full bg-white text-slate-400 border border-slate-200 flex items-center justify-center font-bold text-xs shadow-2xs opacity-0">+</span>
                             </div>
-                            <span class="text-xs text-slate-500 font-semibold mt-0.5">Compañeros o amigos</span>
-                        </div>
-                    </button>
-                </div>
-            </div>
+                            <span class="font-black text-sm text-slate-800 block mt-2">5.° Grado</span>
+                            <span class="text-xs font-semibold text-slate-500 block mt-0.5">10 a 11 años</span>
+                            <div class="mt-3 pt-2 border-t border-slate-200/60 flex items-center gap-1.5 text-slate-500 text-[10px] font-extrabold uppercase">
+                                <span class="w-2 h-2 rounded-full bg-blue-500"></span> Fracciones y Leyendas
+                            </div>
+                        </button>
 
-            <!-- 3. Cantidad de Participantes & Nombres -->
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
-                <div class="lg:col-span-5 flex flex-col gap-3">
-                    <div class="flex items-center gap-2">
-                        <span class="w-7 h-7 rounded-xl bg-blue-600 text-white font-black text-xs flex items-center justify-center shadow-sm">3</span>
-                        <h3 class="font-extrabold text-slate-800 text-base">Cantidad</h3>
-                    </div>
-                    <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200/80 flex flex-col gap-3">
-                        <div class="grid grid-cols-3 gap-2" id="count-selector-group">
-                            <button type="button" class="count-btn active py-3 rounded-xl border-2 border-blue-600 bg-blue-600 font-black text-base text-white text-center shadow-sm cursor-pointer transition-all" data-count="2">2</button>
-                            <button type="button" class="count-btn py-3 rounded-xl border border-slate-200 bg-white font-black text-base text-slate-700 text-center hover:bg-slate-100 cursor-pointer transition-all" data-count="3">3</button>
-                            <button type="button" class="count-btn py-3 rounded-xl border border-slate-200 bg-white font-black text-base text-slate-700 text-center hover:bg-slate-100 cursor-pointer transition-all" data-count="4">4</button>
-                        </div>
-                        <p class="text-[11px] font-bold text-slate-500 text-center bg-white py-1.5 rounded-lg border border-slate-100">
-                            👥 <span id="count-info-label">2 Participantes en circuito</span>
-                        </p>
-                    </div>
-                </div>
+                        <!-- 6to Grado (SELECTED DEFAULT) -->
+                        <button type="button" class="grade-btn active p-4 rounded-2xl border-2 border-blue-600 bg-gradient-to-b from-white to-blue-50/50 text-left transition-all duration-200 shadow-md relative cursor-pointer" data-grade="6">
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="text-3xl font-black text-blue-600">6.°</span>
+                                <span class="grade-icon w-6 h-6 rounded-full bg-blue-600 text-white flex items-center justify-center shadow-xs">✓</span>
+                            </div>
+                            <span class="font-black text-sm text-blue-700 block mt-2">6.° Grado</span>
+                            <span class="text-xs font-semibold text-slate-500 block mt-0.5">11 a 12 años</span>
+                            <div class="mt-3 pt-2 border-t border-blue-100 flex items-center gap-1.5 text-blue-700 text-[10px] font-black uppercase">
+                                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Nivel Recomendado
+                            </div>
+                        </button>
 
-                <div class="lg:col-span-7 flex flex-col gap-3">
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center gap-2">
-                            <span class="w-7 h-7 rounded-xl bg-blue-600 text-white font-black text-xs flex items-center justify-center shadow-sm">4</span>
-                            <h3 class="font-extrabold text-slate-800 text-base">Nombres</h3>
-                        </div>
-                        <span class="text-[11px] font-extrabold uppercase bg-amber-100 text-amber-800 px-2 py-0.5 rounded-full" id="registered-badge-tag">2 Registrados</span>
+                        <!-- 7mo Grado -->
+                        <button type="button" class="grade-btn p-4 rounded-2xl border-2 border-slate-200/80 bg-slate-50/70 hover:bg-slate-100 text-left transition-all duration-200 relative cursor-pointer" data-grade="7">
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="text-3xl font-black text-slate-700">7.°</span>
+                                <span class="grade-icon w-6 h-6 rounded-full bg-white text-slate-400 border border-slate-200 flex items-center justify-center font-bold text-xs shadow-2xs opacity-0">+</span>
+                            </div>
+                            <span class="font-black text-sm text-slate-800 block mt-2">7.° Grado</span>
+                            <span class="text-xs font-semibold text-slate-500 block mt-0.5">12 a 13 años</span>
+                            <div class="mt-3 pt-2 border-t border-slate-200/60 flex items-center gap-1.5 text-slate-500 text-[10px] font-extrabold uppercase">
+                                <span class="w-2 h-2 rounded-full bg-purple-500"></span> Pre-secundaria
+                            </div>
+                        </button>
                     </div>
-                    <div class="flex flex-col gap-2" id="players-config-list">
-                        <!-- Dynamic Player Rows -->
-                    </div>
-                </div>
-            </div>
+                </section>
 
-            <!-- 5. Objetivo para Ganar -->
-            <div class="flex flex-col gap-3">
-                <div class="flex items-center gap-2">
-                    <span class="w-7 h-7 rounded-xl bg-blue-600 text-white font-black text-xs flex items-center justify-center shadow-sm">5</span>
-                    <h3 class="font-extrabold text-slate-800 text-base md:text-lg">Objetivo para Ganar</h3>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-3" id="goal-selector-group">
-                    <button type="button" class="goal-btn active p-4 rounded-2xl border-2 border-blue-500 bg-blue-50/50 flex flex-col gap-1.5 text-left cursor-pointer transition-all shadow-sm" data-goal="badges">
-                        <div class="flex items-center justify-between">
-                            <span class="font-black text-blue-700 text-sm flex items-center gap-1.5">
-                                ⭐ Coleccionar 4 Medallas de Materias
+                <!-- 2. Elegí el Modo de Juego -->
+                <section class="bg-white rounded-3xl p-5 sm:p-7 card-stitch border border-slate-200/80 shadow-md">
+                    <div class="flex items-center justify-between gap-3 mb-4">
+                        <div class="flex items-center gap-2.5">
+                            <div class="w-8 h-8 rounded-xl bg-rose-500 flex items-center justify-center text-white font-black shadow-sm text-sm">
+                                2
+                            </div>
+                            <h3 class="text-lg sm:text-xl font-black text-slate-800">Elegí el Modo de Juego</h3>
+                        </div>
+                        <span class="text-xs font-bold text-slate-400">Dinamismo y enfoque</span>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="mode-selector-group">
+                        <!-- Card: Duelo de Escuelas -->
+                        <button type="button" class="mode-btn p-4 rounded-2xl border-2 border-slate-200/80 bg-slate-50/70 hover:bg-slate-100 flex items-center gap-4 text-left cursor-pointer transition-all duration-200 shadow-xs" data-mode="teams">
+                            <div class="w-13 h-13 rounded-2xl bg-amber-100 flex items-center justify-center text-3xl shadow-xs shrink-0">
+                                🏫
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center justify-between gap-2">
+                                    <span class="font-black text-base text-slate-800 truncate">Duelo de Escuelas</span>
+                                    <span class="text-[10px] font-black uppercase px-2 py-0.5 rounded-full bg-amber-100 text-amber-700 tracking-wider">TORNEO</span>
+                                </div>
+                                <p class="text-xs font-semibold text-slate-500 mt-1">Competencia entre colegios y tablas distritales.</p>
+                            </div>
+                        </button>
+
+                        <!-- Card: Alumnos / Aula (SELECTED) -->
+                        <button type="button" class="mode-btn active p-4 rounded-2xl border-2 border-blue-600 bg-gradient-to-r from-white to-blue-50/50 flex items-center gap-4 text-left cursor-pointer transition-all duration-200 shadow-md" data-mode="individual">
+                            <div class="w-13 h-13 rounded-2xl bg-rose-100 flex items-center justify-center text-3xl shadow-xs shrink-0">
+                                🎒
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center justify-between gap-2">
+                                    <span class="font-black text-base text-blue-700 truncate">Alumnos / Aula</span>
+                                    <span class="text-[10px] font-black uppercase px-2 py-0.5 rounded-full bg-blue-100 text-blue-700 tracking-wider">AULA</span>
+                                </div>
+                                <p class="text-xs font-semibold text-slate-500 mt-1">Compañeros de banco, amigos o grupos diarios.</p>
+                            </div>
+                            <span class="material-symbols-outlined text-blue-600 text-[22px]">check_circle</span>
+                        </button>
+                    </div>
+                </section>
+
+                <!-- 3 & 4: Cantidad y Nombres (Dos Columnas) -->
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+                    
+                    <!-- 3. Cantidad -->
+                    <section class="lg:col-span-5 bg-white rounded-3xl p-5 sm:p-7 card-stitch flex flex-col justify-between border border-slate-200/80 shadow-md">
+                        <div>
+                            <div class="flex items-center gap-2.5 mb-4">
+                                <div class="w-8 h-8 rounded-xl bg-emerald-600 flex items-center justify-center text-white font-black shadow-sm text-sm">
+                                    3
+                                </div>
+                                <h3 class="text-lg sm:text-xl font-black text-slate-800">Cantidad</h3>
+                            </div>
+                            <p class="text-xs sm:text-sm font-semibold text-slate-500 mb-4">
+                                Elegí cuántos jugadores se enfrentarán en el circuito:
+                            </p>
+                            <div class="grid grid-cols-3 gap-2.5 mb-4" id="count-selector-group">
+                                <button type="button" class="count-btn active py-3 rounded-2xl font-black text-xl text-white bg-blue-600 shadow-sm active:translate-y-0.5 transition-all text-center cursor-pointer border-2 border-blue-600" data-count="2">2</button>
+                                <button type="button" class="count-btn py-3 rounded-2xl font-black text-xl text-slate-700 bg-slate-100 hover:bg-slate-200 active:translate-y-0.5 transition-all text-center cursor-pointer border border-slate-200" data-count="3">3</button>
+                                <button type="button" class="count-btn py-3 rounded-2xl font-black text-xl text-slate-700 bg-slate-100 hover:bg-slate-200 active:translate-y-0.5 transition-all text-center cursor-pointer border border-slate-200" data-count="4">4</button>
+                            </div>
+                        </div>
+
+                        <div class="p-3 rounded-2xl bg-blue-50/70 border border-blue-100 flex items-center justify-center gap-2 text-blue-700 font-extrabold text-xs sm:text-sm">
+                            <span class="material-symbols-outlined text-[19px]">groups</span>
+                            <span id="count-info-label">2 Participantes en circuito</span>
+                        </div>
+                    </section>
+
+                    <!-- 4. Nombres y Avatares -->
+                    <section class="lg:col-span-7 bg-white rounded-3xl p-5 sm:p-7 card-stitch border border-slate-200/80 shadow-md">
+                        <div class="flex items-center justify-between gap-3 mb-4">
+                            <div class="flex items-center gap-2.5">
+                                <div class="w-8 h-8 rounded-xl bg-amber-500 flex items-center justify-center text-white font-black shadow-sm text-sm">
+                                    4
+                                </div>
+                                <h3 class="text-lg sm:text-xl font-black text-slate-800">Nombres y Avatares</h3>
+                            </div>
+                            <span class="text-[11px] font-black uppercase px-3 py-1 rounded-full bg-amber-100 text-amber-800 tracking-wider" id="registered-badge-tag">
+                                2 REGISTRADOS
                             </span>
-                            <span class="goal-check text-xs bg-blue-600 text-white rounded-full w-5 h-5 flex items-center justify-center">✓</span>
                         </div>
-                        <p class="text-xs text-slate-500 font-semibold">Demostrar conocimiento en las distintas áreas curriculares</p>
-                    </button>
-                    <button type="button" class="goal-btn p-4 rounded-2xl border-2 border-slate-200 bg-slate-50/60 hover:bg-slate-100 flex flex-col gap-1.5 text-left cursor-pointer transition-all" data-goal="fast">
-                        <div class="flex items-center justify-between">
-                            <span class="font-black text-slate-800 text-sm flex items-center gap-1.5">
-                                ⚡ Partida Rápida (2 Medallas)
-                            </span>
-                            <span class="goal-check text-xs bg-slate-300 text-white rounded-full w-5 h-5 flex items-center justify-center opacity-0">+</span>
-                        </div>
-                        <p class="text-xs text-slate-500 font-semibold">Ideal para recreos o clases cortas (10 a 15 minutos)</p>
-                    </button>
-                </div>
-            </div>
 
-            <!-- CTA Button -->
-            <div class="flex justify-center pt-2">
-                <button id="btn-start-game" class="w-full sm:w-auto px-12 py-4 rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-black text-lg md:text-xl shadow-3d-btn active:shadow-3d-btn-active active:translate-y-1 transition-all duration-100 flex items-center justify-center gap-3 tracking-wide cursor-pointer uppercase" type="button">
-                    <span class="text-2xl">🚀</span>
-                    <span>¡COMENZAR LA CARRERA!</span>
-                </button>
-            </div>
+                        <!-- Avatar Gallery Helper Bar -->
+                        <div class="mb-3.5 p-2 px-3 bg-slate-50 rounded-2xl border border-slate-200/70 flex items-center justify-between">
+                            <span class="text-xs font-bold text-slate-500">Avatares disponibles:</span>
+                            <div class="flex items-center gap-1.5 text-xl">
+                                <span class="w-8 h-8 rounded-full bg-white shadow-xs flex items-center justify-center cursor-pointer hover:scale-110 transition-transform" title="Delfín">🐬</span>
+                                <span class="w-8 h-8 rounded-full bg-white shadow-xs flex items-center justify-center cursor-pointer hover:scale-110 transition-transform" title="Oso">🐻</span>
+                                <span class="w-8 h-8 rounded-full bg-white shadow-xs flex items-center justify-center cursor-pointer hover:scale-110 transition-transform" title="Unicornio">🦄</span>
+                                <span class="w-8 h-8 rounded-full bg-white shadow-xs flex items-center justify-center cursor-pointer hover:scale-110 transition-transform" title="León">🦁</span>
+                            </div>
+                        </div>
+
+                        <!-- Players Input List (Generado dinámicamente por game.js) -->
+                        <div class="flex flex-col gap-2.5" id="players-config-list">
+                            <!-- Rows dinámicas -->
+                        </div>
+                    </section>
+                </div>
+
+                <!-- 5. Objetivo para Ganar -->
+                <section class="bg-white rounded-3xl p-5 sm:p-7 card-stitch border border-slate-200/80 shadow-md">
+                    <div class="flex items-center justify-between gap-3 mb-4">
+                        <div class="flex items-center gap-2.5">
+                            <div class="w-8 h-8 rounded-xl bg-purple-600 flex items-center justify-center text-white font-black shadow-sm text-sm">
+                                5
+                            </div>
+                            <h3 class="text-lg sm:text-xl font-black text-slate-800">Objetivo para Ganar</h3>
+                        </div>
+                        <span class="text-xs font-bold text-slate-400">Condición de victoria</span>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="goal-selector-group">
+                        <!-- Option 1: Coleccionar 4 Medallas (SELECTED) -->
+                        <button type="button" class="goal-btn active p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-white to-blue-50/50 border-2 border-blue-600 shadow-md relative text-left cursor-pointer transition-all" data-goal="badges">
+                            <div class="flex items-start justify-between gap-3">
+                                <div class="flex items-center gap-2">
+                                    <span class="text-2xl">⭐</span>
+                                    <span class="font-black text-sm sm:text-base text-blue-700">Coleccionar 4 Medallas de Materias</span>
+                                </div>
+                                <span class="goal-check w-6 h-6 rounded-full bg-blue-600 text-white flex items-center justify-center shadow-xs shrink-0 text-xs">✓</span>
+                            </div>
+                            <p class="text-xs sm:text-sm font-semibold text-slate-500 mt-2">
+                                Demostrar conocimiento integral en todas las áreas curriculares (Matemática, Lengua, Ciencias Naturales y Sociales).
+                            </p>
+                            <div class="mt-3 flex items-center gap-1.5 text-amber-600 text-[11px] font-black uppercase tracking-wider">
+                                <span>🏅</span>
+                                <span>Modo Completo Oficial</span>
+                            </div>
+                        </button>
+
+                        <!-- Option 2: Partida Rápida (2 Medallas) -->
+                        <button type="button" class="goal-btn p-4 sm:p-5 rounded-2xl bg-slate-50/70 hover:bg-slate-100 border-2 border-slate-200/80 relative text-left cursor-pointer transition-all duration-200" data-goal="fast">
+                            <div class="flex items-start justify-between gap-3">
+                                <div class="flex items-center gap-2">
+                                    <span class="text-2xl">⚡</span>
+                                    <span class="font-black text-sm sm:text-base text-slate-800">Partida Rápida (2 Medallas)</span>
+                                </div>
+                                <span class="goal-check w-6 h-6 rounded-full bg-white text-slate-400 border border-slate-200 flex items-center justify-center font-bold text-xs shadow-2xs shrink-0 opacity-0">+</span>
+                            </div>
+                            <p class="text-xs sm:text-sm font-semibold text-slate-500 mt-2">
+                                Ideal para recreos, cierres de hora o clases cortas dinámicas (10 a 15 minutos estimados de juego).
+                            </p>
+                            <div class="mt-3 flex items-center gap-1.5 text-slate-500 text-[11px] font-black uppercase tracking-wider">
+                                <span>⏱️</span>
+                                <span>Duración exprés</span>
+                            </div>
+                        </button>
+                    </div>
+                </section>
+
+                <!-- BIG HERO ACTION BUTTON -->
+                <div class="pt-2 pb-4 flex flex-col items-center">
+                    <button id="btn-start-game" class="w-full sm:w-4/5 py-4 sm:py-5 px-8 rounded-2xl bg-gradient-to-r from-purple-600 via-blue-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-black text-lg sm:text-xl md:text-2xl tracking-wide shadow-xl hover:shadow-2xl hover:scale-[1.01] active:scale-[0.99] transition-all duration-150 flex items-center justify-center gap-3.5 group cursor-pointer uppercase" type="button">
+                        <span class="text-2xl sm:text-3xl group-hover:rotate-12 transition-transform duration-200">🚀</span>
+                        <span>¡Comenzar la Carrera!</span>
+                        <span class="material-symbols-outlined text-[28px] group-hover:translate-x-1.5 transition-transform duration-200">arrow_forward</span>
+                    </button>
+                    <p class="text-xs font-bold text-slate-400 mt-2.5 text-center">
+                        Tablero oficial de 26 casilleros con desafíos de 6.° Grado listos para sortear.
+                    </p>
+                </div>
+
             </div>
             <!-- FIN CONTENEDOR MODO LOCAL -->
 
